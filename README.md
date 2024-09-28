@@ -20,10 +20,11 @@ char h k;
 как видно из примера, разделители у нас - пробелы, а в конце ";", как и в конце любой строки.
 
 Иерархия типов:
-Object -> Numeric -> (Integer -> (Short, Long) , Float, Complex*)
-Object -> String -> Symbol
-Object -> Array
-Object -> Struct*
+
+- Object -> Numeric -> (Integer -> (Short, Long) , Float, Complex*)
+- Object -> String -> Symbol
+- Object -> Array
+- Object -> Struct*
 
 #циклы
 
