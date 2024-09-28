@@ -1,4 +1,4 @@
-int fn main() [
+void fn main() [
 	int a b;
 	a = 8;
 	B = 3;
