@@ -1,7 +1,7 @@
-void fn main() [
-	int arr(5) nums;
+void fn main() => {
+	int(3) nums;
 	
-	for (int i = 0 < nums.len : i++) [
+	for (int i = 0 < nums.len | i++) {
 		num.i = 239;
-	[
-]
+	}
+}
