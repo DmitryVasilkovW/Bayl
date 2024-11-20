@@ -17,4 +17,5 @@ file(GLOB_RECURSE HEADER_FILES include/*.h)
 add_executable(Bayl ${SRC_FILES} ${HEADER_FILES})
 
 llvm_map_components_to_libnames(LLVM_LIBS core orcjit native)
+llvm_map_components_to_libnames(LLVM_LIBS core orcjit native mcjit)
 target_link_libraries(Bayl ${LLVM_LIBS})
