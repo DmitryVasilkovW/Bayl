@@ -1,4 +1,6 @@
-package org.bayl.runtime;
+package org.bayl.runtime.exception;
+
+import org.bayl.runtime.ZemObject;
 
 public class ReturnException extends RuntimeException {
     private static final long serialVersionUID = -667377947471909097L;

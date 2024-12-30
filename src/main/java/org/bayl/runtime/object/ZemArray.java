@@ -1,5 +1,6 @@
-package org.bayl.runtime;
+package org.bayl.runtime.object;
 
+import org.bayl.runtime.ZemObject;
 import java.util.Iterator;
 import java.util.List;
 

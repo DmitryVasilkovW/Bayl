@@ -1,4 +1,6 @@
-package org.bayl;
+package org.bayl.runtime.exception;
+
+import org.bayl.SourcePosition;
 
 public class InvalidTypeException extends ZemException {
     private static final long serialVersionUID = 9115378805326306069L;

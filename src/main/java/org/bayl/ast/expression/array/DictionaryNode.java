@@ -7,8 +7,8 @@ import java.util.Map;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.runtime.Dictionary;
-import org.bayl.runtime.DictionaryEntry;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.DictionaryEntry;
 import org.bayl.runtime.ZemObject;
 
 public class DictionaryNode extends Node {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bayl.Interpreter;
-import org.bayl.InvalidTypeException;
+import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;

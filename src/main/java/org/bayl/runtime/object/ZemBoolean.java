@@ -1,4 +1,6 @@
-package org.bayl.runtime;
+package org.bayl.runtime.object;
+
+import org.bayl.runtime.ZemObject;
 
 final public class ZemBoolean extends ZemObject {
     static final public ZemBoolean TRUE = new ZemBoolean(true);

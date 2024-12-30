@@ -11,11 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.bayl.ast.control.RootNode;
-import org.bayl.runtime.ArrayPushFunction;
+import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.runtime.exception.TooFewArgumentsException;
+import org.bayl.runtime.exception.UnsetVariableException;
+import org.bayl.runtime.function.ArrayPushFunction;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.LenFunction;
-import org.bayl.runtime.PrintFunction;
-import org.bayl.runtime.PrintLineFunction;
+import org.bayl.runtime.function.PrintFunction;
+import org.bayl.runtime.function.PrintLineFunction;
 import org.bayl.runtime.ZemObject;
 
 public class Interpreter {

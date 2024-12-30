@@ -1,10 +1,11 @@
-package org.bayl;
+package org.bayl.runtime.exception;
 
-import org.bayl.runtime.Dictionary;
-import org.bayl.runtime.ZemArray;
-import org.bayl.runtime.ZemBoolean;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.ZemArray;
+import org.bayl.runtime.object.ZemBoolean;
 import org.bayl.runtime.ZemNumber;
-import org.bayl.runtime.ZemString;
+import org.bayl.runtime.object.ZemString;
 
 public class TypeMismatchException extends ZemException {
     private static final long serialVersionUID = 9115378805326306069L;

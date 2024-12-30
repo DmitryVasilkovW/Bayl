@@ -6,7 +6,7 @@ import java.util.List;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.runtime.ZemArray;
+import org.bayl.runtime.object.ZemArray;
 import org.bayl.runtime.ZemObject;
 
 public class ArrayNode extends Node {

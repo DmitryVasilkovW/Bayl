@@ -1,7 +1,10 @@
-package org.bayl.runtime;
+package org.bayl.runtime.function;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
+import org.bayl.runtime.Function;
+import org.bayl.runtime.object.ZemArray;
+import org.bayl.runtime.ZemObject;
 
 public class ArrayPushFunction extends Function {
     private String[] parameters = {"array", "element"};

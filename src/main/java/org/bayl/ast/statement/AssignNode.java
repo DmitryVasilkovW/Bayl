@@ -2,7 +2,7 @@ package org.bayl.ast.statement;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
-import org.bayl.InvalidTypeException;
+import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.expression.array.LookupNode;
 import org.bayl.ast.Node;

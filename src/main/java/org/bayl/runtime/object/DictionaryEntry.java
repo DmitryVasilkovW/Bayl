@@ -1,4 +1,6 @@
-package org.bayl.runtime;
+package org.bayl.runtime.object;
+
+import org.bayl.runtime.ZemObject;
 
 public class DictionaryEntry extends ZemObject {
     private ZemObject key;

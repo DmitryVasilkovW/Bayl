@@ -1,7 +1,10 @@
-package org.bayl.runtime;
+package org.bayl.runtime.function;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
+import org.bayl.runtime.Function;
+import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.ZemString;
 
 public class PrintFunction extends Function {
     @Override

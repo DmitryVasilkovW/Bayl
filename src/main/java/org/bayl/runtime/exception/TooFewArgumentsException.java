@@ -1,4 +1,6 @@
-package org.bayl;
+package org.bayl.runtime.exception;
+
+import org.bayl.SourcePosition;
 
 public class TooFewArgumentsException extends ZemException {
     private static final long serialVersionUID = -8841576834370732148L;

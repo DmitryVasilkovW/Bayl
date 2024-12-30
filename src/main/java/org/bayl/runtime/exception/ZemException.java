@@ -1,4 +1,6 @@
-package org.bayl;
+package org.bayl.runtime.exception;
+
+import org.bayl.SourcePosition;
 
 public class ZemException extends RuntimeException {
     private static final long serialVersionUID = 1L;

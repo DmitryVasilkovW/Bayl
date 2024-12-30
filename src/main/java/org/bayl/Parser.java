@@ -39,6 +39,7 @@ import org.bayl.ast.operator.arithmetic.SubtractOpNode;
 import org.bayl.ast.expression.TrueNode;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.ast.statement.WhileNode;
+import org.bayl.runtime.exception.ParserException;
 
 public class Parser {
     TokenBuffer lookAheadBuffer;

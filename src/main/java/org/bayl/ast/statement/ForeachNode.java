@@ -4,12 +4,12 @@ import java.util.Map;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
-import org.bayl.InvalidTypeException;
+import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.ast.expression.array.DictionaryEntryNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.runtime.Dictionary;
-import org.bayl.runtime.ZemArray;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.ZemArray;
 import org.bayl.runtime.ZemObject;
 
 public class ForeachNode extends Node {

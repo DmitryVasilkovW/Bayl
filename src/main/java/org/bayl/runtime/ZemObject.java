@@ -1,7 +1,9 @@
 package org.bayl.runtime;
 
-import org.bayl.InvalidTypeException;
+import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
+import org.bayl.runtime.object.ZemBoolean;
+import org.bayl.runtime.object.ZemString;
 
 public abstract class ZemObject implements Comparable<ZemObject> {
     public ZemNumber toNumber(SourcePosition pos) {

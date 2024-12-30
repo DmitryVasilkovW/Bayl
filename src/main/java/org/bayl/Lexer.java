@@ -1,5 +1,6 @@
 package org.bayl;
 
+import org.bayl.runtime.exception.LexerException;
 import java.io.IOException;
 import java.io.Reader;
 

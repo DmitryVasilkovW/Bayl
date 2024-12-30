@@ -1,12 +1,12 @@
 package org.bayl.ast.expression.array;
 
 import org.bayl.Interpreter;
-import org.bayl.InvalidTypeException;
+import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.runtime.Dictionary;
-import org.bayl.runtime.ZemArray;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.ZemArray;
 import org.bayl.runtime.ZemObject;
 
 public class LookupNode extends Node {

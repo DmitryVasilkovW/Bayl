@@ -2,6 +2,7 @@ package org.bayl.runtime;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
+import org.bayl.runtime.object.ZemString;
 
 public class LenFunction extends Function {
     @Override

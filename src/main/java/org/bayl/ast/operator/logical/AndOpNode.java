@@ -5,7 +5,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.IBooleanOpNode;
 import org.bayl.ast.Node;
-import org.bayl.runtime.ZemBoolean;
+import org.bayl.runtime.object.ZemBoolean;
 import org.bayl.runtime.ZemObject;
 
 public class AndOpNode extends BinaryOpNode implements IBooleanOpNode {

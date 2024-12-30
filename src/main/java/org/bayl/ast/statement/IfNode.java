@@ -3,7 +3,7 @@ package org.bayl.ast.statement;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.runtime.ZemBoolean;
+import org.bayl.runtime.object.ZemBoolean;
 import org.bayl.runtime.ZemObject;
 
 public class IfNode extends Node {

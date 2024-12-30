@@ -4,7 +4,7 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.runtime.ZemObject;
-import org.bayl.runtime.ZemString;
+import org.bayl.runtime.object.ZemString;
 
 public class StringNode extends Node {
     private ZemString literal;

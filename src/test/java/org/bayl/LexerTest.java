@@ -3,6 +3,7 @@ package org.bayl;
 import java.io.IOException;
 import java.io.StringReader;
 
+import org.bayl.runtime.exception.LexerException;
 import org.junit.*;
 import static org.junit.Assert.*;
 

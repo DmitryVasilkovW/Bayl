@@ -1,4 +1,6 @@
-package org.bayl;
+package org.bayl.runtime.exception;
+
+import org.bayl.SourcePosition;
 
 public class ParserException extends ZemException {
     private static final long serialVersionUID = 7505060960165209530L;

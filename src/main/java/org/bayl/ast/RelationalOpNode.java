@@ -1,10 +1,10 @@
 package org.bayl.ast;
 
 import org.bayl.Interpreter;
-import org.bayl.InvalidOperatorException;
+import org.bayl.runtime.exception.InvalidOperatorException;
 import org.bayl.SourcePosition;
-import org.bayl.TypeMismatchException;
-import org.bayl.runtime.ZemBoolean;
+import org.bayl.runtime.exception.TypeMismatchException;
+import org.bayl.runtime.object.ZemBoolean;
 import org.bayl.runtime.ZemObject;
 
 public abstract class RelationalOpNode extends BinaryOpNode {

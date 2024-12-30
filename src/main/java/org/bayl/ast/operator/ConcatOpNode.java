@@ -5,7 +5,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
 import org.bayl.runtime.ZemObject;
-import org.bayl.runtime.ZemString;
+import org.bayl.runtime.object.ZemString;
 
 public class ConcatOpNode extends BinaryOpNode {
     public ConcatOpNode(SourcePosition pos, Node left, Node right) {

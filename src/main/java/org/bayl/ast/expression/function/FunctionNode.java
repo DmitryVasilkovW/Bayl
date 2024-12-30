@@ -9,7 +9,7 @@ import org.bayl.ast.statement.AssignNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.runtime.Parameter;
-import org.bayl.runtime.UserFunction;
+import org.bayl.runtime.function.UserFunction;
 import org.bayl.runtime.ZemObject;
 
 public class FunctionNode extends Node {
