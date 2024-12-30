@@ -19,17 +19,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.runtime;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
 
 /**
+ * len built-in function. Return the length of a string.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class LenFunction extends Function {
+    @Override
+    public ZemObject getDefaultValue(int index) {
+        return null;
+    }
+
+    @Override
+    public int getParameterCount() {
+        return 1;
+    }
+
+    @Override
+    public String getParameterName(int index) {
+        return "string";
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter, SourcePosition pos) {
+        ZemString str = interpreter.getVariable("string", pos).toZString();
+        return new ZemNumber(str.toString().length());
     }
 }

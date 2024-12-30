@@ -19,17 +19,41 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.runtime;
 
-import org.bayl.Interpreter;
+import org.bayl.InvalidTypeException;
+import org.bayl.SourcePosition;
 
 /**
+ *
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public abstract class ZemObject implements Comparable<ZemObject> {
+    public ZemNumber toNumber(SourcePosition pos) {
+        if (this instanceof ZemNumber) {
+            return (ZemNumber) this;
+        }
+        throw new InvalidTypeException("Expecting number", pos);
+    }
+
+    public ZemBoolean toBoolean(SourcePosition pos) {
+        if (this instanceof ZemBoolean) {
+            return (ZemBoolean) this;
+        }
+        throw new InvalidTypeException("Expecting boolean", pos);
+    }
+
+    public ZemString toZString() {
+    /*
+        if (this instanceof ZemString) {
+            return (ZemString) this;
+        }
+        throw new InvalidTypeException("Expecting string");
+     */
+        if (this instanceof ZemString)
+            return (ZemString) this;
+        // Implicit converting of types to string
+        return new ZemString(this.toString());
     }
 }

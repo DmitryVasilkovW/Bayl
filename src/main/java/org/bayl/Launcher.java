@@ -19,17 +19,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+package org.bayl;
+
 import java.io.File;
 import java.io.IOException;
-
-import org.bayl.Interpreter;
 
 /**
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
+public class Launcher {
     public static void main(String[] args) throws IOException {
         Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+        interpreter.eval(new File(args[0]));
+        //TODO Print nice error messages instead of throwing IOExceptions
     }
 }

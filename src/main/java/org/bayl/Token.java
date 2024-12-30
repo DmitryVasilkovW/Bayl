@@ -19,17 +19,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-
-import org.bayl.Interpreter;
+package org.bayl;
 
 /**
+ * A <a href="http://en.wikipedia.org/wiki/Lexical_analysis#Token">token</a>
+ * is a categorized block of text that represents an atomic element in the source code.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class Token {
+    private SourcePosition position;
+    private TokenType type;
+    private String text;
+
+    public Token(SourcePosition position, TokenType type, String text) {
+        this.position = position;
+        this.type = type;
+        this.text = text;
+    }
+
+    public SourcePosition getPosition() {
+        return position;
+    }
+
+    public TokenType getType() {
+        return type;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Token))
+            return false;
+        Token other = (Token) obj;
+        return this.type == other.type && this.text.equals(other.text) && this.position.equals(other.position);
+    }
+
+    @Override
+    public String toString() {
+        return type + ",'" + text + "'";
     }
 }

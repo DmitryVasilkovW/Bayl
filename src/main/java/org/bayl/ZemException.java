@@ -19,17 +19,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-
-import org.bayl.Interpreter;
+package org.bayl;
 
 /**
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class ZemException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
+    private ZemException() {
+    }
+
+    public ZemException(String message) {
+        super(message);
+    }
+
+    public ZemException(String message, SourcePosition position) {
+        super(message + " on line " + position.getLineNumber() +
+            " at column " + position.getColumnNumber());
     }
 }

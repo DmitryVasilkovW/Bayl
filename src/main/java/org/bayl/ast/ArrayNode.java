@@ -19,17 +19,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemArray;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * An array. Eg. [1, 2, 3]
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class ArrayNode extends Node {
+    private List<Node> elements;
+
+    public ArrayNode(SourcePosition pos, List<Node> elements) {
+        super(pos);
+        this.elements = elements;
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        List<ZemObject> items = new ArrayList<ZemObject>(elements.size());
+        for (Node node : elements) {
+            items.add(node.eval(interpreter));
+        }
+        return new ZemArray(items);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("'(");
+        for (Node node : elements) {
+            sb.append(node);
+            sb.append(' ');
+        }
+        sb.append(')');
+        return sb.toString();
     }
 }

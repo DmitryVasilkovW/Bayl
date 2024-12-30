@@ -19,17 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * while loop control structure.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class WhileNode extends Node {
+    private Node testCondition;
+    private Node loopBody;
+
+    public WhileNode(SourcePosition pos, Node testCondition, Node loopBody) {
+        super(pos);
+        this.testCondition = testCondition;
+        this.loopBody = loopBody;
+    }
+
+    public Node getTestCondition() {
+        return testCondition;
+    }
+
+    public Node getLoopBody() {
+        return loopBody;
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        ZemObject ret = null;
+        while (testCondition.eval(interpreter).toBoolean(testCondition.getPosition()).booleanValue()) {
+            ret = loopBody.eval(interpreter);
+        }
+        return ret;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+        sb.append("while ");
+        sb.append(testCondition);
+        sb.append(' ');
+        sb.append(loopBody);
+        sb.append(')');
+        return sb.toString();
     }
 }

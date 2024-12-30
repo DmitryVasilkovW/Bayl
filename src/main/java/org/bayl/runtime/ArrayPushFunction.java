@@ -19,17 +19,39 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.runtime;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
 
 /**
+ * array_push built-in function. Adds element to end of array.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class ArrayPushFunction extends Function {
+    private String[] parameters = {"array", "element"};
+
+    @Override
+    public ZemObject eval(Interpreter interpreter, SourcePosition pos) {
+        ZemArray array = (ZemArray) interpreter.getVariable("array", pos);
+        array.push(interpreter.getVariable("element", pos));
+        return array;
     }
+
+    @Override
+    public ZemObject getDefaultValue(int index) {
+        return null;
+    }
+
+    @Override
+    public int getParameterCount() {
+        return 2;
+    }
+
+    @Override
+    public String getParameterName(int index) {
+        return parameters[index];
+    }
+
 }

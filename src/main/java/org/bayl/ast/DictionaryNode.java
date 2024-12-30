@@ -19,17 +19,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.Dictionary;
+import org.bayl.runtime.DictionaryEntry;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Dictionary contains key : value pairs.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class DictionaryNode extends Node {
+    private List<DictionaryEntryNode> elements;
+
+    public DictionaryNode(SourcePosition pos, List<DictionaryEntryNode> elements) {
+        super(pos);
+        this.elements = elements;
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        Map<ZemObject, ZemObject> entries = new LinkedHashMap<ZemObject, ZemObject>(elements.size());
+        for (DictionaryEntryNode node : elements) {
+            DictionaryEntry entry = (DictionaryEntry) node.eval(interpreter);
+            entries.put(entry.getKey(), entry.getValue());
+        }
+        return new Dictionary(entries);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(dict ");
+        for (DictionaryEntryNode node : elements) {
+            sb.append(node);
+        }
+        sb.append(")");
+        return sb.toString();
     }
 }

@@ -19,17 +19,31 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemBoolean;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Boolean or (||) operator.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class OrOpNode extends BinaryOpNode implements IBooleanOpNode {
+    public OrOpNode(SourcePosition pos, Node left, Node right) {
+        super(pos, "or", left, right);
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        ZemBoolean left = getLeft().eval(interpreter).toBoolean(getLeft().getPosition());
+        if (left.booleanValue()) {
+            // Short circuit the operator, since true || test == true
+            return left;
+        }
+        ZemBoolean right = getRight().eval(interpreter).toBoolean(getRight().getPosition());
+        return left.or(right);
     }
 }

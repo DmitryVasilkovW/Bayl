@@ -19,17 +19,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemNumber;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Mod (%) operator. Gives the remainder from the division of the dividend
+ * and the divisor. For example: <code>3 % 2 == 1</code>
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class ModOpNode extends BinaryOpNode implements IArithmeticOpNode {
+    public ModOpNode(SourcePosition pos, Node left, Node right) {
+        super(pos, "%", left, right);
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        ZemNumber left = getLeft().eval(interpreter).toNumber(getLeft().getPosition());
+        ZemNumber right = getRight().eval(interpreter).toNumber(getRight().getPosition());
+        return left.remainder(right);
     }
 }

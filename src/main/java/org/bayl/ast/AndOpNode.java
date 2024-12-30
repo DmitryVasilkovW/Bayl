@@ -19,17 +19,31 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemBoolean;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Boolean and (&&) operator.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class AndOpNode extends BinaryOpNode implements IBooleanOpNode {
+    public AndOpNode(SourcePosition pos, Node left, Node right) {
+        super(pos, "and", left, right);
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        ZemBoolean left = getLeft().eval(interpreter).toBoolean(getLeft().getPosition());
+        if (!left.booleanValue()) {
+            // Short circuit the operator, since false && test == false
+            return left;
+        }
+        ZemBoolean right = getRight().eval(interpreter).toBoolean(getRight().getPosition());
+        return left.and(right);
     }
 }

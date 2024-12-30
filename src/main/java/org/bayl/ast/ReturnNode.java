@@ -19,17 +19,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ReturnException;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Represents return statements. Return exits a function.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class ReturnNode extends Node {
+    private Node expression;
+
+    public ReturnNode(SourcePosition pos, Node expression) {
+        super(pos);
+        this.expression = expression;
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        throw new ReturnException(expression.eval(interpreter));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(return ");
+        sb.append(expression);
+        sb.append(')');
+        return sb.toString();
     }
 }

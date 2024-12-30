@@ -19,17 +19,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
-import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
 
 /**
+ * Base class for unary operators.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public abstract class UnaryOpNode extends Node {
+    protected String operator;
+    protected Node operand;
+
+    public UnaryOpNode(SourcePosition pos, String operator, Node operand) {
+        super(pos);
+        this.operator = operator;
+        this.operand = operand;
+    }
+
+    /**
+     * Return operator symbol
+     */
+    public String getName() {
+        return operator;
+    }
+
+    /**
+     * Return operand
+     */
+    public Node getOperand() {
+        return operand;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+        sb.append(getName());
+        sb.append(' ');
+        sb.append(operand.toString());
+        sb.append(')');
+        return sb.toString();
     }
 }

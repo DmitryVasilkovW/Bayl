@@ -19,17 +19,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.runtime;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
 
 /**
+ * A function callable by the interpreter.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public abstract class Function extends ZemObject {
+    /**
+     * Get the number of parameters to this function.
+     *
+     * @return Number of parameters
+     */
+    abstract public int getParameterCount();
+
+    /**
+     * Get the name of the parameter
+     *
+     * @param index Parameter index
+     * @return The name of the parameter
+     */
+    abstract public String getParameterName(int index);
+
+    /**
+     * Get the default value of the functions parameter.
+     *
+     * @param index Parameter index
+     * @return The default value of the parameter. Return null if no default.
+     */
+    abstract public ZemObject getDefaultValue(int index);
+
+    /**
+     * Evaluate the function.
+     *
+     * @param interpreter
+     * @param pos Source position of function call
+     * @return The result of evaluating the function.
+     */
+    abstract public ZemObject eval(Interpreter interpreter, SourcePosition pos);
+
+    @Override
+    public int compareTo(ZemObject o) {
+        throw new UnsupportedOperationException();
     }
 }

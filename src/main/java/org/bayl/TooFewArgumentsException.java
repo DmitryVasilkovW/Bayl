@@ -19,17 +19,23 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-
-import org.bayl.Interpreter;
+package org.bayl;
 
 /**
+ * Too few arguments in function call.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class TooFewArgumentsException extends ZemException {
+    private static final long serialVersionUID = -8841576834370732148L;
+
+    public TooFewArgumentsException(
+            String functionName,
+            int noArgsRequired,
+            int noArgs,
+            SourcePosition pos) {
+        super("Function" + (functionName == null ? "" : " '" + functionName + "'")
+                + " expects at least " + noArgsRequired
+                + " arguments but got " + noArgs, pos);
     }
 }

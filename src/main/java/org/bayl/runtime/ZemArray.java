@@ -19,17 +19,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.runtime;
 
-import org.bayl.Interpreter;
+import java.util.Iterator;
+import java.util.List;
 
 /**
+ * Array data type.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class ZemArray extends ZemObject implements Iterable<ZemObject> {
+    private List<ZemObject> elements;
+
+    public ZemArray(List<ZemObject> elements) {
+        this.elements = elements;
+    }
+
+    public ZemObject get(int index) {
+        return elements.get(index);
+    }
+
+    public void set(int index, ZemObject element) {
+        elements.set(index, element);
+    }
+
+    public int size() {
+        return elements.size();
+    }
+
+    public void push(ZemObject element) {
+        elements.add(element);
+    }
+
+    @Override
+    public Iterator<ZemObject> iterator() {
+        return elements.iterator();
+    }
+
+    @Override
+    public int compareTo(ZemObject o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return elements.toString();
     }
 }

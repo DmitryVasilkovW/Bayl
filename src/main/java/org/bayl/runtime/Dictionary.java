@@ -19,17 +19,43 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.runtime;
 
-import org.bayl.Interpreter;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
+ * Map data structure.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class Dictionary extends ZemObject implements Iterable<Map.Entry<ZemObject, ZemObject>> {
+    private Map<ZemObject, ZemObject> dict;
+
+    public Dictionary(Map<ZemObject, ZemObject> dict) {
+        this.dict = dict;
+    }
+
+    public ZemObject get(ZemObject key) {
+        return dict.get(key);
+    }
+
+    public void set(ZemObject key, ZemObject value) {
+        dict.put(key, value);
+    }
+
+    @Override
+    public int compareTo(ZemObject o) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return dict.toString();
+    }
+
+    @Override
+    public Iterator<Map.Entry<ZemObject, ZemObject>> iterator() {
+        return dict.entrySet().iterator();
     }
 }

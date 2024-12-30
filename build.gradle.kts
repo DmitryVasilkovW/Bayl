@@ -13,7 +13,7 @@ java {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "net.zeminvaders.lang.Launcher"
+        attributes["Main-Class"] = "org.bayl.Launcher"
     }
 }
 

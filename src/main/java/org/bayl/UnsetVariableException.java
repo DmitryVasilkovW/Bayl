@@ -19,17 +19,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-
-import org.bayl.Interpreter;
+package org.bayl;
 
 /**
+ * Variable has not been set.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class UnsetVariableException extends ZemException {
+    private static final long serialVersionUID = -3917677724213982759L;
+
+    public UnsetVariableException(String variableName, SourcePosition pos) {
+        super(variableName + " is not set", pos);
     }
 }

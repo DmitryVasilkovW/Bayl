@@ -19,17 +19,42 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-
-import org.bayl.Interpreter;
+package org.bayl.runtime;
 
 /**
+ *
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+final public class ZemString extends ZemObject {
+    private String value;
+
+    public ZemString(String value) {
+        this.value = value;
+    }
+
+    public ZemString concat(ZemString other) {
+        return new ZemString(value + other.value);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public int compareTo(ZemObject object) {
+        ZemString str = (ZemString) object;
+        return value.compareTo(str.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        return compareTo((ZemObject) object) == 0;
     }
 }

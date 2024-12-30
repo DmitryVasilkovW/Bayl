@@ -19,17 +19,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemBoolean;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Boolean not (!) operator.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class NotOpNode extends UnaryOpNode implements IBooleanOpNode {
+    public NotOpNode(SourcePosition pos, Node operand) {
+        super(pos, "not", operand);
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        ZemBoolean operand = getOperand().eval(interpreter).toBoolean(getOperand().getPosition());
+        return operand.not();
     }
 }

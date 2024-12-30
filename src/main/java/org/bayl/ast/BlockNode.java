@@ -19,17 +19,52 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
+
+import java.util.List;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * A block is a group of statements.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class BlockNode extends Node {
+    private List<Node> statements;
+
+    public BlockNode(SourcePosition pos, List<Node> statements) {
+        super(pos);
+        this.statements = statements;
+    }
+
+    public Node get(int index) {
+        return statements.get(index);
+    }
+
+    protected List<Node> getStatements() {
+        return statements;
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        ZemObject ret = null;
+        for (Node statement : statements) {
+            ret = statement.eval(interpreter);
+        }
+        return ret;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+        for (Node node : statements) {
+            sb.append(node.toString());
+        }
+        sb.append(')');
+        return sb.toString();
     }
 }

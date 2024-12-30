@@ -19,17 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-
-import org.bayl.Interpreter;
+package org.bayl.runtime;
 
 /**
+ * Exception used to (jump) return from a function.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class ReturnException extends RuntimeException {
+    private static final long serialVersionUID = -667377947471909097L;
+
+    private ZemObject ret;
+
+    public ReturnException(ZemObject ret) {
+        this.ret = ret;
+    }
+
+    public ZemObject getReturn() {
+        return ret;
+    }
+
+    /**
+     * This method doesn't do anything for performance reasons.
+     *
+     * @see Throwable#fillInStackTrace()
+     */
+    public Throwable fillInStackTrace() {
+        return this;
     }
 }

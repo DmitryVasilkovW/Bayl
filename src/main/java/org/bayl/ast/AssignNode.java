@@ -19,17 +19,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.InvalidTypeException;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Assignment (=) operator. Assigns a value to a variable.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class AssignNode extends BinaryOpNode {
+    public AssignNode(SourcePosition pos, Node var, Node expression) {
+        super(pos, "set!", var, expression);
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        Node left = getLeft();
+        ZemObject value = getRight().eval(interpreter);
+        if (left instanceof VariableNode) {
+            String name = ((VariableNode) left).getName();
+            interpreter.setVariable(name, value);
+            return value;
+        } else if (left instanceof LookupNode) {
+            ((LookupNode) left).set(interpreter, value);
+            return value;
+        }
+        throw new InvalidTypeException("Left hand of assignment must be a variable.", left.getPosition());
     }
 }

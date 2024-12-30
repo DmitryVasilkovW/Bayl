@@ -19,17 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
+package org.bayl.ast;
 
 import org.bayl.Interpreter;
+import org.bayl.SourcePosition;
+import org.bayl.runtime.ZemNumber;
+import org.bayl.runtime.ZemObject;
 
 /**
+ * Subtract (-) operator.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class SubtractOpNode extends BinaryOpNode implements IArithmeticOpNode {
+    public SubtractOpNode(SourcePosition pos, Node left, Node right) {
+        super(pos, "-", left, right);
+    }
+
+    @Override
+    public ZemObject eval(Interpreter interpreter) {
+        ZemNumber left = getLeft().eval(interpreter).toNumber(getLeft().getPosition());
+        ZemNumber right = getRight().eval(interpreter).toNumber(getRight().getPosition());
+        return left.subtract(right);
     }
 }

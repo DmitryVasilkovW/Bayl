@@ -19,17 +19,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-import java.io.File;
-import java.io.IOException;
-
-import org.bayl.Interpreter;
+package org.bayl;
 
 /**
+ * The operator is invalid.
+ *
  * @author <a href="mailto:grom@zeminvaders.net">Cameron Zemek</a>
  */
-public class Test {
-    public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
-        interpreter.eval(new File("sample.zem"));
+public class InvalidOperatorException extends ZemException {
+    private static final long serialVersionUID = -57261291654807212L;
+
+    public InvalidOperatorException(SourcePosition pos) {
+        super("Invalid operator", pos);
     }
 }
