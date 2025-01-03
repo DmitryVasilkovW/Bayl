@@ -5,6 +5,7 @@ import java.util.List;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.ZemObject;
 
 public class BlockNode extends Node {
@@ -41,5 +42,16 @@ public class BlockNode extends Node {
         }
         sb.append(')');
         return sb.toString();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("BLOCK_START");
+
+        for (Node statement : statements) {
+            statement.generateCode(bytecode);
+        }
+
+        bytecode.add("BLOCK_END");
     }
 }

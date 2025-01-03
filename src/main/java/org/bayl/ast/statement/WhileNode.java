@@ -3,6 +3,7 @@ package org.bayl.ast.statement;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.ZemObject;
 
 public class WhileNode extends Node {
@@ -42,5 +43,14 @@ public class WhileNode extends Node {
         sb.append(loopBody);
         sb.append(')');
         return sb.toString();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("WHILE");
+        bytecode.add("CONDITION");
+        testCondition.generateCode(bytecode);
+        bytecode.add("BODY");
+        loopBody.generateCode(bytecode);
     }
 }
