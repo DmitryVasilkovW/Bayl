@@ -2,6 +2,7 @@ package org.bayl.ast.statement;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.expression.array.LookupNode;
@@ -27,5 +28,20 @@ public class AssignNode extends BinaryOpNode {
             return value;
         }
         throw new InvalidTypeException("Left hand of assignment must be a variable.", left.getPosition());
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        getRight().generateCode(bytecode);
+        Node left = getLeft();
+        if (left instanceof VariableNode) {
+            String name = ((VariableNode) left).getName();
+            bytecode.add("STORE " + name);
+        } else if (left instanceof LookupNode) {
+            ((LookupNode) left).generateCode(bytecode);
+            bytecode.add("STORE_LOOKUP");
+        } else {
+            throw new InvalidTypeException("Left hand of assignment must be a variable.", left.getPosition());
+        }
     }
 }

@@ -3,6 +3,7 @@ package org.bayl.ast.statement;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.ReturnException;
 import org.bayl.runtime.ZemObject;
 
@@ -26,5 +27,11 @@ public class ReturnNode extends Node {
         sb.append(expression);
         sb.append(')');
         return sb.toString();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("RETURN");
+        expression.generateCode(bytecode);
     }
 }

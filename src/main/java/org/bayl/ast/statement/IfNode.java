@@ -3,6 +3,7 @@ package org.bayl.ast.statement;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.object.ZemBoolean;
 import org.bayl.runtime.ZemObject;
 
@@ -55,5 +56,19 @@ public class IfNode extends Node {
         }
         sb.append(')');
         return sb.toString();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("IF");
+        bytecode.add("CONDITION");
+        testCondition.generateCode(bytecode);
+        bytecode.add("THEN");
+        thenBlock.generateCode(bytecode);
+
+        if (elseBlock != null) {
+            bytecode.add("ELSE");
+            elseBlock.generateCode(bytecode);
+        }
     }
 }
