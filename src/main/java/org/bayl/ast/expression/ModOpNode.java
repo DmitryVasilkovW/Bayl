@@ -25,6 +25,7 @@ public class ModOpNode extends BinaryOpNode implements IArithmeticOpNode {
     public void generateCode(Bytecode bytecode) {
         getLeft().generateCode(bytecode);
         getRight().generateCode(bytecode);
+
         bytecode.add("MOD");
     }
 }
