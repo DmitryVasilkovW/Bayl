@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bayl.Interpreter;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
@@ -59,5 +60,19 @@ public class FunctionCallNode extends Node {
         }
         sb.append(')');
         return sb.toString();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        for (Node arg : arguments) {
+            arg.generateCode(bytecode);
+        }
+
+        if (functionNode instanceof VariableNode) {
+            bytecode.add("CALL " + ((VariableNode) functionNode).getName());
+        } else {
+            functionNode.generateCode(bytecode);
+            bytecode.add("CALL_DYNAMIC");
+        }
     }
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.object.Dictionary;
 import org.bayl.runtime.object.DictionaryEntry;
 import org.bayl.runtime.ZemObject;
@@ -39,4 +40,15 @@ public class DictionaryNode extends Node {
         sb.append(")");
         return sb.toString();
     }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("DICT_INIT");
+
+        for (DictionaryEntryNode entry : elements) {
+            entry.generateCode(bytecode);
+            bytecode.add("DICT_ADD");
+        }
+    }
+
 }

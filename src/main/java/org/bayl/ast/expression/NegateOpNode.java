@@ -5,6 +5,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.UnaryOpNode;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.ZemNumber;
 import org.bayl.runtime.ZemObject;
 
@@ -17,5 +18,11 @@ public class NegateOpNode extends UnaryOpNode implements IArithmeticOpNode {
     public ZemObject eval(Interpreter interpreter) {
         ZemNumber operand = getOperand().eval(interpreter).toNumber(getOperand().getPosition());
         return operand.negate();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        getOperand().generateCode(bytecode);
+        bytecode.add("NEGATE");
     }
 }

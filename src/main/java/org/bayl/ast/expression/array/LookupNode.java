@@ -1,6 +1,7 @@
 package org.bayl.ast.expression.array;
 
 import org.bayl.Interpreter;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
@@ -63,4 +64,14 @@ public class LookupNode extends Node {
         sb.append(')');
         return sb.toString();
     }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("LOAD " + varNode.getName());
+
+        keyNode.generateCode(bytecode);
+
+        bytecode.add("LOOKUP");
+    }
+
 }

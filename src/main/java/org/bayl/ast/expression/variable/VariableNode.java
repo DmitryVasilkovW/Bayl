@@ -3,6 +3,7 @@ package org.bayl.ast.expression.variable;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.ZemObject;
 
 public class VariableNode extends Node {
@@ -25,5 +26,10 @@ public class VariableNode extends Node {
     @Override
     public ZemObject eval(Interpreter interpreter) {
         return interpreter.getVariable(name, getPosition());
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("LOAD " + name);
     }
 }
