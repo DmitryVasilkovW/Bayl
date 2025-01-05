@@ -6,7 +6,7 @@ import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.UnaryOpNode;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemNumber;
+import org.bayl.runtime.object.ZemNumber;
 import org.bayl.runtime.ZemObject;
 
 public class NegateOpNode extends UnaryOpNode implements IArithmeticOpNode {

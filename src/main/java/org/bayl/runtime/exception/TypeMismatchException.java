@@ -4,7 +4,7 @@ import org.bayl.SourcePosition;
 import org.bayl.runtime.object.Dictionary;
 import org.bayl.runtime.object.ZemArray;
 import org.bayl.runtime.object.ZemBoolean;
-import org.bayl.runtime.ZemNumber;
+import org.bayl.runtime.object.ZemNumber;
 import org.bayl.runtime.object.ZemString;
 
 public class TypeMismatchException extends ZemException {

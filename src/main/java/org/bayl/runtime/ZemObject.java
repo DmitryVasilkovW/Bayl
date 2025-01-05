@@ -3,6 +3,7 @@ package org.bayl.runtime;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.object.ZemBoolean;
+import org.bayl.runtime.object.ZemNumber;
 import org.bayl.runtime.object.ZemString;
 
 public abstract class ZemObject implements Comparable<ZemObject> {

@@ -4,7 +4,7 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemNumber;
+import org.bayl.runtime.object.ZemNumber;
 import org.bayl.runtime.ZemObject;
 
 public class NumberNode extends Node {

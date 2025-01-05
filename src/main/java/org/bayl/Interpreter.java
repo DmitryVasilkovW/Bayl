@@ -16,7 +16,7 @@ import org.bayl.runtime.exception.TooFewArgumentsException;
 import org.bayl.runtime.exception.UnsetVariableException;
 import org.bayl.runtime.function.ArrayPushFunction;
 import org.bayl.runtime.Function;
-import org.bayl.runtime.LenFunction;
+import org.bayl.runtime.function.LenFunction;
 import org.bayl.runtime.function.PrintFunction;
 import org.bayl.runtime.function.PrintLineFunction;
 import org.bayl.runtime.ZemObject;

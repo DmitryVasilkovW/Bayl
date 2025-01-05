@@ -3,7 +3,7 @@ package org.bayl;
 import java.io.IOException;
 
 import org.bayl.runtime.object.ZemBoolean;
-import org.bayl.runtime.ZemNumber;
+import org.bayl.runtime.object.ZemNumber;
 import org.bayl.runtime.ZemObject;
 import org.bayl.runtime.object.ZemString;
 

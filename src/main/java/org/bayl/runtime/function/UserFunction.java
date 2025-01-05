@@ -30,12 +30,12 @@ public class UserFunction extends Function {
 
     @Override
     public String getParameterName(int index) {
-        return parameters.get(index).getName();
+        return parameters.get(index).name();
     }
 
     @Override
     public ZemObject getDefaultValue(int index) {
-        return parameters.get(index).getDefaultValue();
+        return parameters.get(index).value();
     }
 
     @Override

@@ -1,32 +1,30 @@
-package org.bayl.runtime;
+package org.bayl.runtime.object;
 
+import org.bayl.runtime.ZemObject;
 import java.math.BigInteger;
 import java.math.BigDecimal;
 
 final public class ZemNumber extends ZemObject {
-    private BigDecimal value;
+    private final BigDecimal value;
 
     public ZemNumber(String value) {
         String prefix = "";
         if (value.length() > 2) {
             prefix = value.substring(0, 2).toLowerCase();
         }
-        if (prefix.equals("0b")) {
-            this.value = new BigDecimal(new BigInteger(value.substring(2), 2));
-        } else if (prefix.equals("0o")) {
-            this.value = new BigDecimal(new BigInteger(value.substring(2), 8));
-        } else if (prefix.equals("0x")) {
-            this.value = new BigDecimal(new BigInteger(value.substring(2), 16));
-        } else {
-            this.value = new BigDecimal(value);
+        switch (prefix) {
+            case "0b" -> this.value = new BigDecimal(new BigInteger(value.substring(2), 2));
+            case "0o" -> this.value = new BigDecimal(new BigInteger(value.substring(2), 8));
+            case "0x" -> this.value = new BigDecimal(new BigInteger(value.substring(2), 16));
+            default -> this.value = new BigDecimal(value);
         }
     }
 
-    protected ZemNumber(BigDecimal value) {
+    ZemNumber(BigDecimal value) {
         this.value = value;
     }
 
-    protected ZemNumber(int value) {
+    public ZemNumber(int value) {
         this.value = new BigDecimal(value);
     }
 
