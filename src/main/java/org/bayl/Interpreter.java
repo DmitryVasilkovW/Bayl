@@ -14,9 +14,10 @@ import org.bayl.ast.control.RootNode;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.exception.TooFewArgumentsException;
 import org.bayl.runtime.exception.UnsetVariableException;
+import org.bayl.runtime.function.ArrayLenFunction;
 import org.bayl.runtime.function.ArrayPushFunction;
 import org.bayl.runtime.Function;
-import org.bayl.runtime.function.LenFunction;
+import org.bayl.runtime.function.StringLenFunction;
 import org.bayl.runtime.function.PrintFunction;
 import org.bayl.runtime.function.PrintLineFunction;
 import org.bayl.runtime.BaylObject;
@@ -27,7 +28,8 @@ public class Interpreter {
     public Interpreter() {
         symbolTable.put("print", new PrintFunction());
         symbolTable.put("println", new PrintLineFunction());
-        symbolTable.put("len", new LenFunction());
+        symbolTable.put("str_len", new StringLenFunction());
+        symbolTable.put("arr_len", new ArrayLenFunction());
         symbolTable.put("array_push", new ArrayPushFunction());
     }
 
