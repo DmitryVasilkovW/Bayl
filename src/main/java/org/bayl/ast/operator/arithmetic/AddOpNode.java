@@ -5,6 +5,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.ZemNumber;
 import org.bayl.runtime.ZemObject;
 
@@ -18,5 +19,12 @@ public class AddOpNode extends BinaryOpNode implements IArithmeticOpNode {
         ZemNumber left = getLeft().eval(interpreter).toNumber(getLeft().getPosition());
         ZemNumber right = getRight().eval(interpreter).toNumber(getRight().getPosition());
         return left.add(right);
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        getLeft().generateCode(bytecode);
+        getRight().generateCode(bytecode);
+        bytecode.add("ADD");
     }
 }

@@ -5,6 +5,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.IBooleanOpNode;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.object.ZemBoolean;
 import org.bayl.runtime.ZemObject;
 
@@ -21,5 +22,13 @@ public class OrOpNode extends BinaryOpNode implements IBooleanOpNode {
         }
         ZemBoolean right = getRight().eval(interpreter).toBoolean(getRight().getPosition());
         return left.or(right);
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        getLeft().generateCode(bytecode);
+        getRight().generateCode(bytecode);
+
+        bytecode.add("OR");
     }
 }

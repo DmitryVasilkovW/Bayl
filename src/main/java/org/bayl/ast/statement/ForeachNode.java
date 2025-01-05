@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.ast.expression.array.DictionaryEntryNode;
 import org.bayl.ast.Node;
@@ -61,5 +62,16 @@ public class ForeachNode extends Node {
         sb.append(loopBody);
         sb.append(')');
         return sb.toString();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("FOREACH");
+        bytecode.add("ONVAR");
+        onVariableNode.generateCode(bytecode);
+        bytecode.add("AS");
+        asNode.generateCode(bytecode);
+        bytecode.add("LOOP");
+        loopBody.generateCode(bytecode);
     }
 }

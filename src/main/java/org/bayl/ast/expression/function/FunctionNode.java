@@ -8,6 +8,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.statement.AssignNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.function.UserFunction;
 import org.bayl.runtime.ZemObject;
@@ -64,4 +65,23 @@ public class FunctionNode extends Node {
         sb.append(')');
         return sb.toString();
     }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        StringBuilder params = new StringBuilder();
+        for (Node param : parameters) {
+            if (param instanceof VariableNode) {
+                params.append(((VariableNode) param).getName()).append(" ");
+            }
+        }
+
+        String functionId = "FUNC_" + getPosition().toString();
+
+        bytecode.add("FUNC " + functionId + " " + params.toString().trim());
+
+        body.generateCode(bytecode);
+
+        bytecode.add("RETURN");
+    }
+
 }

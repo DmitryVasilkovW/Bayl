@@ -4,6 +4,7 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.RelationalOpNode;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.ZemObject;
 
 public class EqualsOpNode extends RelationalOpNode {
@@ -14,5 +15,13 @@ public class EqualsOpNode extends RelationalOpNode {
     @Override
     public ZemObject eval(Interpreter interpreter) {
         return equals(interpreter);
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        getLeft().generateCode(bytecode);
+        getRight().generateCode(bytecode);
+
+        bytecode.add("EQUALS");
     }
 }

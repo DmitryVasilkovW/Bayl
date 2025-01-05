@@ -3,6 +3,7 @@ package org.bayl.ast.expression.literale;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.ZemNumber;
 import org.bayl.runtime.ZemObject;
 
@@ -22,5 +23,10 @@ public class NumberNode extends Node {
     @Override
     public ZemObject eval(Interpreter interpreter) {
         return number;
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        bytecode.add("PUSH " +  number.toString());
     }
 }

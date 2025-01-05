@@ -3,6 +3,7 @@ package org.bayl.ast.control;
 import org.bayl.SourcePosition;
 import org.bayl.ast.statement.BlockNode;
 import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import java.util.List;
 
 public class RootNode extends BlockNode {
@@ -17,5 +18,10 @@ public class RootNode extends BlockNode {
             sb.append(node.toString());
         }
         return sb.toString();
+    }
+
+    @Override
+    public void generateCode(Bytecode bytecode) {
+        super.generateCode(bytecode);
     }
 }

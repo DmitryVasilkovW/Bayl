@@ -25,7 +25,6 @@ public class Interpreter {
     private Map<String, ZemObject> symbolTable = new HashMap<String, ZemObject>();
 
     public Interpreter() {
-        // Register built-in functions
         symbolTable.put("print", new PrintFunction());
         symbolTable.put("println", new PrintLineFunction());
         symbolTable.put("len", new LenFunction());
