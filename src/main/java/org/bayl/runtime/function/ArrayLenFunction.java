@@ -2,18 +2,18 @@ package org.bayl.runtime.function;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
+import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylNumber;
 
-public class ArrayPushFunction extends Function {
-    private final String[] parameters = {"array", "element"};
+public class ArrayLenFunction extends Function {
+    private final String[] parameters = {"array"};
 
     @Override
     public BaylObject eval(Interpreter interpreter, SourcePosition pos) {
         BaylArray array = (BaylArray) interpreter.getVariable("array", pos);
-        array.push(interpreter.getVariable("element", pos));
-        return array;
+        return new BaylNumber(array.size());
     }
 
     @Override
@@ -23,12 +23,11 @@ public class ArrayPushFunction extends Function {
 
     @Override
     public int getParameterCount() {
-        return 2;
+        return 1;
     }
 
     @Override
     public String getParameterName(int index) {
         return parameters[index];
     }
-
 }

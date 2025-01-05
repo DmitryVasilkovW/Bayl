@@ -7,7 +7,7 @@ import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
 
-public class LenFunction extends Function {
+public class StringLenFunction extends Function {
     @Override
     public BaylObject getDefaultValue(int index) {
         return null;
