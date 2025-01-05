@@ -5,8 +5,8 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemObject;
-import org.bayl.runtime.object.ZemString;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylString;
 
 public class ConcatOpNode extends BinaryOpNode {
     public ConcatOpNode(SourcePosition pos, Node left, Node right) {
@@ -14,9 +14,9 @@ public class ConcatOpNode extends BinaryOpNode {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        ZemString left = getLeft().eval(interpreter).toZString();
-        ZemString right = getRight().eval(interpreter).toZString();
+    public BaylObject eval(Interpreter interpreter) {
+        BaylString left = getLeft().eval(interpreter).toZString();
+        BaylString right = getRight().eval(interpreter).toZString();
         return left.concat(right);
     }
 

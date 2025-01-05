@@ -4,7 +4,7 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class VariableNode extends Node {
     private String name;
@@ -24,7 +24,7 @@ public class VariableNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
+    public BaylObject eval(Interpreter interpreter) {
         return interpreter.getVariable(name, getPosition());
     }
 

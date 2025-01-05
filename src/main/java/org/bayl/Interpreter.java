@@ -19,10 +19,10 @@ import org.bayl.runtime.Function;
 import org.bayl.runtime.function.LenFunction;
 import org.bayl.runtime.function.PrintFunction;
 import org.bayl.runtime.function.PrintLineFunction;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class Interpreter {
-    private Map<String, ZemObject> symbolTable = new HashMap<String, ZemObject>();
+    private Map<String, BaylObject> symbolTable = new HashMap<String, BaylObject>();
 
     public Interpreter() {
         symbolTable.put("print", new PrintFunction());
@@ -31,33 +31,33 @@ public class Interpreter {
         symbolTable.put("array_push", new ArrayPushFunction());
     }
 
-    public ZemObject getVariable(String name, SourcePosition pos) {
+    public BaylObject getVariable(String name, SourcePosition pos) {
         if (!symbolTable.containsKey(name)) {
             throw new UnsetVariableException(name, pos);
         }
         return symbolTable.get(name);
     }
 
-    public void setVariable(String name, ZemObject value) {
+    public void setVariable(String name, BaylObject value) {
         symbolTable.put(name, value);
     }
 
     public void checkFunctionExists(String functionName, SourcePosition pos) {
-        ZemObject symbol = getVariable(functionName, pos);
+        BaylObject symbol = getVariable(functionName, pos);
         if (!(symbol instanceof Function)) {
             throw new InvalidTypeException(functionName + " is not a function", pos);
         }
     }
 
-    public ZemObject callFunction(Function function, List<ZemObject> args, SourcePosition pos, String functionName) {
-        Map<String, ZemObject> savedSymbolTable =
-            new HashMap<String, ZemObject>(symbolTable);
+    public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
+        Map<String, BaylObject> savedSymbolTable =
+            new HashMap<String, BaylObject>(symbolTable);
         int noMissingArgs = 0;
         int noRequiredArgs = 0;
         for (int paramIndex = 0;
                 paramIndex < function.getParameterCount(); paramIndex++) {
             String parameterName = function.getParameterName(paramIndex);
-            ZemObject value = function.getDefaultValue(paramIndex);
+            BaylObject value = function.getDefaultValue(paramIndex);
             if (value == null) {
                 noRequiredArgs++;
             }
@@ -73,21 +73,21 @@ public class Interpreter {
             throw new TooFewArgumentsException(functionName, noRequiredArgs,
                     args.size(), pos);
         }
-        ZemObject ret = function.eval(this, pos);
+        BaylObject ret = function.eval(this, pos);
         symbolTable = savedSymbolTable;
 
         return ret;
     }
 
-    public ZemObject eval(String script) throws IOException {
+    public BaylObject eval(String script) throws IOException {
         return eval(new StringReader(script));
     }
 
-    public ZemObject eval(File file) throws IOException {
+    public BaylObject eval(File file) throws IOException {
         return eval(new BufferedReader(new FileReader(file)));
     }
 
-    public ZemObject eval(Reader reader) throws IOException {
+    public BaylObject eval(Reader reader) throws IOException {
         Lexer lexer = new Lexer(reader);
         Parser parser = new Parser(lexer);
         RootNode program = parser.program();

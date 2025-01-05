@@ -1,30 +1,30 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
-public class DictionaryEntry extends ZemObject {
-    private ZemObject key;
-    private ZemObject value;
+public class DictionaryEntry extends BaylObject {
+    private BaylObject key;
+    private BaylObject value;
 
-    public DictionaryEntry(ZemObject key, ZemObject value) {
+    public DictionaryEntry(BaylObject key, BaylObject value) {
         this.key = key;
         this.value = value;
     }
 
-    public ZemObject getKey() {
+    public BaylObject getKey() {
         return key;
     }
 
-    public ZemObject getValue() {
+    public BaylObject getValue() {
         return value;
     }
 
-    public void setValue(ZemObject value) {
+    public void setValue(BaylObject value) {
         this.value = value;
     }
 
     @Override
-    public int compareTo(ZemObject o) {
+    public int compareTo(BaylObject o) {
         DictionaryEntry entry = (DictionaryEntry) o;
         return value.compareTo(entry.value);
     }

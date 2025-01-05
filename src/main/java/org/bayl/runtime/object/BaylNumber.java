@@ -1,13 +1,13 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 import java.math.BigInteger;
 import java.math.BigDecimal;
 
-final public class ZemNumber extends ZemObject {
+final public class BaylNumber extends BaylObject {
     private final BigDecimal value;
 
-    public ZemNumber(String value) {
+    public BaylNumber(String value) {
         String prefix = "";
         if (value.length() > 2) {
             prefix = value.substring(0, 2).toLowerCase();
@@ -20,48 +20,48 @@ final public class ZemNumber extends ZemObject {
         }
     }
 
-    ZemNumber(BigDecimal value) {
+    BaylNumber(BigDecimal value) {
         this.value = value;
     }
 
-    public ZemNumber(int value) {
+    public BaylNumber(int value) {
         this.value = new BigDecimal(value);
     }
 
-    public ZemNumber add(ZemNumber augend) {
-        return new ZemNumber(value.add(augend.value));
+    public BaylNumber add(BaylNumber augend) {
+        return new BaylNumber(value.add(augend.value));
     }
 
-    public ZemNumber subtract(ZemNumber subtrahend) {
-        return new ZemNumber(value.subtract(subtrahend.value));
+    public BaylNumber subtract(BaylNumber subtrahend) {
+        return new BaylNumber(value.subtract(subtrahend.value));
     }
 
-    public ZemNumber multiply(ZemNumber multiplicand) {
-        return new ZemNumber(value.multiply(multiplicand.value));
+    public BaylNumber multiply(BaylNumber multiplicand) {
+        return new BaylNumber(value.multiply(multiplicand.value));
     }
 
-    public ZemNumber divide(ZemNumber divisor) {
-        return new ZemNumber(value.divide(divisor.value));
+    public BaylNumber divide(BaylNumber divisor) {
+        return new BaylNumber(value.divide(divisor.value));
     }
 
-    public ZemNumber remainder(ZemNumber divisor) {
-        return new ZemNumber(value.remainder(divisor.value));
+    public BaylNumber remainder(BaylNumber divisor) {
+        return new BaylNumber(value.remainder(divisor.value));
     }
 
-    public ZemNumber power(ZemNumber n) {
-        return new ZemNumber(value.pow(n.value.intValueExact()));
+    public BaylNumber power(BaylNumber n) {
+        return new BaylNumber(value.pow(n.value.intValueExact()));
     }
 
-    public ZemNumber negate() {
-        return new ZemNumber(value.negate());
+    public BaylNumber negate() {
+        return new BaylNumber(value.negate());
     }
 
     public int intValue() {
         return value.intValue();
     }
 
-    public int compareTo(ZemObject object) {
-        ZemNumber number = (ZemNumber) object;
+    public int compareTo(BaylObject object) {
+        BaylNumber number = (BaylNumber) object;
         return value.compareTo(number.value);
     }
 
@@ -77,6 +77,6 @@ final public class ZemNumber extends ZemObject {
 
     @Override
     public boolean equals(Object object) {
-        return compareTo((ZemObject) object) == 0;
+        return compareTo((BaylObject) object) == 0;
     }
 }

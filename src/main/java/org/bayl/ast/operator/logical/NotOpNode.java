@@ -6,8 +6,8 @@ import org.bayl.ast.IBooleanOpNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.UnaryOpNode;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.ZemBoolean;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.BaylObject;
 
 public class NotOpNode extends UnaryOpNode implements IBooleanOpNode {
     public NotOpNode(SourcePosition pos, Node operand) {
@@ -15,8 +15,8 @@ public class NotOpNode extends UnaryOpNode implements IBooleanOpNode {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        ZemBoolean operand = getOperand().eval(interpreter).toBoolean(getOperand().getPosition());
+    public BaylObject eval(Interpreter interpreter) {
+        BaylBoolean operand = getOperand().eval(interpreter).toBoolean(getOperand().getPosition());
         return operand.not();
     }
 

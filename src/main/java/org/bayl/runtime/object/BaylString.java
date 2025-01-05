@@ -1,16 +1,16 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
-final public class ZemString extends ZemObject {
+final public class BaylString extends BaylObject {
     private String value;
 
-    public ZemString(String value) {
+    public BaylString(String value) {
         this.value = value;
     }
 
-    public ZemString concat(ZemString other) {
-        return new ZemString(value + other.value);
+    public BaylString concat(BaylString other) {
+        return new BaylString(value + other.value);
     }
 
     @Override
@@ -19,8 +19,8 @@ final public class ZemString extends ZemObject {
     }
 
     @Override
-    public int compareTo(ZemObject object) {
-        ZemString str = (ZemString) object;
+    public int compareTo(BaylObject object) {
+        BaylString str = (BaylString) object;
         return value.compareTo(str.value);
     }
 
@@ -31,6 +31,6 @@ final public class ZemString extends ZemObject {
 
     @Override
     public boolean equals(Object object) {
-        return compareTo((ZemObject) object) == 0;
+        return compareTo((BaylObject) object) == 0;
     }
 }

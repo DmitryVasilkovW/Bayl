@@ -7,8 +7,8 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.ZemArray;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.BaylObject;
 
 public class LookupNode extends Node {
     private VariableNode varNode;
@@ -20,28 +20,28 @@ public class LookupNode extends Node {
         this.keyNode = keyNode;
     }
 
-    public ZemObject get(Interpreter interpreter) {
-        ZemObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
-        ZemObject ret = null;
-        if (var instanceof ZemArray) {
+    public BaylObject get(Interpreter interpreter) {
+        BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
+        BaylObject ret = null;
+        if (var instanceof BaylArray) {
             int index = keyNode.eval(interpreter).toNumber(keyNode.getPosition()).intValue();
-            return ((ZemArray) var).get(index);
+            return ((BaylArray) var).get(index);
         } else if (var instanceof Dictionary) {
-            ZemObject key = keyNode.eval(interpreter);
+            BaylObject key = keyNode.eval(interpreter);
             return ((Dictionary) var).get(key);
         }
         throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());
     }
 
-    public void set(Interpreter interpreter, ZemObject result) {
-        ZemObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
-        ZemObject ret = null;
-        if (var instanceof ZemArray) {
+    public void set(Interpreter interpreter, BaylObject result) {
+        BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
+        BaylObject ret = null;
+        if (var instanceof BaylArray) {
             int index = keyNode.eval(interpreter).toNumber(keyNode.getPosition()).intValue();
-            ((ZemArray) var).set(index, result);
+            ((BaylArray) var).set(index, result);
             return;
         } else if (var instanceof Dictionary) {
-            ZemObject key = keyNode.eval(interpreter);
+            BaylObject key = keyNode.eval(interpreter);
             ((Dictionary) var).set(key, result);
             return;
         }
@@ -49,7 +49,7 @@ public class LookupNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
+    public BaylObject eval(Interpreter interpreter) {
         return get(interpreter);
     }
 

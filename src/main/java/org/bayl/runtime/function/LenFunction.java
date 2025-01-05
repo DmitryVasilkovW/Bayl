@@ -3,13 +3,13 @@ package org.bayl.runtime.function;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.Function;
-import org.bayl.runtime.object.ZemNumber;
-import org.bayl.runtime.ZemObject;
-import org.bayl.runtime.object.ZemString;
+import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylString;
 
 public class LenFunction extends Function {
     @Override
-    public ZemObject getDefaultValue(int index) {
+    public BaylObject getDefaultValue(int index) {
         return null;
     }
 
@@ -24,8 +24,8 @@ public class LenFunction extends Function {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter, SourcePosition pos) {
-        ZemString str = interpreter.getVariable("string", pos).toZString();
-        return new ZemNumber(str.toString().length());
+    public BaylObject eval(Interpreter interpreter, SourcePosition pos) {
+        BaylString str = interpreter.getVariable("string", pos).toZString();
+        return new BaylNumber(str.toString().length());
     }
 }

@@ -3,7 +3,7 @@ package org.bayl.ast;
 import org.bayl.SourcePosition;
 import org.bayl.Interpreter;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public abstract class Node {
     private SourcePosition position;
@@ -16,7 +16,7 @@ public abstract class Node {
         return position;
     }
 
-    abstract public ZemObject eval(Interpreter interpreter);
+    abstract public BaylObject eval(Interpreter interpreter);
 
     public abstract void generateCode(Bytecode bytecode);
 }

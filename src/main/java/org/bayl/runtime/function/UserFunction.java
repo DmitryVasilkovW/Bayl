@@ -8,7 +8,7 @@ import org.bayl.ast.Node;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.exception.ReturnException;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class UserFunction extends Function {
     private List<Parameter> parameters;
@@ -34,12 +34,12 @@ public class UserFunction extends Function {
     }
 
     @Override
-    public ZemObject getDefaultValue(int index) {
+    public BaylObject getDefaultValue(int index) {
         return parameters.get(index).value();
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter, SourcePosition pos) {
+    public BaylObject eval(Interpreter interpreter, SourcePosition pos) {
         try {
             return body.eval(interpreter);
         } catch (ReturnException e) {

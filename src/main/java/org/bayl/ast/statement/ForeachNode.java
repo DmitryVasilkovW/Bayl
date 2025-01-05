@@ -10,8 +10,8 @@ import org.bayl.ast.expression.array.DictionaryEntryNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.ZemArray;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.BaylObject;
 
 public class ForeachNode extends Node {
     private VariableNode onVariableNode;
@@ -26,12 +26,12 @@ public class ForeachNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        ZemObject onVariable = interpreter.getVariable(onVariableNode.getName(), onVariableNode.getPosition());
-        ZemObject ret = null;
-        if (onVariable instanceof ZemArray) {
+    public BaylObject eval(Interpreter interpreter) {
+        BaylObject onVariable = interpreter.getVariable(onVariableNode.getName(), onVariableNode.getPosition());
+        BaylObject ret = null;
+        if (onVariable instanceof BaylArray) {
             String asVariableName = asNode.toString();
-            for (ZemObject element : (ZemArray) onVariable) {
+            for (BaylObject element : (BaylArray) onVariable) {
                 interpreter.setVariable(asVariableName, element);
                 ret = loopBody.eval(interpreter);
             }
@@ -40,7 +40,7 @@ public class ForeachNode extends Node {
             DictionaryEntryNode entryNode = (DictionaryEntryNode) asNode;
             String keyName = ((VariableNode) entryNode.getKey()).getName();
             String valueName = ((VariableNode) entryNode.getValue()).getName();
-            for (Map.Entry<ZemObject, ZemObject> entry : (Dictionary) onVariable) {
+            for (Map.Entry<BaylObject, BaylObject> entry : (Dictionary) onVariable) {
                 interpreter.setVariable(keyName, entry.getKey());
                 interpreter.setVariable(valueName, entry.getValue());
                 ret = loopBody.eval(interpreter);

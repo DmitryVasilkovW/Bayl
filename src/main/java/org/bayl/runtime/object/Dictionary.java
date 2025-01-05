@@ -1,26 +1,26 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Dictionary extends ZemObject implements Iterable<Map.Entry<ZemObject, ZemObject>> {
-    private Map<ZemObject, ZemObject> dict;
+public class Dictionary extends BaylObject implements Iterable<Map.Entry<BaylObject, BaylObject>> {
+    private Map<BaylObject, BaylObject> dict;
 
-    public Dictionary(Map<ZemObject, ZemObject> dict) {
+    public Dictionary(Map<BaylObject, BaylObject> dict) {
         this.dict = dict;
     }
 
-    public ZemObject get(ZemObject key) {
+    public BaylObject get(BaylObject key) {
         return dict.get(key);
     }
 
-    public void set(ZemObject key, ZemObject value) {
+    public void set(BaylObject key, BaylObject value) {
         dict.put(key, value);
     }
 
     @Override
-    public int compareTo(ZemObject o) {
+    public int compareTo(BaylObject o) {
         throw new UnsupportedOperationException();
     }
 
@@ -30,7 +30,7 @@ public class Dictionary extends ZemObject implements Iterable<Map.Entry<ZemObjec
     }
 
     @Override
-    public Iterator<Map.Entry<ZemObject, ZemObject>> iterator() {
+    public Iterator<Map.Entry<BaylObject, BaylObject>> iterator() {
         return dict.entrySet().iterator();
     }
 }

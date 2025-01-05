@@ -10,7 +10,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.runtime.Function;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class FunctionCallNode extends Node {
     final static public List<Node> NO_ARGUMENTS = new ArrayList<Node>(0);
@@ -32,13 +32,13 @@ public class FunctionCallNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        ZemObject expression = functionNode.eval(interpreter);
+    public BaylObject eval(Interpreter interpreter) {
+        BaylObject expression = functionNode.eval(interpreter);
         if (!(expression instanceof Function)) {
             throw new InvalidTypeException("Call to invalid function", getPosition());
         }
         Function function = (Function) expression;
-        List<ZemObject> args = new ArrayList<ZemObject>(arguments.size());
+        List<BaylObject> args = new ArrayList<BaylObject>(arguments.size());
         for (Node node : arguments) {
             args.add(node.eval(interpreter));
         }
