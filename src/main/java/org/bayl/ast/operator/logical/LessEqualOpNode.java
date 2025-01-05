@@ -5,8 +5,8 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.RelationalOpNode;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.ZemBoolean;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.BaylObject;
 
 public class LessEqualOpNode extends RelationalOpNode {
     public LessEqualOpNode(SourcePosition pos, Node left, Node right) {
@@ -14,8 +14,8 @@ public class LessEqualOpNode extends RelationalOpNode {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        return ZemBoolean.valueOf(compare(interpreter) <= 0);
+    public BaylObject eval(Interpreter interpreter) {
+        return BaylBoolean.valueOf(compare(interpreter) <= 0);
     }
 
     @Override

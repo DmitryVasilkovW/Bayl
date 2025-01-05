@@ -5,7 +5,7 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.object.DictionaryEntry;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class DictionaryEntryNode extends Node {
     private Node key;
@@ -26,7 +26,7 @@ public class DictionaryEntryNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
+    public BaylObject eval(Interpreter interpreter) {
         return new DictionaryEntry(key.eval(interpreter), value.eval(interpreter));
     }
 

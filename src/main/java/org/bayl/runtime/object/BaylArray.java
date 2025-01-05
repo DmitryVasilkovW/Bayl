@@ -1,21 +1,21 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 import java.util.Iterator;
 import java.util.List;
 
-public class ZemArray extends ZemObject implements Iterable<ZemObject> {
-    private List<ZemObject> elements;
+public class BaylArray extends BaylObject implements Iterable<BaylObject> {
+    private List<BaylObject> elements;
 
-    public ZemArray(List<ZemObject> elements) {
+    public BaylArray(List<BaylObject> elements) {
         this.elements = elements;
     }
 
-    public ZemObject get(int index) {
+    public BaylObject get(int index) {
         return elements.get(index);
     }
 
-    public void set(int index, ZemObject element) {
+    public void set(int index, BaylObject element) {
         elements.set(index, element);
     }
 
@@ -23,17 +23,17 @@ public class ZemArray extends ZemObject implements Iterable<ZemObject> {
         return elements.size();
     }
 
-    public void push(ZemObject element) {
+    public void push(BaylObject element) {
         elements.add(element);
     }
 
     @Override
-    public Iterator<ZemObject> iterator() {
+    public Iterator<BaylObject> iterator() {
         return elements.iterator();
     }
 
     @Override
-    public int compareTo(ZemObject o) {
+    public int compareTo(BaylObject o) {
         throw new UnsupportedOperationException();
     }
 

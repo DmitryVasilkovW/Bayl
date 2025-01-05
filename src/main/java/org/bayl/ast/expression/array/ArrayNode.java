@@ -7,8 +7,8 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.ZemArray;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.BaylObject;
 
 public class ArrayNode extends Node {
     private List<Node> elements;
@@ -19,12 +19,12 @@ public class ArrayNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        List<ZemObject> items = new ArrayList<ZemObject>(elements.size());
+    public BaylObject eval(Interpreter interpreter) {
+        List<BaylObject> items = new ArrayList<BaylObject>(elements.size());
         for (Node node : elements) {
             items.add(node.eval(interpreter));
         }
-        return new ZemArray(items);
+        return new BaylArray(items);
     }
 
     @Override

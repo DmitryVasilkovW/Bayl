@@ -4,8 +4,8 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.ZemBoolean;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.BaylObject;
 
 public class TrueNode extends Node {
     public TrueNode(SourcePosition pos) {
@@ -13,8 +13,8 @@ public class TrueNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        return ZemBoolean.TRUE;
+    public BaylObject eval(Interpreter interpreter) {
+        return BaylBoolean.TRUE;
     }
 
     @Override

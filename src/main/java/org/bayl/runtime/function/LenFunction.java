@@ -3,10 +3,11 @@ package org.bayl.runtime.function;
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.Function;
+import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
 
-public class PrintFunction extends Function {
+public class LenFunction extends Function {
     @Override
     public BaylObject getDefaultValue(int index) {
         return null;
@@ -25,7 +26,6 @@ public class PrintFunction extends Function {
     @Override
     public BaylObject eval(Interpreter interpreter, SourcePosition pos) {
         BaylString str = interpreter.getVariable("string", pos).toZString();
-        System.out.print(str.toString());
-        return str;
+        return new BaylNumber(str.toString().length());
     }
 }

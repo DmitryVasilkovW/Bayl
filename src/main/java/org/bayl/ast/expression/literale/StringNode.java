@@ -4,19 +4,19 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemObject;
-import org.bayl.runtime.object.ZemString;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylString;
 
 public class StringNode extends Node {
-    private ZemString literal;
+    private BaylString literal;
 
     public StringNode(SourcePosition pos, String literal) {
         super(pos);
-        this.literal = new ZemString(literal);
+        this.literal = new BaylString(literal);
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
+    public BaylObject eval(Interpreter interpreter) {
         return literal;
     }
 

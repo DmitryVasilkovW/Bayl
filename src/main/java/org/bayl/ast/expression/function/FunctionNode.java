@@ -11,7 +11,7 @@ import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.function.UserFunction;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class FunctionNode extends Node {
     final static public List<Node> NO_PARAMETERS = new ArrayList<Node>(0);
@@ -26,12 +26,12 @@ public class FunctionNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
+    public BaylObject eval(Interpreter interpreter) {
         List<Parameter> params = new ArrayList<Parameter>(parameters.size());
         for (Node node : parameters) {
             // TODO clean up getting parameters
             String parameterName;
-            ZemObject parameterValue;
+            BaylObject parameterValue;
             if (node instanceof VariableNode) {
                 parameterName = ((VariableNode) node).getName();
                 parameterValue = null;

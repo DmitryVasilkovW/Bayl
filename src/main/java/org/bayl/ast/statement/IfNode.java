@@ -4,8 +4,8 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.ZemBoolean;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.BaylObject;
 
 public class IfNode extends Node {
     private Node testCondition;
@@ -32,14 +32,14 @@ public class IfNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
+    public BaylObject eval(Interpreter interpreter) {
         boolean test = testCondition.eval(interpreter).toBoolean(testCondition.getPosition()).booleanValue();
         if (test) {
             return thenBlock.eval(interpreter);
         } else if (elseBlock != null) {
             return elseBlock.eval(interpreter);
         }
-        return ZemBoolean.FALSE;
+        return BaylBoolean.FALSE;
     }
 
     @Override

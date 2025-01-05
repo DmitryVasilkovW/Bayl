@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class Lexer {
+
     static final private int END_OF_FILE = -1;
 
     private int lineNo = 1;
@@ -21,7 +22,7 @@ public class Lexer {
 
     private int read() {
         try {
-            int c = in.read();;
+            int c = in.read();
             if (c == '\n') {
                 lineNo++;
                 columnNo = 0;
@@ -184,8 +185,8 @@ public class Lexer {
                 if (character == '.' || (character >= '0' && character <= '9')) {
                     return matchNumber();
                 } else if ((character >= 'A' && character <= 'Z') ||
-                    (character >= 'a' && character <= 'z') ||
-                    character == '_') {
+                        (character >= 'a' && character <= 'z') ||
+                        character == '_') {
                     return matchIdentifier();
                 } else {
                     throw new LexerException("Unexpected '" + ((char) character) + "' character", lineNo, columnNo);
@@ -282,7 +283,7 @@ public class Lexer {
     private int matchHexDigits(StringBuilder sb) {
         int character = lookAhead(1);
         int count = 0;
-        while ( (character >= '0' && character <= '9') ||
+        while ((character >= '0' && character <= '9') ||
                 (character >= 'a' && character <= 'f') ||
                 (character >= 'A' && character <= 'F')) {
             sb.append((char) character);
@@ -359,27 +360,18 @@ public class Lexer {
             character = next();
         }
         String word = sb.toString();
-        if (word.equals("true")) {
-            return new Token(pos, TokenType.TRUE, word);
-        } else if (word.equals("false")) {
-            return new Token(pos, TokenType.FALSE, word);
-        } else if (word.equals("if")) {
-            return new Token(pos, TokenType.IF, word);
-        } else if (word.equals("else")) {
-            return new Token(pos, TokenType.ELSE, word);
-        } else if (word.equals("while")) {
-            return new Token(pos, TokenType.WHILE, word);
-        } else if (word.equals("foreach")) {
-            return new Token(pos, TokenType.FOR_EACH, word);
-        } else if (word.equals("as")) {
-            return new Token(pos, TokenType.AS, word);
-        } else if (word.equals("function")) {
-            return new Token(pos, TokenType.FUNCTION, word);
-        } else if (word.equals("return")) {
-            return new Token(pos, TokenType.RETURN, word);
-        } else {
-            return new Token(pos, TokenType.VARIABLE, word);
-        }
+        return switch (word) {
+            case "true" -> new Token(pos, TokenType.TRUE, word);
+            case "false" -> new Token(pos, TokenType.FALSE, word);
+            case "if" -> new Token(pos, TokenType.IF, word);
+            case "else" -> new Token(pos, TokenType.ELSE, word);
+            case "while" -> new Token(pos, TokenType.WHILE, word);
+            case "foreach" -> new Token(pos, TokenType.FOR_EACH, word);
+            case "as" -> new Token(pos, TokenType.AS, word);
+            case "function" -> new Token(pos, TokenType.FUNCTION, word);
+            case "return" -> new Token(pos, TokenType.RETURN, word);
+            default -> new Token(pos, TokenType.VARIABLE, word);
+        };
     }
 
     private Token matchStringLiteral(char quote) {

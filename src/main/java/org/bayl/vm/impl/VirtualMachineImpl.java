@@ -8,10 +8,11 @@ import java.util.Map;
 import java.util.Stack;
 
 public class VirtualMachineImpl implements VirtualMachine {
-    private Stack<Object> stack = new Stack<>();
-    private Map<String, Object> globals = new HashMap<>();
+    private final Stack<Object> stack = new Stack<>();
+    private final Map<String, Object> globals = new HashMap<>();
     private int instructionPointer = 0;
 
+    @Override
     public void run(List<String> bytecode) {
         while (instructionPointer < bytecode.size()) {
             String[] parts = bytecode.get(instructionPointer).split(" ");
@@ -91,4 +92,3 @@ public class VirtualMachineImpl implements VirtualMachine {
         vm.run(bytecode);
     }
 }
-

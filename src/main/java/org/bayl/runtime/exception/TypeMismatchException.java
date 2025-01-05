@@ -2,24 +2,24 @@ package org.bayl.runtime.exception;
 
 import org.bayl.SourcePosition;
 import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.ZemArray;
-import org.bayl.runtime.object.ZemBoolean;
-import org.bayl.runtime.ZemNumber;
-import org.bayl.runtime.object.ZemString;
+import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.object.BaylString;
 
-public class TypeMismatchException extends ZemException {
+public class TypeMismatchException extends BaylException {
     private static final long serialVersionUID = 9115378805326306069L;
 
     static private String toString(Class type) {
         if (type == Dictionary.class) {
             return "dictionary";
-        } else if (type == ZemArray.class) {
+        } else if (type == BaylArray.class) {
             return "array";
-        } else if (type == ZemBoolean.class) {
+        } else if (type == BaylBoolean.class) {
             return "boolean";
-        } else if (type == ZemNumber.class) {
+        } else if (type == BaylNumber.class) {
             return "number";
-        } else if (type == ZemString.class) {
+        } else if (type == BaylString.class) {
             return "string";
         } else {
             return type.getName();

@@ -8,7 +8,7 @@ import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.expression.array.LookupNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class AssignNode extends BinaryOpNode {
     public AssignNode(SourcePosition pos, Node var, Node expression) {
@@ -16,9 +16,9 @@ public class AssignNode extends BinaryOpNode {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
+    public BaylObject eval(Interpreter interpreter) {
         Node left = getLeft();
-        ZemObject value = getRight().eval(interpreter);
+        BaylObject value = getRight().eval(interpreter);
         if (left instanceof VariableNode) {
             String name = ((VariableNode) left).getName();
             interpreter.setVariable(name, value);

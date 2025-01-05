@@ -6,7 +6,7 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class BlockNode extends Node {
     private List<Node> statements;
@@ -25,8 +25,8 @@ public class BlockNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        ZemObject ret = null;
+    public BaylObject eval(Interpreter interpreter) {
+        BaylObject ret = null;
         for (Node statement : statements) {
             ret = statement.eval(interpreter);
         }

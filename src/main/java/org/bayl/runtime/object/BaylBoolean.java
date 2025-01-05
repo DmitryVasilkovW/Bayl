@@ -1,14 +1,14 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
-final public class ZemBoolean extends ZemObject {
-    static final public ZemBoolean TRUE = new ZemBoolean(true);
-    static final public ZemBoolean FALSE = new ZemBoolean(false);
+final public class BaylBoolean extends BaylObject {
+    static final public BaylBoolean TRUE = new BaylBoolean(true);
+    static final public BaylBoolean FALSE = new BaylBoolean(false);
 
     private boolean value;
 
-    private ZemBoolean(boolean value) {
+    private BaylBoolean(boolean value) {
         this.value = value;
     }
 
@@ -16,25 +16,25 @@ final public class ZemBoolean extends ZemObject {
         return this.value;
     }
 
-    static public ZemBoolean valueOf(boolean value) {
+    static public BaylBoolean valueOf(boolean value) {
         return value ? TRUE : FALSE;
     }
 
-    public ZemBoolean and(ZemBoolean bool) {
+    public BaylBoolean and(BaylBoolean bool) {
         return valueOf(this.value && bool.value);
     }
 
-    public ZemBoolean or(ZemBoolean bool) {
+    public BaylBoolean or(BaylBoolean bool) {
         return valueOf(this.value || bool.value);
     }
 
-    public ZemBoolean not() {
+    public BaylBoolean not() {
         return valueOf(!this.value);
     }
 
     @Override
-    public ZemString toZString() {
-        return new ZemString(this.toString());
+    public BaylString toZString() {
+        return new BaylString(this.toString());
     }
 
     @Override
@@ -43,7 +43,7 @@ final public class ZemBoolean extends ZemObject {
     }
 
     @Override
-    public int compareTo(ZemObject o) {
+    public int compareTo(BaylObject o) {
         throw new UnsupportedOperationException();
     }
 

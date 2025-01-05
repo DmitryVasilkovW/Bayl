@@ -6,8 +6,8 @@ import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.UnaryOpNode;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemNumber;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.BaylObject;
 
 public class NegateOpNode extends UnaryOpNode implements IArithmeticOpNode {
     public NegateOpNode(SourcePosition pos, Node value) {
@@ -15,8 +15,8 @@ public class NegateOpNode extends UnaryOpNode implements IArithmeticOpNode {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        ZemNumber operand = getOperand().eval(interpreter).toNumber(getOperand().getPosition());
+    public BaylObject eval(Interpreter interpreter) {
+        BaylNumber operand = getOperand().eval(interpreter).toNumber(getOperand().getPosition());
         return operand.negate();
     }
 

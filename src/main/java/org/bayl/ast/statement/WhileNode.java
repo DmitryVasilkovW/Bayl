@@ -4,7 +4,7 @@ import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class WhileNode extends Node {
     private Node testCondition;
@@ -25,8 +25,8 @@ public class WhileNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        ZemObject ret = null;
+    public BaylObject eval(Interpreter interpreter) {
+        BaylObject ret = null;
         while (testCondition.eval(interpreter).toBoolean(testCondition.getPosition()).booleanValue()) {
             ret = loopBody.eval(interpreter);
         }

@@ -10,7 +10,7 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.object.Dictionary;
 import org.bayl.runtime.object.DictionaryEntry;
-import org.bayl.runtime.ZemObject;
+import org.bayl.runtime.BaylObject;
 
 public class DictionaryNode extends Node {
     private List<DictionaryEntryNode> elements;
@@ -21,8 +21,8 @@ public class DictionaryNode extends Node {
     }
 
     @Override
-    public ZemObject eval(Interpreter interpreter) {
-        Map<ZemObject, ZemObject> entries = new LinkedHashMap<ZemObject, ZemObject>(elements.size());
+    public BaylObject eval(Interpreter interpreter) {
+        Map<BaylObject, BaylObject> entries = new LinkedHashMap<BaylObject, BaylObject>(elements.size());
         for (DictionaryEntryNode node : elements) {
             DictionaryEntry entry = (DictionaryEntry) node.eval(interpreter);
             entries.put(entry.getKey(), entry.getValue());

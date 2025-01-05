@@ -2,13 +2,13 @@ package org.bayl.runtime.function;
 
 import org.bayl.Interpreter;
 import org.bayl.SourcePosition;
-import org.bayl.runtime.ZemObject;
-import org.bayl.runtime.object.ZemString;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylString;
 
 public class PrintLineFunction extends PrintFunction {
     @Override
-    public ZemObject eval(Interpreter interpreter, SourcePosition pos) {
-        ZemString str = interpreter.getVariable("string", pos).toZString();
+    public BaylObject eval(Interpreter interpreter, SourcePosition pos) {
+        BaylString str = interpreter.getVariable("string", pos).toZString();
         System.out.println(str.toString());
         return str;
     }
