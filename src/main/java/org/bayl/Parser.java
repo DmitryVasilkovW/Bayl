@@ -1,47 +1,47 @@
 package org.bayl;
 
+import org.bayl.ast.Node;
+import org.bayl.ast.control.RootNode;
+import org.bayl.ast.expression.FalseNode;
+import org.bayl.ast.expression.ModOpNode;
+import org.bayl.ast.expression.NegateOpNode;
+import org.bayl.ast.expression.PowerOpNode;
+import org.bayl.ast.expression.TrueNode;
+import org.bayl.ast.expression.array.ArrayNode;
+import org.bayl.ast.expression.array.DictionaryEntryNode;
+import org.bayl.ast.expression.array.DictionaryNode;
+import org.bayl.ast.expression.array.LookupNode;
+import org.bayl.ast.expression.function.FunctionCallNode;
+import org.bayl.ast.expression.function.FunctionNode;
+import org.bayl.ast.expression.literale.NumberNode;
+import org.bayl.ast.expression.literale.StringNode;
+import org.bayl.ast.expression.variable.VariableNode;
+import org.bayl.ast.operator.ConcatOpNode;
+import org.bayl.ast.operator.arithmetic.AddOpNode;
+import org.bayl.ast.operator.arithmetic.DivideOpNode;
+import org.bayl.ast.operator.arithmetic.MultiplyOpNode;
+import org.bayl.ast.operator.arithmetic.SubtractOpNode;
+import org.bayl.ast.operator.comparison.EqualsOpNode;
+import org.bayl.ast.operator.comparison.GreaterThanOpNode;
+import org.bayl.ast.operator.comparison.LessThanOpNode;
+import org.bayl.ast.operator.comparison.NotEqualsOpNode;
+import org.bayl.ast.operator.logical.AndOpNode;
+import org.bayl.ast.operator.logical.GreaterEqualOpNode;
+import org.bayl.ast.operator.logical.LessEqualOpNode;
+import org.bayl.ast.operator.logical.NotOpNode;
+import org.bayl.ast.operator.logical.OrOpNode;
+import org.bayl.ast.statement.AssignNode;
+import org.bayl.ast.statement.BlockNode;
+import org.bayl.ast.statement.ForeachNode;
+import org.bayl.ast.statement.IfNode;
+import org.bayl.ast.statement.ReturnNode;
+import org.bayl.ast.statement.WhileNode;
+import org.bayl.runtime.exception.ParserException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bayl.ast.operator.arithmetic.AddOpNode;
-import org.bayl.ast.operator.logical.AndOpNode;
-import org.bayl.ast.expression.array.ArrayNode;
-import org.bayl.ast.statement.AssignNode;
-import org.bayl.ast.statement.BlockNode;
-import org.bayl.ast.operator.ConcatOpNode;
-import org.bayl.ast.expression.array.DictionaryEntryNode;
-import org.bayl.ast.expression.array.DictionaryNode;
-import org.bayl.ast.operator.arithmetic.DivideOpNode;
-import org.bayl.ast.operator.comparison.EqualsOpNode;
-import org.bayl.ast.expression.FalseNode;
-import org.bayl.ast.statement.ForeachNode;
-import org.bayl.ast.expression.function.FunctionCallNode;
-import org.bayl.ast.expression.function.FunctionNode;
-import org.bayl.ast.operator.logical.GreaterEqualOpNode;
-import org.bayl.ast.operator.comparison.GreaterThanOpNode;
-import org.bayl.ast.Node;
-import org.bayl.ast.statement.IfNode;
-import org.bayl.ast.operator.logical.LessEqualOpNode;
-import org.bayl.ast.operator.comparison.LessThanOpNode;
-import org.bayl.ast.expression.array.LookupNode;
-import org.bayl.ast.expression.ModOpNode;
-import org.bayl.ast.operator.arithmetic.MultiplyOpNode;
-import org.bayl.ast.expression.NegateOpNode;
-import org.bayl.ast.operator.comparison.NotEqualsOpNode;
-import org.bayl.ast.operator.logical.NotOpNode;
-import org.bayl.ast.expression.literale.NumberNode;
-import org.bayl.ast.operator.logical.OrOpNode;
-import org.bayl.ast.expression.PowerOpNode;
-import org.bayl.ast.statement.ReturnNode;
-import org.bayl.ast.control.RootNode;
-import org.bayl.ast.expression.literale.StringNode;
-import org.bayl.ast.operator.arithmetic.SubtractOpNode;
-import org.bayl.ast.expression.TrueNode;
-import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.ast.statement.WhileNode;
-import org.bayl.runtime.exception.ParserException;
-
 public class Parser {
+
     TokenBuffer lookAheadBuffer;
 
     public Parser(Lexer lexer) {
@@ -62,7 +62,8 @@ public class Parser {
             throw new ParserException("Expecting type " + tokenType + " but didn't get a token");
         }
         if (token.getType() != tokenType) {
-            throw new ParserException("Expecting type " + tokenType + " but got " + token.getType(), token.getPosition());
+            throw new ParserException("Expecting type " + tokenType + " but got " + token.getType(),
+                                      token.getPosition());
         }
         return token;
     }
@@ -299,10 +300,10 @@ public class Parser {
                 lookAhead(1) == TokenType.MINUS) {
             if (lookAhead(1) == TokenType.PLUS) {
                 termExpression = new AddOpNode(match(TokenType.PLUS).getPosition(),
-                    termExpression, term());
+                                               termExpression, term());
             } else if (lookAhead(1) == TokenType.MINUS) {
                 termExpression = new SubtractOpNode(match(TokenType.MINUS).getPosition(),
-                    termExpression, term());
+                                                    termExpression, term());
             }
         }
         return termExpression;
@@ -316,16 +317,16 @@ public class Parser {
                 lookAhead(1) == TokenType.MOD) {
             if (lookAhead(1) == TokenType.MULTIPLY) {
                 factorExpression = new MultiplyOpNode(
-                    match(TokenType.MULTIPLY).getPosition(),
-                    factorExpression, factor());
+                        match(TokenType.MULTIPLY).getPosition(),
+                        factorExpression, factor());
             } else if (lookAhead(1) == TokenType.DIVIDE) {
                 factorExpression = new DivideOpNode(
-                    match(TokenType.DIVIDE).getPosition(),
-                    factorExpression, factor());
+                        match(TokenType.DIVIDE).getPosition(),
+                        factorExpression, factor());
             } else if (lookAhead(1) == TokenType.MOD) {
                 factorExpression = new ModOpNode(
-                    match(TokenType.MOD).getPosition(),
-                    factorExpression, factor());
+                        match(TokenType.MOD).getPosition(),
+                        factorExpression, factor());
             }
         }
         return factorExpression;
@@ -336,7 +337,7 @@ public class Parser {
         Node expression = signExpression();
         if (lookAhead(1) == TokenType.POWER) {
             expression = new PowerOpNode(match(TokenType.POWER).getPosition(),
-                expression, factor());
+                                         expression, factor());
         }
         return expression;
     }
@@ -375,7 +376,7 @@ public class Parser {
             match(TokenType.RPAREN);
             if (functionCall == null) {
                 functionCall = new FunctionCallNode(functionNode.getPosition(),
-                    functionNode, arguments);
+                                                    functionNode, arguments);
             } else {
                 functionCall = new FunctionCallNode(pos, functionCall, arguments);
             }
@@ -468,22 +469,22 @@ public class Parser {
         TokenType type = lookAhead(1);
         if (type == TokenType.LESS_EQUAL) {
             return new LessEqualOpNode(match(TokenType.LESS_EQUAL).getPosition(),
-                sumExpr, sumExpression());
+                                       sumExpr, sumExpression());
         } else if (type == TokenType.LESS_THEN) {
             return new LessThanOpNode(match(TokenType.LESS_THEN).getPosition(),
-                sumExpr, sumExpression());
+                                      sumExpr, sumExpression());
         } else if (type == TokenType.GREATER_EQUAL) {
             return new GreaterEqualOpNode(match(TokenType.GREATER_EQUAL).getPosition(),
-                sumExpr, sumExpression());
+                                          sumExpr, sumExpression());
         } else if (type == TokenType.GREATER_THEN) {
             return new GreaterThanOpNode(match(TokenType.GREATER_THEN).getPosition(),
-                sumExpr, sumExpression());
+                                         sumExpr, sumExpression());
         } else if (type == TokenType.EQUAL) {
             return new EqualsOpNode(match(TokenType.EQUAL).getPosition(),
-                sumExpr, sumExpression());
+                                    sumExpr, sumExpression());
         } else if (type == TokenType.NOT_EQUAL) {
             return new NotEqualsOpNode(match(TokenType.NOT_EQUAL).getPosition(),
-                sumExpr, sumExpression());
+                                       sumExpr, sumExpression());
         }
         return sumExpr;
     }
@@ -493,7 +494,7 @@ public class Parser {
         Node stringNode = string();
         if (lookAhead(1) == TokenType.CONCAT) {
             return new ConcatOpNode(match(TokenType.CONCAT).getPosition(),
-                stringNode, stringExpression());
+                                    stringNode, stringExpression());
         }
         return stringNode;
     }
