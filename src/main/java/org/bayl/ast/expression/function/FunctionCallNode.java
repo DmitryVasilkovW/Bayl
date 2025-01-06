@@ -1,22 +1,21 @@
 package org.bayl.ast.expression.function;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bayl.vm.impl.VirtualMachineImpl;
-import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.runtime.Function;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.Function;
+import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.vm.impl.VirtualMachineImpl;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionCallNode extends Node {
-    final static public List<Node> NO_ARGUMENTS = new ArrayList<Node>(0);
 
-    private Node functionNode;
-    private List<Node> arguments;
+    final static public List<Node> NO_ARGUMENTS = new ArrayList<Node>(0);
+    private final Node functionNode;
+    private final List<Node> arguments;
 
     public FunctionCallNode(SourcePosition pos, Node functionNode, List<Node> arguments) {
         super(pos);

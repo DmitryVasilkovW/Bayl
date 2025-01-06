@@ -1,18 +1,19 @@
 package org.bayl.ast.expression.array;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
-import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.BaylArray;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class LookupNode extends Node {
-    private VariableNode varNode;
-    private Node keyNode;
+
+    private final VariableNode varNode;
+    private final Node keyNode;
 
     public LookupNode(SourcePosition pos, VariableNode varNode, Node keyNode) {
         super(pos);

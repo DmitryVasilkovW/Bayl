@@ -1,15 +1,16 @@
 package org.bayl.ast.operator.arithmetic;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylNumber;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class MultiplyOpNode extends BinaryOpNode implements IArithmeticOpNode {
+
     public MultiplyOpNode(SourcePosition pos, Node left, Node right) {
         super(pos, "*", left, right);
     }

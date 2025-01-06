@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ArrayNode extends Node {
 
-    private List<Node> elements;
+    private final List<Node> elements;
 
     public ArrayNode(SourcePosition pos, List<Node> elements) {
         super(pos);

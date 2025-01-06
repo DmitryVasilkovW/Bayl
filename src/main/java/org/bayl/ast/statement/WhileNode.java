@@ -1,14 +1,15 @@
 package org.bayl.ast.statement;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class WhileNode extends Node {
-    private Node testCondition;
-    private Node loopBody;
+
+    private final Node testCondition;
+    private final Node loopBody;
 
     public WhileNode(SourcePosition pos, Node testCondition, Node loopBody) {
         super(pos);

@@ -1,14 +1,15 @@
 package org.bayl.ast.expression.literale;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylNumber;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class NumberNode extends Node {
-    private BaylNumber number;
+
+    private final BaylNumber number;
 
     public NumberNode(SourcePosition pos, String number) {
         super(pos);
@@ -27,6 +28,6 @@ public class NumberNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("PUSH " +  number.toString());
+        bytecode.add("PUSH " + number.toString());
     }
 }

@@ -1,16 +1,17 @@
 package org.bayl.ast.statement;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class IfNode extends Node {
-    private Node testCondition;
-    private Node thenBlock;
-    private Node elseBlock;
+
+    private final Node testCondition;
+    private final Node thenBlock;
+    private final Node elseBlock;
 
     public IfNode(SourcePosition pos, Node testCondition, Node thenBlock, Node elseBlock) {
         super(pos);

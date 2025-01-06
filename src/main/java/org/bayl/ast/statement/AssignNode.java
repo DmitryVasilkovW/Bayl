@@ -1,16 +1,17 @@
 package org.bayl.ast.statement;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
-import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.ast.BinaryOpNode;
-import org.bayl.ast.expression.array.LookupNode;
 import org.bayl.ast.Node;
+import org.bayl.ast.expression.array.LookupNode;
 import org.bayl.ast.expression.variable.VariableNode;
+import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class AssignNode extends BinaryOpNode {
+
     public AssignNode(SourcePosition pos, Node var, Node expression) {
         super(pos, "set!", var, expression);
     }
