@@ -1,94 +1,101 @@
 package org.bayl.vm.impl;
 
-import org.bayl.vm.VirtualMachine;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
-public class VirtualMachineImpl implements VirtualMachine {
-    private final Stack<Object> stack = new Stack<>();
-    private final Map<String, Object> globals = new HashMap<>();
-    private int instructionPointer = 0;
+import org.bayl.Lexer;
+import org.bayl.Parser;
+import org.bayl.SourcePosition;
+import org.bayl.ast.control.RootNode;
+import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.runtime.exception.TooFewArgumentsException;
+import org.bayl.runtime.exception.UnsetVariableException;
+import org.bayl.runtime.function.ArrayLenFunction;
+import org.bayl.runtime.function.ArrayPushFunction;
+import org.bayl.runtime.Function;
+import org.bayl.runtime.function.StringLenFunction;
+import org.bayl.runtime.function.PrintFunction;
+import org.bayl.runtime.function.PrintLineFunction;
+import org.bayl.runtime.BaylObject;
 
-    @Override
-    public void run(List<String> bytecode) {
-        while (instructionPointer < bytecode.size()) {
-            String[] parts = bytecode.get(instructionPointer).split(" ");
-            String instruction = parts[0];
-            switch (instruction) {
-                case "PUSH":
-                    stack.push(parseValue(parts[1]));
-                    break;
-                case "STORE":
-                    globals.put(parts[1], stack.pop());
-                    break;
-                case "LOAD":
-                    stack.push(globals.get(parts[1]));
-                    break;
-                case "ADD":
-                    double b = popNumber();
-                    double a = popNumber();
-                    stack.push(a + b);
-                    break;
-                case "SUBTRACT":
-                    b = popNumber();
-                    a = popNumber();
-                    stack.push(a - b);
-                    break;
-                case "CALL":
-                    String functionName = parts[1];
-                    callFunction(functionName);
-                    break;
-                case "RETURN":
-                    return;
-                default:
-                    throw new RuntimeException("Unknown instruction: " + instruction);
+public class VirtualMachineImpl {
+    private Map<String, BaylObject> symbolTable = new HashMap<String, BaylObject>();
+
+    public VirtualMachineImpl() {
+        symbolTable.put("print", new PrintFunction());
+        symbolTable.put("println", new PrintLineFunction());
+        symbolTable.put("str_len", new StringLenFunction());
+        symbolTable.put("arr_len", new ArrayLenFunction());
+        symbolTable.put("array_push", new ArrayPushFunction());
+    }
+
+    public BaylObject getVariable(String name, SourcePosition pos) {
+        if (!symbolTable.containsKey(name)) {
+            throw new UnsetVariableException(name, pos);
+        }
+        return symbolTable.get(name);
+    }
+
+    public void setVariable(String name, BaylObject value) {
+        symbolTable.put(name, value);
+    }
+
+    public void checkFunctionExists(String functionName, SourcePosition pos) {
+        BaylObject symbol = getVariable(functionName, pos);
+        if (!(symbol instanceof Function)) {
+            throw new InvalidTypeException(functionName + " is not a function", pos);
+        }
+    }
+
+    public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
+        Map<String, BaylObject> savedSymbolTable =
+            new HashMap<String, BaylObject>(symbolTable);
+        int noMissingArgs = 0;
+        int noRequiredArgs = 0;
+        for (int paramIndex = 0;
+                paramIndex < function.getParameterCount(); paramIndex++) {
+            String parameterName = function.getParameterName(paramIndex);
+            BaylObject value = function.getDefaultValue(paramIndex);
+            if (value == null) {
+                noRequiredArgs++;
             }
-            instructionPointer++;
+            if (paramIndex < args.size()) {
+                value = args.get(paramIndex);
+            }
+            if (value == null) {
+                noMissingArgs++;
+            }
+            setVariable(parameterName, value);
         }
+        if (noMissingArgs > 0) {
+            throw new TooFewArgumentsException(functionName, noRequiredArgs,
+                    args.size(), pos);
+        }
+        BaylObject ret = function.eval(this, pos);
+        symbolTable = savedSymbolTable;
+
+        return ret;
     }
 
-    private Object parseValue(String value) {
-        if (value.matches("-?\\d+(\\.\\d+)?")) {
-            return Double.parseDouble(value);
-        }
-        if (value.equals("true") || value.equals("false")) {
-            return Boolean.parseBoolean(value);
-        }
-        return value; // строки
+    public BaylObject eval(String script) throws IOException {
+        return eval(new StringReader(script));
     }
 
-    private double popNumber() {
-        Object value = stack.pop();
-        if (value instanceof Number) {
-            return ((Number) value).doubleValue();
-        }
-        throw new RuntimeException("Expected a number, got: " + value);
+    public BaylObject eval(File file) throws IOException {
+        return eval(new BufferedReader(new FileReader(file)));
     }
 
-    private void callFunction(String functionName) {
-        if ("println".equals(functionName)) {
-            System.out.println(stack.pop());
-        } else {
-            throw new RuntimeException("Unknown function: " + functionName);
-        }
-    }
-
-    public static void main(String[] args) {
-        List<String> bytecode = Arrays.asList(
-                "PUSH 3",
-                "PUSH 2",
-                "ADD",
-                "CALL println",
-                "PUSH 5",
-                "STORE x",
-                "LOAD x",
-                "CALL println"
-        );
-
-        VirtualMachineImpl vm = new VirtualMachineImpl();
-        vm.run(bytecode);
+    public BaylObject eval(Reader reader) throws IOException {
+        Lexer lexer = new Lexer(reader);
+        Parser parser = new Parser(lexer);
+        RootNode program = parser.program();
+        return program.eval(this);
     }
 }

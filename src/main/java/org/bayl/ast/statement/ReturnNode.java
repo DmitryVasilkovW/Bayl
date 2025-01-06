@@ -1,6 +1,6 @@
 package org.bayl.ast.statement;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
@@ -16,8 +16,8 @@ public class ReturnNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        throw new ReturnException(expression.eval(interpreter));
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        throw new ReturnException(expression.eval(virtualMachine));
     }
 
     @Override

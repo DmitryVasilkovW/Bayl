@@ -1,6 +1,6 @@
 package org.bayl.ast.statement;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
@@ -25,10 +25,10 @@ public class WhileNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
         BaylObject ret = null;
-        while (testCondition.eval(interpreter).toBoolean(testCondition.getPosition()).booleanValue()) {
-            ret = loopBody.eval(interpreter);
+        while (testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue()) {
+            ret = loopBody.eval(virtualMachine);
         }
         return ret;
     }

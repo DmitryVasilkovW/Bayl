@@ -1,6 +1,6 @@
 package org.bayl.ast.expression.array;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
@@ -20,7 +20,7 @@ public class LookupNode extends Node {
         this.keyNode = keyNode;
     }
 
-    public BaylObject get(Interpreter interpreter) {
+    public BaylObject get(VirtualMachineImpl interpreter) {
         BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
         BaylObject ret = null;
         if (var instanceof BaylArray) {
@@ -33,7 +33,7 @@ public class LookupNode extends Node {
         throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());
     }
 
-    public void set(Interpreter interpreter, BaylObject result) {
+    public void set(VirtualMachineImpl interpreter, BaylObject result) {
         BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
         BaylObject ret = null;
         if (var instanceof BaylArray) {
@@ -49,8 +49,8 @@ public class LookupNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        return get(interpreter);
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        return get(virtualMachine);
     }
 
     @Override

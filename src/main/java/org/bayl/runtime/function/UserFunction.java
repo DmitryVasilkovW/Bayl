@@ -2,7 +2,7 @@ package org.bayl.runtime.function;
 
 import java.util.List;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.runtime.Function;
@@ -39,7 +39,7 @@ public class UserFunction extends Function {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter, SourcePosition pos) {
+    public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
         try {
             return body.eval(interpreter);
         } catch (ReturnException e) {

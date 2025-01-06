@@ -3,7 +3,7 @@ package org.bayl.ast.expression.function;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.SourcePosition;
@@ -32,17 +32,17 @@ public class FunctionCallNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        BaylObject expression = functionNode.eval(interpreter);
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        BaylObject expression = functionNode.eval(virtualMachine);
         if (!(expression instanceof Function)) {
             throw new InvalidTypeException("Call to invalid function", getPosition());
         }
         Function function = (Function) expression;
         List<BaylObject> args = new ArrayList<BaylObject>(arguments.size());
         for (Node node : arguments) {
-            args.add(node.eval(interpreter));
+            args.add(node.eval(virtualMachine));
         }
-        return interpreter.callFunction(function, args, getPosition(), getFunctionName());
+        return virtualMachine.callFunction(function, args, getPosition(), getFunctionName());
     }
 
     @Override

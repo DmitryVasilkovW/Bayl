@@ -1,6 +1,6 @@
 package org.bayl.ast.expression.array;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
@@ -26,8 +26,8 @@ public class DictionaryEntryNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        return new DictionaryEntry(key.eval(interpreter), value.eval(interpreter));
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        return new DictionaryEntry(key.eval(virtualMachine), value.eval(virtualMachine));
     }
 
     @Override

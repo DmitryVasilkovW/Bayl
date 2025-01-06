@@ -1,6 +1,6 @@
 package org.bayl.ast;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.runtime.exception.InvalidOperatorException;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.exception.TypeMismatchException;
@@ -18,7 +18,7 @@ public abstract class RelationalOpNode extends BinaryOpNode {
         }
     }
 
-    protected int compare(Interpreter interpreter) {
+    protected int compare(VirtualMachineImpl interpreter) {
         BaylObject left = getLeft().eval(interpreter);
         BaylObject right = getRight().eval(interpreter);
         checkTypes(left, right);
@@ -29,7 +29,7 @@ public abstract class RelationalOpNode extends BinaryOpNode {
         }
     }
 
-    protected BaylBoolean equals(Interpreter interpreter) {
+    protected BaylBoolean equals(VirtualMachineImpl interpreter) {
         BaylObject left = getLeft().eval(interpreter);
         BaylObject right = getRight().eval(interpreter);
         checkTypes(left, right);

@@ -1,6 +1,6 @@
 package org.bayl.ast.operator.logical;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.IBooleanOpNode;
 import org.bayl.ast.Node;
@@ -15,8 +15,8 @@ public class NotOpNode extends UnaryOpNode implements IBooleanOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        BaylBoolean operand = getOperand().eval(interpreter).toBoolean(getOperand().getPosition());
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        BaylBoolean operand = getOperand().eval(virtualMachine).toBoolean(getOperand().getPosition());
         return operand.not();
     }
 

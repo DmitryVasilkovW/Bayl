@@ -1,6 +1,6 @@
 package org.bayl.runtime.function;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.object.BaylNumber;
@@ -24,7 +24,7 @@ public class StringLenFunction extends Function {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter, SourcePosition pos) {
+    public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
         BaylString str = interpreter.getVariable("string", pos).toZString();
         return new BaylNumber(str.toString().length());
     }

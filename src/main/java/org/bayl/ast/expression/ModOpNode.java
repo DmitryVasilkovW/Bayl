@@ -1,6 +1,6 @@
 package org.bayl.ast.expression;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
@@ -15,9 +15,9 @@ public class ModOpNode extends BinaryOpNode implements IArithmeticOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        BaylNumber left = getLeft().eval(interpreter).toNumber(getLeft().getPosition());
-        BaylNumber right = getRight().eval(interpreter).toNumber(getRight().getPosition());
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        BaylNumber left = getLeft().eval(virtualMachine).toNumber(getLeft().getPosition());
+        BaylNumber right = getRight().eval(virtualMachine).toNumber(getRight().getPosition());
         return left.remainder(right);
     }
 

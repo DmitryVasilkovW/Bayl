@@ -1,6 +1,6 @@
 package org.bayl.ast.operator.comparison;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.RelationalOpNode;
@@ -13,8 +13,8 @@ public class NotEqualsOpNode extends RelationalOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        return equals(interpreter).not();
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        return equals(virtualMachine).not();
     }
 
     @Override

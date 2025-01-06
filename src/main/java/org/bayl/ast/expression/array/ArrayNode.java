@@ -1,16 +1,16 @@
 package org.bayl.ast.expression.array;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylArray;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArrayNode extends Node {
+
     private List<Node> elements;
 
     public ArrayNode(SourcePosition pos, List<Node> elements) {
@@ -19,10 +19,10 @@ public class ArrayNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
         List<BaylObject> items = new ArrayList<BaylObject>(elements.size());
         for (Node node : elements) {
-            items.add(node.eval(interpreter));
+            items.add(node.eval(virtualMachine));
         }
         return new BaylArray(items);
     }
