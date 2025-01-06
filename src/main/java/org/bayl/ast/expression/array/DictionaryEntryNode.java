@@ -8,8 +8,9 @@ import org.bayl.runtime.object.DictionaryEntry;
 import org.bayl.runtime.BaylObject;
 
 public class DictionaryEntryNode extends Node {
-    private Node key;
-    private Node value;
+
+    private final Node key;
+    private final Node value;
 
     public DictionaryEntryNode(SourcePosition pos, Node key, Node value) {
         super(pos);

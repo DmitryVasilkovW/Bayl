@@ -1,14 +1,15 @@
 package org.bayl.ast.statement;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.exception.ReturnException;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.exception.ReturnException;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class ReturnNode extends Node {
-    private Node expression;
+
+    private final Node expression;
 
     public ReturnNode(SourcePosition pos, Node expression) {
         super(pos);

@@ -1,19 +1,19 @@
 package org.bayl.ast.expression.array;
 
+import org.bayl.SourcePosition;
+import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.DictionaryEntry;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
-import org.bayl.SourcePosition;
-import org.bayl.ast.Node;
-import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.DictionaryEntry;
-import org.bayl.runtime.BaylObject;
-
 public class DictionaryNode extends Node {
-    private List<DictionaryEntryNode> elements;
+
+    private final List<DictionaryEntryNode> elements;
 
     public DictionaryNode(SourcePosition pos, List<DictionaryEntryNode> elements) {
         super(pos);
@@ -50,5 +50,4 @@ public class DictionaryNode extends Node {
             bytecode.add("DICT_ADD");
         }
     }
-
 }

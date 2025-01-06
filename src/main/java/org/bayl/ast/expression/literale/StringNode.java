@@ -1,14 +1,15 @@
 package org.bayl.ast.expression.literale;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class StringNode extends Node {
-    private BaylString literal;
+
+    private final BaylString literal;
 
     public StringNode(SourcePosition pos, String literal) {
         super(pos);

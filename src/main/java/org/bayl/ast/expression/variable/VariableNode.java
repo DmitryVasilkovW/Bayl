@@ -1,13 +1,14 @@
 package org.bayl.ast.expression.variable;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class VariableNode extends Node {
-    private String name;
+
+    private final String name;
 
     public VariableNode(SourcePosition pos, String variableName) {
         super(pos);

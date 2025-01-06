@@ -1,23 +1,23 @@
 package org.bayl.ast.expression.function;
 
+import org.bayl.SourcePosition;
+import org.bayl.ast.Node;
+import org.bayl.ast.expression.variable.VariableNode;
+import org.bayl.ast.statement.AssignNode;
+import org.bayl.bytecode.Bytecode;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.Parameter;
+import org.bayl.runtime.function.UserFunction;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
-import org.bayl.SourcePosition;
-import org.bayl.ast.statement.AssignNode;
-import org.bayl.ast.Node;
-import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.Parameter;
-import org.bayl.runtime.function.UserFunction;
-import org.bayl.runtime.BaylObject;
-
 public class FunctionNode extends Node {
+
     final static public List<Node> NO_PARAMETERS = new ArrayList<Node>(0);
 
-    private List<Node> parameters;
-    private Node body;
+    private final List<Node> parameters;
+    private final Node body;
 
     public FunctionNode(SourcePosition pos, List<Node> parameters, Node body) {
         super(pos);
@@ -83,5 +83,4 @@ public class FunctionNode extends Node {
 
         bytecode.add("RETURN");
     }
-
 }

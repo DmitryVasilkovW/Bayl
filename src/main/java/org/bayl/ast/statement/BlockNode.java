@@ -1,15 +1,15 @@
 package org.bayl.ast.statement;
 
-import java.util.List;
-
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.vm.impl.VirtualMachineImpl;
+import java.util.List;
 
 public class BlockNode extends Node {
-    private List<Node> statements;
+
+    private final List<Node> statements;
 
     public BlockNode(SourcePosition pos, List<Node> statements) {
         super(pos);

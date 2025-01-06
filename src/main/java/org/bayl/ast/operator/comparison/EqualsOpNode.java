@@ -1,13 +1,14 @@
 package org.bayl.ast.operator.comparison;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.RelationalOpNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class EqualsOpNode extends RelationalOpNode {
+
     public EqualsOpNode(SourcePosition pos, Node left, Node right) {
         super(pos, "==", left, right);
     }

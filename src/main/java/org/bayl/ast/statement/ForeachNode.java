@@ -1,22 +1,22 @@
 package org.bayl.ast.statement;
 
+import org.bayl.SourcePosition;
+import org.bayl.ast.Node;
+import org.bayl.ast.expression.array.DictionaryEntryNode;
+import org.bayl.ast.expression.variable.VariableNode;
+import org.bayl.bytecode.Bytecode;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.Map;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
-import org.bayl.SourcePosition;
-import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.ast.expression.array.DictionaryEntryNode;
-import org.bayl.ast.Node;
-import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.BaylObject;
-
 public class ForeachNode extends Node {
-    private VariableNode onVariableNode;
-    private Node asNode;
-    private Node loopBody;
+
+    private final VariableNode onVariableNode;
+    private final Node asNode;
+    private final Node loopBody;
 
     public ForeachNode(SourcePosition pos, VariableNode onVariableNode, Node asNode, Node loopBody) {
         super(pos);
