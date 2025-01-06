@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
@@ -21,10 +21,10 @@ public class DictionaryNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
         Map<BaylObject, BaylObject> entries = new LinkedHashMap<BaylObject, BaylObject>(elements.size());
         for (DictionaryEntryNode node : elements) {
-            DictionaryEntry entry = (DictionaryEntry) node.eval(interpreter);
+            DictionaryEntry entry = (DictionaryEntry) node.eval(virtualMachine);
             entries.put(entry.getKey(), entry.getValue());
         }
         return new Dictionary(entries);

@@ -2,7 +2,7 @@ package org.bayl.ast.statement;
 
 import java.util.Map;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
@@ -26,14 +26,14 @@ public class ForeachNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        BaylObject onVariable = interpreter.getVariable(onVariableNode.getName(), onVariableNode.getPosition());
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        BaylObject onVariable = virtualMachine.getVariable(onVariableNode.getName(), onVariableNode.getPosition());
         BaylObject ret = null;
         if (onVariable instanceof BaylArray) {
             String asVariableName = asNode.toString();
             for (BaylObject element : (BaylArray) onVariable) {
-                interpreter.setVariable(asVariableName, element);
-                ret = loopBody.eval(interpreter);
+                virtualMachine.setVariable(asVariableName, element);
+                ret = loopBody.eval(virtualMachine);
             }
             return ret;
         } else if (onVariable instanceof Dictionary) {
@@ -41,9 +41,9 @@ public class ForeachNode extends Node {
             String keyName = ((VariableNode) entryNode.getKey()).getName();
             String valueName = ((VariableNode) entryNode.getValue()).getName();
             for (Map.Entry<BaylObject, BaylObject> entry : (Dictionary) onVariable) {
-                interpreter.setVariable(keyName, entry.getKey());
-                interpreter.setVariable(valueName, entry.getValue());
-                ret = loopBody.eval(interpreter);
+                virtualMachine.setVariable(keyName, entry.getKey());
+                virtualMachine.setVariable(valueName, entry.getValue());
+                ret = loopBody.eval(virtualMachine);
             }
             return ret;
         }

@@ -12,8 +12,8 @@ public class BytecodeParserImpl implements BytecodeParser {
     public List<Instruction> parse(List<String> bytecode) {
         var instructions = new ArrayList<Instruction>();
 
-        for (String line : bytecode) {
-            instructions.add(parseInstruction(splitLine(line)));
+        for (int i = 0; i < bytecode.size(); i++) {
+            instructions.add(parseInstruction(splitLine(bytecode.get(i))));
         }
 
         return instructions;
@@ -24,12 +24,10 @@ public class BytecodeParserImpl implements BytecodeParser {
     }
 
     private Instruction parseInstruction(String[] line) {
-        for (String arg : line) {
-            switch (arg) {
-                case "ADD":
-            }
+        for (int i = 0; i < line.length; i++) {
+            line[i] = line[i].trim();
         }
 
-        return ;
+        return null;
     }
 }

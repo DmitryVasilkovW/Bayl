@@ -1,6 +1,6 @@
 package org.bayl.ast.operator.logical;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.IBooleanOpNode;
@@ -15,12 +15,12 @@ public class OrOpNode extends BinaryOpNode implements IBooleanOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        BaylBoolean left = getLeft().eval(interpreter).toBoolean(getLeft().getPosition());
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        BaylBoolean left = getLeft().eval(virtualMachine).toBoolean(getLeft().getPosition());
         if (left.booleanValue()) {
             return left;
         }
-        BaylBoolean right = getRight().eval(interpreter).toBoolean(getRight().getPosition());
+        BaylBoolean right = getRight().eval(virtualMachine).toBoolean(getRight().getPosition());
         return left.or(right);
     }
 

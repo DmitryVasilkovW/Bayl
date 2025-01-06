@@ -1,6 +1,6 @@
 package org.bayl.ast.statement;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.InvalidTypeException;
@@ -16,15 +16,15 @@ public class AssignNode extends BinaryOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
         Node left = getLeft();
-        BaylObject value = getRight().eval(interpreter);
+        BaylObject value = getRight().eval(virtualMachine);
         if (left instanceof VariableNode) {
             String name = ((VariableNode) left).getName();
-            interpreter.setVariable(name, value);
+            virtualMachine.setVariable(name, value);
             return value;
         } else if (left instanceof LookupNode) {
-            ((LookupNode) left).set(interpreter, value);
+            ((LookupNode) left).set(virtualMachine, value);
             return value;
         }
         throw new InvalidTypeException("Left hand of assignment must be a variable.", left.getPosition());

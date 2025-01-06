@@ -1,6 +1,6 @@
 package org.bayl.ast.expression;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
@@ -13,7 +13,7 @@ public class FalseNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
         return BaylBoolean.FALSE;
     }
 

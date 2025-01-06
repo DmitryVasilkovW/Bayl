@@ -3,7 +3,7 @@ package org.bayl.ast.expression.function;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.statement.AssignNode;
 import org.bayl.ast.Node;
@@ -26,7 +26,7 @@ public class FunctionNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
         List<Parameter> params = new ArrayList<Parameter>(parameters.size());
         for (Node node : parameters) {
             // TODO clean up getting parameters
@@ -37,7 +37,7 @@ public class FunctionNode extends Node {
                 parameterValue = null;
             } else if (node instanceof AssignNode) {
                 parameterName = ((VariableNode) ((AssignNode) node).getLeft()).getName();
-                parameterValue = ((AssignNode) node).getRight().eval(interpreter);
+                parameterValue = ((AssignNode) node).getRight().eval(virtualMachine);
             } else {
                 throw new RuntimeException("Invalid function");
             }

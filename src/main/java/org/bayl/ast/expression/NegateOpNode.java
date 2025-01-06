@@ -1,6 +1,6 @@
 package org.bayl.ast.expression;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
@@ -15,8 +15,8 @@ public class NegateOpNode extends UnaryOpNode implements IArithmeticOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        BaylNumber operand = getOperand().eval(interpreter).toNumber(getOperand().getPosition());
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        BaylNumber operand = getOperand().eval(virtualMachine).toNumber(getOperand().getPosition());
         return operand.negate();
     }
 

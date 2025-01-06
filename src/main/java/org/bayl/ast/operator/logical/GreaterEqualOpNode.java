@@ -1,6 +1,6 @@
 package org.bayl.ast.operator.logical;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.RelationalOpNode;
@@ -14,8 +14,8 @@ public class GreaterEqualOpNode extends RelationalOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        return BaylBoolean.valueOf(compare(interpreter) >= 0);
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        return BaylBoolean.valueOf(compare(virtualMachine) >= 0);
     }
 
     @Override

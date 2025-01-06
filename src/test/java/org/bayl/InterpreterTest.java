@@ -7,11 +7,12 @@ import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
 
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.junit.*;
 import static org.junit.Assert.*;
 
 public class InterpreterTest {
-    private Interpreter interpreter = new Interpreter();
+    private VirtualMachineImpl interpreter = new VirtualMachineImpl();
 
     /**
      * Helper method to test the result of an expression

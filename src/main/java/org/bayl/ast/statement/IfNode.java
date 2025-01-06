@@ -1,6 +1,6 @@
 package org.bayl.ast.statement;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
@@ -32,12 +32,12 @@ public class IfNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        boolean test = testCondition.eval(interpreter).toBoolean(testCondition.getPosition()).booleanValue();
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        boolean test = testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue();
         if (test) {
-            return thenBlock.eval(interpreter);
+            return thenBlock.eval(virtualMachine);
         } else if (elseBlock != null) {
-            return elseBlock.eval(interpreter);
+            return elseBlock.eval(virtualMachine);
         }
         return BaylBoolean.FALSE;
     }

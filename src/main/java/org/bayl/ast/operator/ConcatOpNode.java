@@ -1,6 +1,6 @@
 package org.bayl.ast.operator;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
@@ -14,9 +14,9 @@ public class ConcatOpNode extends BinaryOpNode {
     }
 
     @Override
-    public BaylObject eval(Interpreter interpreter) {
-        BaylString left = getLeft().eval(interpreter).toZString();
-        BaylString right = getRight().eval(interpreter).toZString();
+    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+        BaylString left = getLeft().eval(virtualMachine).toZString();
+        BaylString right = getRight().eval(virtualMachine).toZString();
         return left.concat(right);
     }
 

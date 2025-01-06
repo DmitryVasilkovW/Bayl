@@ -1,11 +1,11 @@
 import java.io.File;
 import java.io.IOException;
 
-import org.bayl.Interpreter;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        Interpreter interpreter = new Interpreter();
+        VirtualMachineImpl interpreter = new VirtualMachineImpl();
         interpreter.eval(new File("sample.zem"));
     }
 }
