@@ -15,8 +15,8 @@ public class ConcatOpExecutor extends BinaryOpExecutor {
 
     @Override
     public BaylObject eval(VirtualMachineImpl virtualMachine) {
-        BaylString left = getLeft().eval(virtualMachine).toZString();
-        BaylString right = getRight().eval(virtualMachine).toZString();
+        BaylString left = getLeft().eval(virtualMachine).toBaylString();
+        BaylString right = getRight().eval(virtualMachine).toBaylString();
         return left.concat(right);
     }
 }

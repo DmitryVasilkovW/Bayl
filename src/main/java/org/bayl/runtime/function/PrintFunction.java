@@ -24,7 +24,7 @@ public class PrintFunction extends Function {
 
     @Override
     public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
-        BaylString str = interpreter.getVariable("string", pos).toZString();
+        BaylString str = interpreter.getVariable("string", pos).toBaylString();
         System.out.print(str.toString());
         return str;
     }

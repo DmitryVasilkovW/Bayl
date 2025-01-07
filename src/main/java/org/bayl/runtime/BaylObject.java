@@ -21,13 +21,7 @@ public abstract class BaylObject implements Comparable<BaylObject> {
         throw new InvalidTypeException("Expecting boolean", pos);
     }
 
-    public BaylString toZString() {
-    /*
-        if (this instanceof ZemString) {
-            return (ZemString) this;
-        }
-        throw new InvalidTypeException("Expecting string");
-     */
+    public BaylString toBaylString() {
         if (this instanceof BaylString)
             return (BaylString) this;
         // Implicit converting of types to string

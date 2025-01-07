@@ -6,7 +6,7 @@ final public class BaylBoolean extends BaylObject {
     static final public BaylBoolean TRUE = new BaylBoolean(true);
     static final public BaylBoolean FALSE = new BaylBoolean(false);
 
-    private boolean value;
+    private final boolean value;
 
     private BaylBoolean(boolean value) {
         this.value = value;
@@ -33,7 +33,7 @@ final public class BaylBoolean extends BaylObject {
     }
 
     @Override
-    public BaylString toZString() {
+    public BaylString toBaylString() {
         return new BaylString(this.toString());
     }
 
