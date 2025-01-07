@@ -1,8 +1,8 @@
 package org.bayl;
 
 public class SourcePosition {
-    private int lineNo;
-    private int columnNo;
+    private final int lineNo;
+    private final int columnNo;
 
     public SourcePosition(int lineNumber, int columnNumber) {
         this.lineNo = lineNumber;

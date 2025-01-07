@@ -33,16 +33,21 @@ public class AssignNode extends BinaryOpNode {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        String line = getBytecodeLine(
+                "SET", getPositionForBytecode()
+        );
+
+        bytecode.add(line);
         getRight().generateCode(bytecode);
+        getLeft().generateCode(bytecode);
+
         Node left = getLeft();
-        if (left instanceof VariableNode) {
-            String name = ((VariableNode) left).getName();
-            bytecode.add("STORE " + name);
-        } else if (left instanceof LookupNode) {
-            ((LookupNode) left).generateCode(bytecode);
-            bytecode.add("STORE_LOOKUP");
-        } else {
+        if (!validateLeft(left)) {
             throw new InvalidTypeException("Left hand of assignment must be a variable.", left.getPosition());
         }
+    }
+
+    private boolean validateLeft(Node left) {
+        return left instanceof VariableNode || left instanceof LookupNode;
     }
 }
