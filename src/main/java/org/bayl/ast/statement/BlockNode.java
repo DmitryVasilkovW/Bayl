@@ -3,6 +3,7 @@ package org.bayl.ast.statement;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
+import org.bayl.model.BytecodeToken;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.List;
@@ -46,12 +47,18 @@ public class BlockNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("BLOCK_START");
+        String startLine = getBytecodeLine(
+                BytecodeToken.BLOCK_START.toString(), getPositionForBytecode()
+        );
+        bytecode.add(startLine);
 
         for (Node statement : statements) {
             statement.generateCode(bytecode);
         }
 
-        bytecode.add("BLOCK_END");
+        String finishLine = getBytecodeLine(
+                BytecodeToken.BLOCK_END.toString()
+        );
+        bytecode.add(finishLine);
     }
 }

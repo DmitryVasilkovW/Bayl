@@ -1,5 +1,19 @@
 package org.bayl.vm.impl;
 
+import org.bayl.Lexer;
+import org.bayl.Parser;
+import org.bayl.SourcePosition;
+import org.bayl.ast.control.RootNode;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.Function;
+import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.runtime.exception.TooFewArgumentsException;
+import org.bayl.runtime.exception.UnsetVariableException;
+import org.bayl.runtime.function.ArrayLenFunction;
+import org.bayl.runtime.function.ArrayPushFunction;
+import org.bayl.runtime.function.PrintFunction;
+import org.bayl.runtime.function.PrintLineFunction;
+import org.bayl.runtime.function.StringLenFunction;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,22 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bayl.Lexer;
-import org.bayl.Parser;
-import org.bayl.SourcePosition;
-import org.bayl.ast.control.RootNode;
-import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.runtime.exception.TooFewArgumentsException;
-import org.bayl.runtime.exception.UnsetVariableException;
-import org.bayl.runtime.function.ArrayLenFunction;
-import org.bayl.runtime.function.ArrayPushFunction;
-import org.bayl.runtime.Function;
-import org.bayl.runtime.function.StringLenFunction;
-import org.bayl.runtime.function.PrintFunction;
-import org.bayl.runtime.function.PrintLineFunction;
-import org.bayl.runtime.BaylObject;
-
 public class VirtualMachineImpl {
+
     private Map<String, BaylObject> symbolTable = new HashMap<String, BaylObject>();
 
     public VirtualMachineImpl() {
@@ -56,11 +56,11 @@ public class VirtualMachineImpl {
 
     public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
         Map<String, BaylObject> savedSymbolTable =
-            new HashMap<String, BaylObject>(symbolTable);
+                new HashMap<String, BaylObject>(symbolTable);
         int noMissingArgs = 0;
         int noRequiredArgs = 0;
         for (int paramIndex = 0;
-                paramIndex < function.getParameterCount(); paramIndex++) {
+             paramIndex < function.getParameterCount(); paramIndex++) {
             String parameterName = function.getParameterName(paramIndex);
             BaylObject value = function.getDefaultValue(paramIndex);
             if (value == null) {
@@ -76,7 +76,7 @@ public class VirtualMachineImpl {
         }
         if (noMissingArgs > 0) {
             throw new TooFewArgumentsException(functionName, noRequiredArgs,
-                    args.size(), pos);
+                                               args.size(), pos);
         }
         BaylObject ret = function.eval(this, pos);
         symbolTable = savedSymbolTable;

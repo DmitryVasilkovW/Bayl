@@ -3,11 +3,14 @@ package org.bayl.ast.expression;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
+import org.bayl.model.BytecodeToken;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class TrueNode extends Node {
+
+    public static final String VALUE = "true";
 
     public TrueNode(SourcePosition pos) {
         super(pos);
@@ -25,6 +28,10 @@ public class TrueNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("PUSH true");
+        String line = getBytecodeLine(
+                BytecodeToken.PUSH.toString(), VALUE, getPositionForBytecode()
+        );
+
+        bytecode.add(line);
     }
 }

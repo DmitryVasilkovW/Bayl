@@ -6,7 +6,7 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 
 public abstract class Node {
-    private SourcePosition position;
+    private final SourcePosition position;
 
     public Node(SourcePosition position) {
         this.position = position;
@@ -16,7 +16,15 @@ public abstract class Node {
         return position;
     }
 
-    abstract public BaylObject eval(VirtualMachineImpl virtualMachine);
+    public String getBytecodeLine(String... tokens) {
+        return String.join(" ", tokens);
+    }
+
+    public String getPositionForBytecode() {
+        return getPosition().getLineNumber() + " " + getPosition().getColumnNumber();
+    }
+
+    public abstract  BaylObject eval(VirtualMachineImpl virtualMachine);
 
     public abstract void generateCode(Bytecode bytecode);
 }
