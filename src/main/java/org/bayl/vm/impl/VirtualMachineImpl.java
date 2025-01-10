@@ -96,6 +96,7 @@ public class VirtualMachineImpl {
         Lexer lexer = new Lexer(reader);
         Parser parser = new Parser(lexer);
         RootNode program = parser.program();
+
         return program.eval(this);
     }
 }

@@ -1,15 +1,16 @@
 package org.bayl.ast.expression;
 
 import org.bayl.SourcePosition;
+import org.bayl.ast.ArithmeticOpNode;
 import org.bayl.ast.BinaryOpNode;
-import org.bayl.ast.IArithmeticOpNode;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylNumber;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.POWER;
 
-public class PowerOpNode extends BinaryOpNode implements IArithmeticOpNode {
+public class PowerOpNode extends BinaryOpNode implements ArithmeticOpNode {
 
     public PowerOpNode(SourcePosition pos, Node left, Node right) {
         super(pos, "^", left, right);
@@ -24,9 +25,11 @@ public class PowerOpNode extends BinaryOpNode implements IArithmeticOpNode {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getBytecodeLineWithPosition(
+                POWER.toString())
+        );
+
         getLeft().generateCode(bytecode);
         getRight().generateCode(bytecode);
-
-        bytecode.add("POWER");
     }
 }

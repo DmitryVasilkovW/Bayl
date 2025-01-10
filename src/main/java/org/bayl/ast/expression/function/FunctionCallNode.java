@@ -10,6 +10,11 @@ import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
+import static org.bayl.model.BytecodeToken.ARG;
+import static org.bayl.model.BytecodeToken.CALL;
+import static org.bayl.model.BytecodeToken.CALL_DYNAMIC;
+import static org.bayl.model.BytecodeToken.CALL_DYNAMIC_END;
+import static org.bayl.model.BytecodeToken.CALL_END;
 
 public class FunctionCallNode extends Node {
 
@@ -63,15 +68,33 @@ public class FunctionCallNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getStartLine());
+
         for (Node arg : arguments) {
+            bytecode.add(ARG.toString());
             arg.generateCode(bytecode);
         }
 
+        bytecode.add(getEndLine());
+    }
+
+    private String getStartLine() {
         if (functionNode instanceof VariableNode) {
-            bytecode.add("CALL " + ((VariableNode) functionNode).getName());
-        } else {
-            functionNode.generateCode(bytecode);
-            bytecode.add("CALL_DYNAMIC");
+            return getBytecodeLineWithPosition(
+                    CALL.toString(),
+                    ((VariableNode) functionNode).getName()
+            );
         }
+
+        return getBytecodeLineWithPosition(
+                CALL_DYNAMIC.toString()
+        );
+    }
+
+    private String getEndLine() {
+        if (functionNode instanceof VariableNode) {
+            return CALL_END.toString();
+        }
+        return CALL_DYNAMIC_END.toString();
     }
 }

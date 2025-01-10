@@ -1,13 +1,14 @@
 package org.bayl.ast;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
-import org.bayl.runtime.exception.InvalidOperatorException;
 import org.bayl.SourcePosition;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.exception.InvalidOperatorException;
 import org.bayl.runtime.exception.TypeMismatchException;
 import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.runtime.BaylObject;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public abstract class RelationalOpNode extends BinaryOpNode {
+
     public RelationalOpNode(SourcePosition pos, String operator, Node left, Node right) {
         super(pos, operator, left, right);
     }

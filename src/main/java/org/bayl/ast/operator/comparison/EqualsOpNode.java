@@ -6,6 +6,7 @@ import org.bayl.ast.RelationalOpNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.EQUALS;
 
 public class EqualsOpNode extends RelationalOpNode {
 
@@ -20,9 +21,11 @@ public class EqualsOpNode extends RelationalOpNode {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getBytecodeLineWithPosition(
+                EQUALS.toString())
+        );
+
         getLeft().generateCode(bytecode);
         getRight().generateCode(bytecode);
-
-        bytecode.add("EQUALS");
     }
 }

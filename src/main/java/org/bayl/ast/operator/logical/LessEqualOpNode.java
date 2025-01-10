@@ -7,6 +7,7 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.LESS_EQUAL;
 
 public class LessEqualOpNode extends RelationalOpNode {
 
@@ -21,9 +22,11 @@ public class LessEqualOpNode extends RelationalOpNode {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getBytecodeLineWithPosition(
+                LESS_EQUAL.toString()
+        ));
+
         getLeft().generateCode(bytecode);
         getRight().generateCode(bytecode);
-
-        bytecode.add("LESS_EQUAL");
     }
 }

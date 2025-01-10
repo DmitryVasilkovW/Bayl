@@ -3,6 +3,7 @@ package org.bayl.ast;
 import org.bayl.SourcePosition;
 
 public abstract class UnaryOpNode extends Node {
+
     protected String operator;
     protected Node operand;
 

@@ -1,11 +1,14 @@
 package org.bayl.ast.expression.array;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.object.DictionaryEntry;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.DictionaryEntry;
+import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.DICT_ENTRY;
+import static org.bayl.model.BytecodeToken.DICT_KEY;
+import static org.bayl.model.BytecodeToken.DICT_VALUE;
 
 public class DictionaryEntryNode extends Node {
 
@@ -38,9 +41,15 @@ public class DictionaryEntryNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(DICT_KEY.toString());
         key.generateCode(bytecode);
+
+        bytecode.add(DICT_VALUE.toString());
         value.generateCode(bytecode);
 
-        bytecode.add("DICT_ENTRY");
+        String line = getBytecodeLine(
+                DICT_ENTRY.toString()
+        );
+        bytecode.add(line);
     }
 }

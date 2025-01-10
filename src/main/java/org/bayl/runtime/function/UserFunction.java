@@ -11,8 +11,8 @@ import org.bayl.runtime.exception.ReturnException;
 import org.bayl.runtime.BaylObject;
 
 public class UserFunction extends Function {
-    private List<Parameter> parameters;
-    private Node body;
+    private final List<Parameter> parameters;
+    private final Node body;
 
     public UserFunction(List<Parameter> parameters, Node body) {
         this.parameters = parameters;

@@ -34,7 +34,7 @@ import org.bayl.ast.statement.AssignNode;
 import org.bayl.ast.statement.BlockNode;
 import org.bayl.ast.statement.ForeachNode;
 import org.bayl.ast.statement.IfNode;
-import org.bayl.ast.statement.ReturnNode;
+import org.bayl.ast.expression.function.ReturnNode;
 import org.bayl.ast.statement.WhileNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.ParserException;

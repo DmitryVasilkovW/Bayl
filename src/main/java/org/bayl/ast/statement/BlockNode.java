@@ -7,6 +7,7 @@ import org.bayl.model.BytecodeToken;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.List;
+import static org.bayl.model.BytecodeToken.BLOCK_START;
 
 public class BlockNode extends Node {
 
@@ -47,10 +48,9 @@ public class BlockNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        String startLine = getBytecodeLine(
-                BytecodeToken.BLOCK_START.toString(), getPositionForBytecode()
-        );
-        bytecode.add(startLine);
+        bytecode.add(getBytecodeLineWithPosition(
+                BLOCK_START.toString()
+        ));
 
         for (Node statement : statements) {
             statement.generateCode(bytecode);

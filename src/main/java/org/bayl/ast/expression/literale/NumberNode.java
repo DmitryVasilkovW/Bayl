@@ -3,10 +3,10 @@ package org.bayl.ast.expression.literale;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.model.BytecodeToken;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylNumber;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.PUSH;
 
 public class NumberNode extends Node {
 
@@ -29,10 +29,9 @@ public class NumberNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        String line = getBytecodeLine(
-                BytecodeToken.PUSH.toString(), number.toString(), getPositionForBytecode()
-        );
-
-        bytecode.add(line);
+        bytecode.add(getBytecodeLineWithPosition(
+                PUSH.toString(),
+                number.toString()
+        ));
     }
 }

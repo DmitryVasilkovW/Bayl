@@ -6,6 +6,10 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.CONDITION;
+import static org.bayl.model.BytecodeToken.ELSE;
+import static org.bayl.model.BytecodeToken.IF;
+import static org.bayl.model.BytecodeToken.THEN;
 
 public class IfNode extends Node {
 
@@ -61,14 +65,17 @@ public class IfNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("IF");
-        bytecode.add("CONDITION");
+        bytecode.add(getBytecodeLineWithPosition(
+                IF.toString()
+        ));
+
+        bytecode.add(CONDITION.toString());
         testCondition.generateCode(bytecode);
-        bytecode.add("THEN");
+        bytecode.add(THEN.toString());
         thenBlock.generateCode(bytecode);
 
         if (elseBlock != null) {
-            bytecode.add("ELSE");
+            bytecode.add(ELSE.toString());
             elseBlock.generateCode(bytecode);
         }
     }

@@ -11,6 +11,10 @@ import org.bayl.runtime.function.UserFunction;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
+import static org.bayl.model.BytecodeToken.ARG;
+import static org.bayl.model.BytecodeToken.BODY;
+import static org.bayl.model.BytecodeToken.FUNC;
+import static org.bayl.model.BytecodeToken.RETURN;
 
 public class FunctionNode extends Node {
 
@@ -68,19 +72,19 @@ public class FunctionNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        StringBuilder params = new StringBuilder();
-        for (Node param : parameters) {
-            if (param instanceof VariableNode) {
-                params.append(((VariableNode) param).getName()).append(" ");
+        bytecode.add(getBytecodeLineWithPosition(
+                FUNC.toString()
+        ));
+
+        for (Node argument : parameters) {
+            if (argument instanceof VariableNode) {
+                bytecode.add(ARG.toString());
+                argument.generateCode(bytecode);
             }
         }
 
-        String functionId = "FUNC_" + getPosition().toString();
-
-        bytecode.add("FUNC " + functionId + " " + params.toString().trim());
-
+        bytecode.add(BODY.toString());
         body.generateCode(bytecode);
-
-        bytecode.add("RETURN");
+        bytecode.add(RETURN.toString());
     }
 }

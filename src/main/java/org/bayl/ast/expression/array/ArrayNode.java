@@ -1,13 +1,16 @@
 package org.bayl.ast.expression.array;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylArray;
+import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
+import static org.bayl.model.BytecodeToken.ARRAY_END;
+import static org.bayl.model.BytecodeToken.ARRAY_INIT;
+import static org.bayl.model.BytecodeToken.ARRAY_STORE;
 
 public class ArrayNode extends Node {
 
@@ -20,7 +23,7 @@ public class ArrayNode extends Node {
 
     @Override
     public BaylObject eval(VirtualMachineImpl virtualMachine) {
-        List<BaylObject> items = new ArrayList<BaylObject>(elements.size());
+        var items = new ArrayList<BaylObject>(elements.size());
         for (Node node : elements) {
             items.add(node.eval(virtualMachine));
         }
@@ -41,11 +44,20 @@ public class ArrayNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("ARRAY_INIT " + elements.size());
+        bytecode.add(getBytecodeLineWithPosition(
+                ARRAY_INIT.toString(),
+                elements.size() + ""
+        ));
 
         for (int i = 0; i < elements.size(); i++) {
+            String indexLine = getBytecodeLine(
+                    ARRAY_STORE.toString(),
+                    i + ""
+            );
+
+            bytecode.add(indexLine);
             elements.get(i).generateCode(bytecode);
-            bytecode.add("ARRAY_STORE " + i);
+            bytecode.add(ARRAY_END.toString());
         }
     }
 }

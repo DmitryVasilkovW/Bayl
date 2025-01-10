@@ -3,9 +3,9 @@ package org.bayl.ast.expression.variable;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.model.BytecodeToken;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.LOAD;
 
 public class VariableNode extends Node {
 
@@ -32,10 +32,9 @@ public class VariableNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        String line = getBytecodeLine(
-                BytecodeToken.LOAD.toString(), name, getPositionForBytecode()
+        bytecode.add(getBytecodeLineWithPosition(
+                LOAD.toString(),
+                name)
         );
-
-        bytecode.add(line);
     }
 }
