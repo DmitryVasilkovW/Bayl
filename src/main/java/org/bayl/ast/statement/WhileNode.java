@@ -5,6 +5,9 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.CONDITION;
+import static org.bayl.model.BytecodeToken.LOOP_BODY;
+import static org.bayl.model.BytecodeToken.WHILE;
 
 public class WhileNode extends Node {
 
@@ -48,10 +51,14 @@ public class WhileNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("WHILE");
-        bytecode.add("CONDITION");
+        bytecode.add(getBytecodeLineWithPosition(
+                WHILE.toString()
+        ));
+
+        bytecode.add(CONDITION.toString());
         testCondition.generateCode(bytecode);
-        bytecode.add("BODY");
+
+        bytecode.add(LOOP_BODY.toString());
         loopBody.generateCode(bytecode);
     }
 }

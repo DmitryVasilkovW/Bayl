@@ -7,6 +7,7 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.GREATER_EQUAL;
 
 public class GreaterEqualOpNode extends RelationalOpNode {
 
@@ -21,10 +22,11 @@ public class GreaterEqualOpNode extends RelationalOpNode {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getBytecodeLineWithPosition(
+                GREATER_EQUAL.toString()
+        ));
+
         getLeft().generateCode(bytecode);
-
         getRight().generateCode(bytecode);
-
-        bytecode.add("GREATER_EQUAL");
     }
 }

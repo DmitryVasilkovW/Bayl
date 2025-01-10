@@ -9,6 +9,7 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.SET;
 
 public class AssignNode extends BinaryOpNode {
 
@@ -33,11 +34,10 @@ public class AssignNode extends BinaryOpNode {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        String line = getBytecodeLine(
-                "SET", getPositionForBytecode()
-        );
+        bytecode.add(getBytecodeLineWithPosition(
+                SET.toString()
+        ));
 
-        bytecode.add(line);
         getRight().generateCode(bytecode);
         getLeft().generateCode(bytecode);
 

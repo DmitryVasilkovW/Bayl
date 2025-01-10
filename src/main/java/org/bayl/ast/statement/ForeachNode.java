@@ -11,6 +11,10 @@ import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.Dictionary;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.Map;
+import static org.bayl.model.BytecodeToken.AS;
+import static org.bayl.model.BytecodeToken.FOREACH;
+import static org.bayl.model.BytecodeToken.LOOP_BODY;
+import static org.bayl.model.BytecodeToken.ON_VAR;
 
 public class ForeachNode extends Node {
 
@@ -66,12 +70,17 @@ public class ForeachNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("FOREACH");
-        bytecode.add("ONVAR");
+        bytecode.add(getBytecodeLineWithPosition(
+                FOREACH.toString())
+        );
+
+        bytecode.add(ON_VAR.toString());
         onVariableNode.generateCode(bytecode);
-        bytecode.add("AS");
+
+        bytecode.add(AS.toString());
         asNode.generateCode(bytecode);
-        bytecode.add("LOOP");
+
+        bytecode.add(LOOP_BODY.toString());
         loopBody.generateCode(bytecode);
     }
 }

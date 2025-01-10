@@ -3,6 +3,7 @@ package org.bayl.vm.impl;
 import org.bayl.SourcePosition;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.control.BlockExecutor;
+import org.bayl.vm.executor.control.RootExecutor;
 import org.bayl.vm.executor.expression.TrueExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
@@ -12,13 +13,20 @@ import java.util.List;
 
 public class BytecodeParserImpl {
 
-    private int iterator = 0;
+    private int iterator;
     private List<String> bytecode;
     private static final String ARGS_DIVISION = " ";
 
-    public Executor parse(List<String> bytecode) {
+    public RootExecutor parse(List<String> bytecode) {
+        init(bytecode);
+        var script = new ArrayList<Executor>();
+
+        return new RootExecutor(new SourcePosition(1, 1), script);
+    }
+
+    private void init(List<String> bytecode) {
         this.bytecode = bytecode;
-        return parseBlockExecutor();
+        iterator = 0;
     }
 
     private Executor parseBlockExecutor() {

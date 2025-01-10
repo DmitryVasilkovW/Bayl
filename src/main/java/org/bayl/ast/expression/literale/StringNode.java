@@ -6,6 +6,7 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.PUSH;
 
 public class StringNode extends Node {
 
@@ -28,6 +29,9 @@ public class StringNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("PUSH \"" + literal.toString() + "\"");
+        bytecode.add(getBytecodeLineWithPosition(
+                PUSH.toString(),
+                literal.toString()
+        ));
     }
 }

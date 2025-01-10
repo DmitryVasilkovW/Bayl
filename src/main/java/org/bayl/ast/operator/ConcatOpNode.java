@@ -7,6 +7,7 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.CONCAT;
 
 public class ConcatOpNode extends BinaryOpNode {
 
@@ -23,9 +24,11 @@ public class ConcatOpNode extends BinaryOpNode {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getBytecodeLineWithPosition(
+                CONCAT.toString()
+        ));
+
         getLeft().generateCode(bytecode);
         getRight().generateCode(bytecode);
-
-        bytecode.add("CONCAT");
     }
 }

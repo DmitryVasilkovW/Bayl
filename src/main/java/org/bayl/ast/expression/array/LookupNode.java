@@ -9,6 +9,10 @@ import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.Dictionary;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.LOOKUP;
+import static org.bayl.model.BytecodeToken.LOOKUP_END;
+import static org.bayl.model.BytecodeToken.LOOKUP_VALUE;
+import static org.bayl.model.BytecodeToken.LOOKUP_VAR;
 
 public class LookupNode extends Node {
 
@@ -68,11 +72,16 @@ public class LookupNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("LOAD " + varNode.getName());
+        bytecode.add(getBytecodeLineWithPosition(
+                LOOKUP.toString()
+        ));
 
+        bytecode.add(LOOKUP_VAR.toString());
+        varNode.generateCode(bytecode);
+
+        bytecode.add(LOOKUP_VALUE.toString());
         keyNode.generateCode(bytecode);
 
-        bytecode.add("LOOKUP");
+        bytecode.add(LOOKUP_END.toString());
     }
-
 }

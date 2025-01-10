@@ -1,4 +1,4 @@
-package org.bayl.ast.statement;
+package org.bayl.ast.expression.function;
 
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
@@ -6,6 +6,8 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.ReturnException;
 import org.bayl.vm.impl.VirtualMachineImpl;
+import static org.bayl.model.BytecodeToken.RETURN_END;
+import static org.bayl.model.BytecodeToken.RETURN_START;
 
 public class ReturnNode extends Node {
 
@@ -32,7 +34,11 @@ public class ReturnNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("RETURN");
+        bytecode.add(getBytecodeLineWithPosition(
+                RETURN_START.toString()
+        ));
+
         expression.generateCode(bytecode);
+        bytecode.add(RETURN_END.toString());
     }
 }
