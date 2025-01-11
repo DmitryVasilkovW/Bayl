@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.expression.function;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
@@ -11,6 +12,7 @@ import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 public class FunctionExecutor extends Executor {
 
     final static public List<Executor> NO_PARAMETERS = new ArrayList<Executor>(0);
