@@ -1,8 +1,4 @@
-/*
-#include <jni.h>
 #include <asmjit/asmjit.h>
-#include <iostream>
-#include <unordered_map>
 
 using namespace asmjit;
 
@@ -26,28 +22,4 @@ void generateMultiplicationTemplate(CodeHolder& code) {
 #else
 #error "Unsupported architecture"
 #endif
-}
-
-extern "C" JNIEXPORT jint JNICALL
-executeMultiplication(JNIEnv* env, jobject obj, jint a, jint b) {
-    static Func func = nullptr;
-
-    if (func == nullptr) {
-        JitRuntime runtime;
-        CodeHolder code;
-        code.init(runtime.environment());
-
-        generateMultiplicationTemplate(code);
-
-        runtime.add(&func, &code);
-    }
-
-    int result = func(a, b);
-
-    return result;
-}
-*/
-
-int executeMultiplication() {
-    return 0;
 }
