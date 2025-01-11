@@ -55,10 +55,7 @@ public class WhileNode extends Node {
                 WHILE.toString()
         ));
 
-        bytecode.add(CONDITION.toString());
         testCondition.generateCode(bytecode);
-
-        bytecode.add(LOOP_BODY.toString());
         loopBody.generateCode(bytecode);
     }
 }

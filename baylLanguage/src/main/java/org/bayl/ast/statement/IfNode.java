@@ -68,10 +68,7 @@ public class IfNode extends Node {
         bytecode.add(getBytecodeLineWithPosition(
                 IF.toString()
         ));
-
-        bytecode.add(CONDITION.toString());
         testCondition.generateCode(bytecode);
-        bytecode.add(THEN.toString());
         thenBlock.generateCode(bytecode);
 
         if (elseBlock != null) {
