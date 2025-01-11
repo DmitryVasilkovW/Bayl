@@ -10,6 +10,7 @@ import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import static org.bayl.model.BytecodeToken.DICT_END;
 import static org.bayl.model.BytecodeToken.DICT_INIT;
 import static org.bayl.model.BytecodeToken.DICT_PAIR;
 
@@ -59,5 +60,7 @@ public class DictionaryNode extends Node {
             bytecode.add(lineForEntry);
             entry.generateCode(bytecode);
         }
+
+        bytecode.add(DICT_END.toString());
     }
 }
