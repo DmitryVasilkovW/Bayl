@@ -14,7 +14,6 @@ import java.util.List;
 import static org.bayl.model.BytecodeToken.ARG;
 import static org.bayl.model.BytecodeToken.BODY;
 import static org.bayl.model.BytecodeToken.FUNC;
-import static org.bayl.model.BytecodeToken.RETURN;
 
 public class FunctionNode extends Node {
 
@@ -85,6 +84,5 @@ public class FunctionNode extends Node {
 
         bytecode.add(BODY.toString());
         body.generateCode(bytecode);
-        bytecode.add(RETURN.toString());
     }
 }

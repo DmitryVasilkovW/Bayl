@@ -19,7 +19,7 @@ public class BlockExecutor extends Executor {
         return statements.get(index);
     }
 
-    protected List<Executor> getStatements() {
+    public List<Executor> getStatements() {
         return statements;
     }
 

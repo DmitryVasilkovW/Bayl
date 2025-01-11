@@ -6,7 +6,6 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.ReturnException;
 import org.bayl.vm.impl.VirtualMachineImpl;
-import static org.bayl.model.BytecodeToken.RETURN_END;
 import static org.bayl.model.BytecodeToken.RETURN_START;
 
 public class ReturnNode extends Node {
@@ -39,6 +38,5 @@ public class ReturnNode extends Node {
         ));
 
         expression.generateCode(bytecode);
-        bytecode.add(RETURN_END.toString());
     }
 }

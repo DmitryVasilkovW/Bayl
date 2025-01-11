@@ -6,7 +6,7 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.vm.impl.VirtualMachineImpl;
-import static org.bayl.model.BytecodeToken.PUSH;
+import static org.bayl.model.BytecodeToken.PUSH_F;
 
 public class FalseNode extends Node {
 
@@ -29,7 +29,7 @@ public class FalseNode extends Node {
     @Override
     public void generateCode(Bytecode bytecode) {
         bytecode.add(getBytecodeLineWithPosition(
-                PUSH.toString(),
+                PUSH_F.toString(),
                 VALUE)
         );
     }

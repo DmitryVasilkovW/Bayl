@@ -57,7 +57,7 @@ public class ArrayNode extends Node {
 
             bytecode.add(indexLine);
             elements.get(i).generateCode(bytecode);
-            bytecode.add(ARRAY_END.toString());
         }
+        bytecode.add(ARRAY_END.toString());
     }
 }
