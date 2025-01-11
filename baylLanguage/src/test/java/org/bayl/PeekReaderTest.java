@@ -1,18 +1,19 @@
 package org.bayl;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.StringReader;
-
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class PeekReaderTest {
+
     private PeekReader in;
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         in = new PeekReader(new StringReader("hello"), 3);
     }
@@ -20,24 +21,24 @@ public class PeekReaderTest {
     @Test
     public void testPeek() {
         try {
-            assertTrue(in.peek(1) == 'h'); // peek: h
-            assertTrue(in.peek(2) == 'e'); // peek: e
-            assertTrue(in.peek(3) == 'l'); // peek: l
+            assertTrue(in.peek(1) == 'h');
+            assertTrue(in.peek(2) == 'e');
+            assertTrue(in.peek(3) == 'l');
 
-            assertTrue(in.read() == 'h'); // h
-            assertTrue(in.peek(1) == 'e'); // peek: e
-            assertTrue(in.peek(2) == 'l'); // peek: l
-            assertTrue(in.peek(3) == 'l'); // peek: l
+            assertTrue(in.read() == 'h');
+            assertTrue(in.peek(1) == 'e');
+            assertTrue(in.peek(2) == 'l');
+            assertTrue(in.peek(3) == 'l');
 
             assertTrue(in.read() == 'e');
-            assertTrue(in.peek(1) == 'l'); // peek: l
-            assertTrue(in.peek(2) == 'l'); // peek: l
-            assertTrue(in.peek(3) == 'o'); // peek: o
+            assertTrue(in.peek(1) == 'l');
+            assertTrue(in.peek(2) == 'l');
+            assertTrue(in.peek(3) == 'o');
 
             assertTrue(in.read() == 'l');
-            assertTrue(in.peek(1) == 'l'); // peek: l
-            assertTrue(in.peek(2) == 'o'); // peek: o
-            assertTrue(in.peek(3) == -1); // peek: -1 (End of stream)
+            assertTrue(in.peek(1) == 'l');
+            assertTrue(in.peek(2) == 'o');
+            assertTrue(in.peek(3) == -1);
 
             assertTrue(in.read() == 'l');
             assertTrue(in.read() == 'o');
@@ -47,20 +48,17 @@ public class PeekReaderTest {
         }
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void exceedMinPeek() {
-        in.peek(0);
+        assertThrows(IndexOutOfBoundsException.class, () -> in.peek(0));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void exceedMaxPeek() {
-        in.peek(4);
+        assertThrows(IndexOutOfBoundsException.class, () -> in.peek(4));
     }
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         in.close();
     }

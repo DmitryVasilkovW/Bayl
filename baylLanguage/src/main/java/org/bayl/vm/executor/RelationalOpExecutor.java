@@ -1,5 +1,6 @@
 package org.bayl.vm.executor;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidOperatorException;
@@ -7,6 +8,7 @@ import org.bayl.runtime.exception.TypeMismatchException;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
+@EqualsAndHashCode(callSuper = true)
 public abstract class RelationalOpExecutor extends BinaryOpExecutor {
 
     public RelationalOpExecutor(SourcePosition pos, String operator, Executor left, Executor right) {
@@ -30,7 +32,7 @@ public abstract class RelationalOpExecutor extends BinaryOpExecutor {
         }
     }
 
-    protected BaylBoolean equals(VirtualMachineImpl interpreter) {
+    protected BaylBoolean evalEquals(VirtualMachineImpl interpreter) {
         BaylObject left = getLeft().eval(interpreter);
         BaylObject right = getRight().eval(interpreter);
         checkTypes(left, right);

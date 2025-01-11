@@ -1,11 +1,13 @@
 package org.bayl.vm.executor.control;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 public class BlockExecutor extends Executor {
 
     private final List<Executor> statements;

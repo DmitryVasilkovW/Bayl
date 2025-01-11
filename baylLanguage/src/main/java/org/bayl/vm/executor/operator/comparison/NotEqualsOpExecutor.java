@@ -1,11 +1,13 @@
 package org.bayl.vm.executor.operator.comparison;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.RelationalOpExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
+@EqualsAndHashCode(callSuper = true)
 public class NotEqualsOpExecutor extends RelationalOpExecutor {
 
     public NotEqualsOpExecutor(SourcePosition pos, Executor left, Executor right) {
@@ -14,6 +16,6 @@ public class NotEqualsOpExecutor extends RelationalOpExecutor {
 
     @Override
     public BaylObject eval(VirtualMachineImpl virtualMachine) {
-        return equals(virtualMachine).not();
+        return evalEquals(virtualMachine).not();
     }
 }

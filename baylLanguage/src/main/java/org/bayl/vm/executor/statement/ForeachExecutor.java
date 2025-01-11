@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.statement;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
@@ -11,6 +12,7 @@ import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.Map;
 
+@EqualsAndHashCode(callSuper = true)
 public class ForeachExecutor extends Executor {
 
     private final VariableExecutor onVariableExecutor;

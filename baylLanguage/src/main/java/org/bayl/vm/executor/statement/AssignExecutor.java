@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.statement;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
@@ -9,6 +10,7 @@ import org.bayl.vm.executor.expression.array.LookupExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
+@EqualsAndHashCode(callSuper = true)
 public class AssignExecutor extends BinaryOpExecutor {
 
     public AssignExecutor(SourcePosition pos, Executor var, Executor expression) {

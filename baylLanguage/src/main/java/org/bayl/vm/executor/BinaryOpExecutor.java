@@ -1,7 +1,9 @@
 package org.bayl.vm.executor;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 
+@EqualsAndHashCode(callSuper = true)
 public abstract class BinaryOpExecutor extends Executor {
 
     protected String operator;

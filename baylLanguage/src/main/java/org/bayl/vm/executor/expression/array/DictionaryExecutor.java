@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.expression.array;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.ast.expression.array.DictionaryEntryNode;
 import org.bayl.runtime.BaylObject;
@@ -11,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@EqualsAndHashCode(callSuper = true)
 public class DictionaryExecutor extends Executor {
 
     private final List<DictionaryEntryExecutor> elements;

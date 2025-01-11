@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.expression.array;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.runtime.BaylObject;
@@ -9,6 +10,7 @@ import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 public class ArrayExecutor extends Executor {
 
     private final List<Executor> elements;
