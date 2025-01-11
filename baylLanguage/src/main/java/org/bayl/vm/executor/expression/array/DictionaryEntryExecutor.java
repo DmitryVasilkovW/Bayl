@@ -7,7 +7,7 @@ import org.bayl.runtime.object.DictionaryEntry;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class DictionaryEntryExecutor extends Executor {
 
     private final Executor key;
