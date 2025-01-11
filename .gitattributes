@@ -10,3 +10,6 @@
 # Binary files should be left untouched
 *.jar           binary
 
+build
+.gradle
+.idea
