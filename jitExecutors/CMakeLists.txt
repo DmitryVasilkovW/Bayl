@@ -2,31 +2,28 @@ cmake_minimum_required(VERSION 3.30)
 
 project(jitExecutors)
 
-set(CMAKE_CXX_STANDARD 26)
+set(PROJECT_VERSION 1.0.0)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES
-    src/main/cpp/generateMultiplication.cpp
+include(FetchContent)
+
+FetchContent_Declare(
+  asmjit
+  GIT_REPOSITORY https://github.com/asmjit/asmjit.git
+  GIT_TAG master
 )
 
-add_library(asmjit_executor
-              src/main/cpp/generateMultiplication.cpp
-)
+FetchContent_MakeAvailable(asmjit)
 
-target_link_libraries(asmjit_executor asmjit)
+file(GLOB_RECURSE SOURCES src/main/cpp/*.cpp)
 
-include_directories(/usr/include/asmjit)
+add_library(jitExecutors SHARED ${SOURCES})
 
-if(WIN32)
-    include_directories("${JAVA_HOME}/include")
-    include_directories("${JAVA_HOME}/include/win32")
-elseif(UNIX AND NOT APPLE)
+target_link_libraries(jitExecutors PRIVATE asmjit)
+
+if(UNIX AND NOT APPLE)
     include_directories(${JAVA_HOME}/include/linux)
 elseif(APPLE)
     include_directories(${JAVA_HOME}/include/darwin)
-endif()
-
-if(WIN32)
-    target_link_libraries(asmjit_executor /path/to/asmjit.lib) # Good Luck =)
-elseif(UNIX AND NOT APPLE)
-    target_link_libraries(asmjit_executor asmjit)
 endif()
