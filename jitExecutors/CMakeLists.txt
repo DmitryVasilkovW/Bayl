@@ -1,44 +1,29 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.30)
 
-# Устанавливаем имя проекта
 project(jitExecutors)
 
-# Устанавливаем версию проекта
 set(PROJECT_VERSION 1.0.0)
-
-# Указываем флаги компилятора (если необходимо)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Определяем, что будет собираться (например, статическая и динамическая библиотеки)
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+include(FetchContent)
 
-# Указываем путь для установки (если нужно)
-set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
-
-# Добавляем исходные файлы проекта
-set(SOURCES
-    src/main/cpp/main.cpp
+FetchContent_Declare(
+  asmjit
+  GIT_REPOSITORY https://github.com/asmjit/asmjit.git
+  GIT_TAG master
 )
 
-# Создаем библиотеку (если нужно)
-#add_library(mylibrary STATIC ${SOURCES})
+FetchContent_MakeAvailable(asmjit)
 
-# Устанавливаем библиотеки
-#install(TARGETS mylibrary DESTINATION lib)
+file(GLOB_RECURSE SOURCES src/main/cpp/*.cpp)
 
-# Устанавливаем заголовочные файлы
-#install(DIRECTORY include/ DESTINATION include)
+add_library(jitExecutors SHARED ${SOURCES})
 
-# Добавляем исполнимые файлы (если необходимо)
-add_executable(jitExecutors src/main/cpp/main.cpp)
+target_link_libraries(jitExecutors PRIVATE asmjit)
 
-# Связываем исполнимый файл с библиотекой
-#target_link_libraries(myapp PRIVATE mylibrary)
-
-# Устанавливаем исполнимые файлы
-#install(TARGETS myapp DESTINATION bin)
-
-# Указываем дополнительные параметры CMake, если нужно
-# Например, добавление путей для поиска заголовочных файлов
-#include_directories(${PROJECT_SOURCE_DIR}/include)
+if(UNIX AND NOT APPLE)
+    include_directories(${JAVA_HOME}/include/linux)
+elseif(APPLE)
+    include_directories(${JAVA_HOME}/include/darwin)
+endif()

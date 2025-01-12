@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.expression.array;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.ast.expression.array.DictionaryEntryNode;
 import org.bayl.runtime.BaylObject;
@@ -11,11 +12,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@EqualsAndHashCode(callSuper = true)
 public class DictionaryExecutor extends Executor {
 
-    private final List<DictionaryEntryNode> elements;
+    private final List<DictionaryEntryExecutor> elements;
 
-    public DictionaryExecutor(SourcePosition pos, List<DictionaryEntryNode> elements) {
+    public DictionaryExecutor(SourcePosition pos, List<DictionaryEntryExecutor> elements) {
         super(pos);
         this.elements = elements;
     }
@@ -23,7 +25,7 @@ public class DictionaryExecutor extends Executor {
     @Override
     public BaylObject eval(VirtualMachineImpl virtualMachine) {
         Map<BaylObject, BaylObject> entries = new LinkedHashMap<BaylObject, BaylObject>(elements.size());
-        for (DictionaryEntryNode node : elements) {
+        for (DictionaryEntryExecutor node : elements) {
             DictionaryEntry entry = (DictionaryEntry) node.eval(virtualMachine);
             entries.put(entry.getKey(), entry.getValue());
         }
@@ -34,7 +36,7 @@ public class DictionaryExecutor extends Executor {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("(dict ");
-        for (DictionaryEntryNode node : elements) {
+        for (DictionaryEntryExecutor node : elements) {
             sb.append(node);
         }
         sb.append(")");

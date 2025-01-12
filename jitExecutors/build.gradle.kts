@@ -3,10 +3,9 @@ plugins {
 }
 
 cmake {
-    workingFolder = file("${layout.buildDirectory}/cmake")
-    sourceFolder = file(projectDir)
-    installPrefix = System.getProperty("user.home")
-    buildStaticLibs = true
-    buildSharedLibs = true
-    buildClean = false
+    @Suppress("DEPRECATION")
+    workingFolder = file("${buildDir.path}/cmake")
+    sourceFolder = file(projectDir.path)
+    installPrefix = System.getProperty("user.home").toString()
+    buildClean = true
 }

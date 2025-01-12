@@ -1,11 +1,13 @@
 package org.bayl.vm.executor.expression.literale;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
+@EqualsAndHashCode(callSuper = true)
 public class StringExecutor extends Executor {
 
     private final BaylString literal;

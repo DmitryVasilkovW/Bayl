@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.operator.comparison;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
@@ -7,6 +8,7 @@ import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.RelationalOpExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
+@EqualsAndHashCode(callSuper = true)
 public class LessThanOpExecutor extends RelationalOpExecutor {
 
     public LessThanOpExecutor(SourcePosition pos, Executor left, Executor right) {

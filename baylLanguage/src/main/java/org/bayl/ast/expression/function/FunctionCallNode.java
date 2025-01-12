@@ -70,6 +70,7 @@ public class FunctionCallNode extends Node {
     public void generateCode(Bytecode bytecode) {
         bytecode.add(getStartLine());
 
+        functionNode.generateCode(bytecode);
         for (Node arg : arguments) {
             bytecode.add(ARG.toString());
             arg.generateCode(bytecode);
@@ -82,7 +83,7 @@ public class FunctionCallNode extends Node {
         if (functionNode instanceof VariableNode) {
             return getBytecodeLineWithPosition(
                     CALL.toString(),
-                    ((VariableNode) functionNode).getName()
+                    getFunctionName()
             );
         }
 

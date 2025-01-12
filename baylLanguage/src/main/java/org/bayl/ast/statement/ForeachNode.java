@@ -74,13 +74,8 @@ public class ForeachNode extends Node {
                 FOREACH.toString())
         );
 
-        bytecode.add(ON_VAR.toString());
         onVariableNode.generateCode(bytecode);
-
-        bytecode.add(AS.toString());
         asNode.generateCode(bytecode);
-
-        bytecode.add(LOOP_BODY.toString());
         loopBody.generateCode(bytecode);
     }
 }

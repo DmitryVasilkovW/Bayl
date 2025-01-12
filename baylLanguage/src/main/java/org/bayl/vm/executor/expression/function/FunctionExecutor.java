@@ -1,25 +1,26 @@
 package org.bayl.vm.executor.expression.function;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
-import org.bayl.ast.Node;
-import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.ast.statement.AssignNode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
-import org.bayl.runtime.function.UserFunction;
+import org.bayl.runtime.function.UserFunctionTMP;
 import org.bayl.vm.executor.Executor;
+import org.bayl.vm.executor.expression.variable.VariableExecutor;
+import org.bayl.vm.executor.statement.AssignExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 public class FunctionExecutor extends Executor {
 
-    final static public List<Node> NO_PARAMETERS = new ArrayList<Node>(0);
+    final static public List<Executor> NO_PARAMETERS = new ArrayList<Executor>(0);
 
-    private final List<Node> parameters;
-    private final Node body;
+    private final List<Executor> parameters;
+    private final Executor body;
 
-    public FunctionExecutor(SourcePosition pos, List<Node> parameters, Node body) {
+    public FunctionExecutor(SourcePosition pos, List<Executor> parameters, Executor body) {
         super(pos);
         this.parameters = parameters;
         this.body = body;
@@ -28,23 +29,23 @@ public class FunctionExecutor extends Executor {
     @Override
     public BaylObject eval(VirtualMachineImpl virtualMachine) {
         List<Parameter> params = new ArrayList<Parameter>(parameters.size());
-        for (Node node : parameters) {
+        for (Executor Executor : parameters) {
             // TODO clean up getting parameters
             String parameterName;
             BaylObject parameterValue;
-            if (node instanceof VariableNode) {
-                parameterName = ((VariableNode) node).getName();
+            if (Executor instanceof VariableExecutor) {
+                parameterName = ((VariableExecutor) Executor).getName();
                 parameterValue = null;
-            } else if (node instanceof AssignNode) {
-                parameterName = ((VariableNode) ((AssignNode) node).getLeft()).getName();
-                parameterValue = ((AssignNode) node).getRight().eval(virtualMachine);
+            } else if (Executor instanceof AssignExecutor) {
+                parameterName = ((VariableExecutor) ((AssignExecutor) Executor).getLeft()).getName();
+                parameterValue = ((AssignExecutor) Executor).getRight().eval(virtualMachine);
             } else {
                 throw new RuntimeException("Invalid function");
             }
             Parameter param = new Parameter(parameterName, parameterValue);
             params.add(param);
         }
-        return new UserFunction(params, body);
+        return new UserFunctionTMP(params, body);
     }
 
     @Override
@@ -52,13 +53,13 @@ public class FunctionExecutor extends Executor {
         StringBuilder sb = new StringBuilder();
         sb.append("(function (");
         boolean first = true;
-        for (Node node : parameters) {
+        for (Executor Executor : parameters) {
             if (first) {
                 first = false;
             } else {
                 sb.append(' ');
             }
-            sb.append(node);
+            sb.append(Executor);
         }
         sb.append(") ");
         sb.append(body);

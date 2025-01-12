@@ -1,7 +1,10 @@
 package org.bayl.model;
 
 public enum BytecodeToken {
-    PUSH,
+    PUSH_S,
+    PUSH_N,
+    PUSH_T,
+    PUSH_F,
     LOAD,
 
     BLOCK_START, BLOCK_END,
@@ -12,12 +15,12 @@ public enum BytecodeToken {
     IF, CONDITION, THEN, ELSE,
 
     ARRAY_INIT, ARRAY_STORE, ARRAY_END,
-    DICT_ENTRY, DICT_INIT, DICT_PAIR, DICT_KEY, DICT_VALUE,
-    LOOKUP, LOOKUP_VAR, LOOKUP_VALUE, LOOKUP_END,
+    DICT_INIT, DICT_PAIR, DICT_END,
+    LOOKUP,
 
     CALL, CALL_DYNAMIC, CALL_END, CALL_DYNAMIC_END, ARG,
-    FUNC, BODY, RETURN,
-    RETURN_START, RETURN_END,
+    FUNC, BODY,
+    RETURN_START,
 
     MOD,
     SET,

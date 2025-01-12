@@ -1,13 +1,15 @@
 package org.bayl;
 
+import org.bayl.runtime.exception.LexerException;
+import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.StringReader;
-
-import org.bayl.runtime.exception.LexerException;
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class LexerTest {
+
     public void assertTokenType(String code, TokenType expected) throws IOException {
         Lexer lexer = new Lexer(new StringReader(code));
         TokenType actual = lexer.getNextToken().getType();
@@ -19,7 +21,7 @@ public class LexerTest {
             Lexer lexer = new Lexer(new StringReader(code));
             lexer.getNextToken();
         } catch (LexerException e) {
-            return; // The test was successful, a LexerException was thrown.
+            return;
         }
         fail("Expected LexerException");
     }
@@ -75,13 +77,10 @@ public class LexerTest {
         assertTokenType(".05e-10", TokenType.NUMBER);
         assertTokenType("3.04e10", TokenType.NUMBER);
         assertTokenType("0E+7", TokenType.NUMBER);
-        // Octal number
         assertTokenType("0o12345670", TokenType.NUMBER);
         assertTokenType("0O12345670", TokenType.NUMBER);
-        // Hex number
         assertTokenType("0x1234567890ABCDEFabcdef", TokenType.NUMBER);
         assertTokenType("0X1234567890ABCDEFabcdef", TokenType.NUMBER);
-        // Binary number
         assertTokenType("0b101", TokenType.NUMBER);
         assertTokenType("0B101", TokenType.NUMBER);
     }
@@ -131,10 +130,11 @@ public class LexerTest {
         assertTokenType(";", TokenType.END_STATEMENT);
     }
 
-    @Test(expected = LexerException.class)
+    @Test
     public void testInvalidCharacter() throws IOException {
         Lexer lexer = new Lexer(new StringReader("#"));
-        lexer.getNextToken();
+
+        assertThrows(LexerException.class, lexer::getNextToken);
     }
 
     @Test

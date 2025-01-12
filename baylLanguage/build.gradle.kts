@@ -1,15 +1,34 @@
 plugins {
     id("java")
+    id("io.freefair.lombok") version "8.0.1"
 }
 
 repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(23))
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "org.bayl.Launcher"
+    }
+}
+
 dependencies {
-    testImplementation("junit:junit:4.13.2")
+    implementation("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    testImplementation("org.projectlombok:lombok:1.18.30")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
 }
 
 tasks.test {
-    useJUnit()
+    useJUnitPlatform()
 }

@@ -1,5 +1,6 @@
 package org.bayl.vm.executor.expression.array;
 
+import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.runtime.BaylObject;
@@ -9,11 +10,12 @@ import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 public class ArrayExecutor extends Executor {
 
-    private final List<Node> elements;
+    private final List<Executor> elements;
 
-    public ArrayExecutor(SourcePosition pos, List<Node> elements) {
+    public ArrayExecutor(SourcePosition pos, List<Executor> elements) {
         super(pos);
         this.elements = elements;
     }
@@ -21,7 +23,7 @@ public class ArrayExecutor extends Executor {
     @Override
     public BaylObject eval(VirtualMachineImpl virtualMachine) {
         List<BaylObject> items = new ArrayList<BaylObject>(elements.size());
-        for (Node node : elements) {
+        for (Executor node : elements) {
             items.add(node.eval(virtualMachine));
         }
         return new BaylArray(items);
@@ -31,7 +33,7 @@ public class ArrayExecutor extends Executor {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("'(");
-        for (Node node : elements) {
+        for (Executor node : elements) {
             sb.append(node);
             sb.append(' ');
         }
