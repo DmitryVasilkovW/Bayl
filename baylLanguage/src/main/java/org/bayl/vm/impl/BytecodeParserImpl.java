@@ -49,6 +49,7 @@ import static org.bayl.model.BytecodeToken.BLOCK_END;
 import static org.bayl.model.BytecodeToken.BODY;
 import static org.bayl.model.BytecodeToken.CALL_END;
 import static org.bayl.model.BytecodeToken.DICT_END;
+import static org.bayl.model.BytecodeToken.ELSE;
 
 public class BytecodeParserImpl {
 
@@ -187,7 +188,12 @@ public class BytecodeParserImpl {
 
         Executor testCondition = parseExecutor();
         Executor thenBlock = parseExecutor();
-        Executor elseBlock = parseExecutor();
+
+        Executor elseBlock = null;
+        if (peekTokens()[0].equals(ELSE.toString())) {
+            move();
+            elseBlock = parseExecutor();
+        }
 
         return new IfExecutor(position, testCondition, thenBlock, elseBlock);
     }

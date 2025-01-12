@@ -33,7 +33,10 @@ import org.bayl.vm.executor.operator.logical.LessEqualOpExecutor;
 import org.bayl.vm.executor.operator.logical.NotOpExecutor;
 import org.bayl.vm.executor.operator.logical.OrOpExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
+import org.bayl.vm.executor.statement.ForeachExecutor;
+import org.bayl.vm.executor.statement.IfExecutor;
 import org.bayl.vm.executor.statement.ReturnExecutor;
+import org.bayl.vm.executor.statement.WhileExecutor;
 import org.bayl.vm.impl.BytecodeParserImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
@@ -70,8 +73,7 @@ public class BytecodeParserTest {
                                             "ARRAY_END\n" +
                                             "LOAD a 1 1\n" +
                                             "BLOCK_END"),
-                        getExpected(
-                                getAssign(1, 3,
+                        getExpected(getAssign(1, 3,
                                           getVar(1, 1, "a"),
                                           getArray(1, 5, getNumber(1, 6, "1"), getNumber(1, 9, "2"))))
                 ),
@@ -89,8 +91,7 @@ public class BytecodeParserTest {
                                             "DICT_END\n" +
                                             "LOAD a 1 1\n" +
                                             "BLOCK_END"),
-                        getExpected(
-                                getAssign(1, 3,
+                        getExpected(getAssign(1, 3,
                                           getVar(1, 1, "a"),
                                           getDict(1, 5,
                                                   getPair(1, 10, getString(1, 6, "1"), getNumber(1, 12, "1")),
@@ -115,8 +116,7 @@ public class BytecodeParserTest {
                                             "LOAD a 2 1\n" +
                                             "PUSH_N 2 2 3\n" +
                                             "BLOCK_END"),
-                        getExpected(
-                                getAssign(1, 3,
+                        getExpected(getAssign(1, 3,
                                           getVar(1, 1, "a"),
                                           getArray(1, 5, getNumber(1, 6, "2"), getNumber(1, 9, "3"), getNumber(1, 12, "8"))
                                 ),
@@ -478,8 +478,113 @@ public class BytecodeParserTest {
                         getExpected(getAssign(1, 3,
                                               getVar(1, 1, "a"),
                                               getConcat(1, 7, getString(1, 5, "23"), getString(1, 9, "9"))))
+                ),
+                new TestData(
+                        "test parsing if",
+                        getBytecode("BLOCK_START 1 1\n" +
+                                            "IF 1 1\n" +
+                                            "LESS_THAN 1 7\n" +
+                                            "PUSH_N 1 1 5\n" +
+                                            "PUSH_N 3 1 9\n" +
+                                            "BLOCK_START 1 12\n" +
+                                            "SET 2 7\n" +
+                                            "PUSH_N 1 2 9\n" +
+                                            "LOAD c 2 5\n" +
+                                            "BLOCK_END\n" +
+                                            "BLOCK_END"),
+                        getExpected(getIf(1, 1,
+                                          getLessThan(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "3")),
+                                          getBlock(1, 12, getAssign(2, 7,
+                                                                    getVar(2, 5, "c"), getNumber(2, 9, "1")))))
+                ),
+                new TestData(
+                        "test parsing if with else",
+                        getBytecode("BLOCK_START 1 1\n" +
+                                            "IF 1 1\n" +
+                                            "LESS_THAN 1 7\n" +
+                                            "PUSH_N 1 1 5\n" +
+                                            "PUSH_N 3 1 9\n" +
+                                            "BLOCK_START 1 12\n" +
+                                            "SET 2 7\n" +
+                                            "PUSH_N 1 2 9\n" +
+                                            "LOAD c 2 5\n" +
+                                            "BLOCK_END\n" +
+                                            "ELSE\n" +
+                                            "BLOCK_START 3 8\n" +
+                                            "SET 4 7\n" +
+                                            "PUSH_N 2 4 9\n" +
+                                            "LOAD c 4 5\n" +
+                                            "BLOCK_END\n" +
+                                            "BLOCK_END"),
+                        getExpected(getIf(1, 1,
+                                          getLessThan(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "3")),
+                                          getBlock(1, 12, getAssign(2, 7,
+                                                                    getVar(2, 5, "c"), getNumber(2, 9, "1"))),
+                                          getBlock(3, 8, getAssign(4, 7,
+                                                                    getVar(4, 5, "c"), getNumber(4, 9, "2")))))
+                ),
+                new TestData(
+                        "test parsing foreach",
+                        getBytecode("BLOCK_START 1 1\n" +
+                                            "SET 1 3\n" +
+                                            "ARRAY_INIT 2 1 5\n" +
+                                            "ARRAY_STORE 0\n" +
+                                            "PUSH_N 1 1 6\n" +
+                                            "ARRAY_STORE 1\n" +
+                                            "PUSH_N 2 1 9\n" +
+                                            "ARRAY_END\n" +
+                                            "LOAD a 1 1\n" +
+                                            "FOREACH 3 1\n" +
+                                            "LOAD a 3 9\n" +
+                                            "LOAD i 3 14\n" +
+                                            "BLOCK_START 3 17\n" +
+                                            "CALL println 4 5\n" +
+                                            "LOAD println 4 5\n" +
+                                            "ARG\n" +
+                                            "LOAD i 4 13\n" +
+                                            "CALL_END\n" +
+                                            "BLOCK_END\n" +
+                                            "BLOCK_END"),
+                        getExpected(getAssign(1, 3,
+                                              getVar(1, 1, "a"),
+                                              getArray(1, 5, getNumber(1, 6, "1"), getNumber(1, 9, "2"))),
+                                    getForeach(3, 1,
+                                               getVar(3, 9, "a"),
+                                               getVar(3, 14, "i"),
+                                               getBlock(3, 17,
+                                                        getCall(4, 5,
+                                                                getVar(4, 5, "println"),
+                                                                List.of(getVar(4, 13, "i"))))))
+                ),
+                new TestData(
+                        "test parsing while",
+                        getBytecode("BLOCK_START 1 1\n" +
+                                            "SET 1 3\n" +
+                                            "PUSH_N 2 1 5\n" +
+                                            "LOAD a 1 1\n" +
+                                            "WHILE 2 1\n" +
+                                            "LESS_THAN 2 10\n" +
+                                            "PUSH_N 1 2 8\n" +
+                                            "LOAD a 2 12\n" +
+                                            "BLOCK_START 2 15\n" +
+                                            "SET 3 7\n" +
+                                            "SUBTRACT 3 11\n" +
+                                            "LOAD a 3 9\n" +
+                                            "PUSH_N 1 3 13\n" +
+                                            "LOAD a 3 5\n" +
+                                            "BLOCK_END\n" +
+                                            "BLOCK_END"),
+                        getExpected(getAssign(1, 3,
+                                              getVar(1, 1, "a"),
+                                              getNumber(1, 5, "2")),
+                                    getWhile(2, 1,
+                                             getLessThan(2, 10, getNumber(2, 8,"1"), getVar(2, 12, "a")),
+                                             getBlock(2, 15,
+                                                      getAssign(3, 7,
+                                                                       getVar(3, 5, "a"),
+                                                                       getSubtract(3, 11,
+                                                                                   getVar(3, 9, "a"), getNumber(3, 13, "1"))))))
                 )
-
         );
     }
 
@@ -495,6 +600,22 @@ public class BytecodeParserTest {
         var statements = List.of(executor);
 
         return new BlockExecutor(position, statements);
+    }
+
+    private ForeachExecutor getForeach(int l, int c, VariableExecutor onVariableExecutor, Executor asExecutor, Executor loopBody) {
+        return new ForeachExecutor(new SourcePosition(l, c), onVariableExecutor, asExecutor, loopBody);
+    }
+
+    private IfExecutor getIf(int l, int c, Executor testCondition, Executor thenBlock, Executor elseBlock) {
+        return new IfExecutor(new SourcePosition(l, c), testCondition, thenBlock, elseBlock);
+    }
+
+    private IfExecutor getIf(int l, int c, Executor testCondition, Executor thenBlock) {
+        return new IfExecutor(new SourcePosition(l, c), testCondition, thenBlock, null);
+    }
+
+    private WhileExecutor getWhile(int l, int c, Executor testCondition, Executor loopBody) {
+        return new WhileExecutor(new SourcePosition(l, c), testCondition, loopBody);
     }
 
     private ModOpExecutor getMod(int l, int c, Executor L, Executor R) {
