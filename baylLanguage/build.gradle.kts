@@ -10,6 +10,14 @@ repositories {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(23))
+        vendor.set(JvmVendorSpec.ADOPTIUM)
+        implementation.set(JvmImplementation.VENDOR_SPECIFIC)
+    }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(23)
     }
 }
 

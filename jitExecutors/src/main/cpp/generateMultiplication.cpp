@@ -1,4 +1,5 @@
 #include <asmjit/asmjit.h>
+#include <asmjit/a64.h>
 
 using namespace asmjit;
 
@@ -14,11 +15,9 @@ void generateMultiplicationTemplate(CodeHolder& code) {
     assembler.mul(x86::ecx);            // eax = eax * ecx
     assembler.ret();
 #elif defined(__arm64__)
-    aarch64::Assembler assembler(&code);
-    assembler.mov(aarch64::x0, aarch64::x1);    // a -> x0
-    assembler.mov(aarch64::x2, aarch64::x3);    // b -> x2
-    assembler.mul(aarch64::x0, aarch64::x0, aarch64::x2); // x0 = x0 * x2
-    assembler.ret();
+    a64::Assembler assembler(&code);
+    assembler.mov(a64::w2, a64::w0);   // a -> w2
+    assembler.mul(a64::w0, a64::w2, a64::w1); // w0 = w2 * w1 (a * b)
 #else
 #error "Unsupported architecture"
 #endif

@@ -7,5 +7,6 @@ cmake {
     workingFolder = file("${buildDir.path}/cmake")
     sourceFolder = file(projectDir.path)
     installPrefix = System.getProperty("user.home").toString()
+    buildSharedLibs = true
     buildClean = true
 }
