@@ -20,7 +20,7 @@ public enum BytecodeToken {
 
     CALL, CALL_DYNAMIC, CALL_END, CALL_DYNAMIC_END, ARG,
     FUNC, BODY,
-    RETURN_START,
+    RETURN,
 
     MOD,
     SET,

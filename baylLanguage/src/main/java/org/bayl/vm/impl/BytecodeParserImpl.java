@@ -96,7 +96,7 @@ public class BytecodeParserImpl {
             case BLOCK_START -> parseBlock();
             case ARRAY_INIT, DICT_INIT -> parseCollection();
             case LOAD, LOOKUP -> parseVarExecutor();
-            case FUNC, RETURN_START, CALL -> parseFunctions();
+            case FUNC, RETURN, CALL -> parseFunctions();
             default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
         };
     }
@@ -133,7 +133,7 @@ public class BytecodeParserImpl {
         return switch (token) {
             case FUNC -> parseFunction();
             case CALL -> parseFunctionCall();
-            case RETURN_START -> parseExecutorWithOneValue(ReturnExecutor::new);
+            case RETURN -> parseExecutorWithOneValue(ReturnExecutor::new);
             default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
         };
     }
