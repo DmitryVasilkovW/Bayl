@@ -49,6 +49,7 @@ import static org.bayl.model.BytecodeToken.BLOCK_END;
 import static org.bayl.model.BytecodeToken.BODY;
 import static org.bayl.model.BytecodeToken.CALL_END;
 import static org.bayl.model.BytecodeToken.DICT_END;
+import static org.bayl.model.BytecodeToken.ELSE;
 
 public class BytecodeParserImpl {
 
@@ -96,7 +97,7 @@ public class BytecodeParserImpl {
             case BLOCK_START -> parseBlock();
             case ARRAY_INIT, DICT_INIT -> parseCollection();
             case LOAD, LOOKUP -> parseVarExecutor();
-            case FUNC, RETURN_START, CALL -> parseFunctions();
+            case FUNC, RETURN, CALL -> parseFunctions();
             default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
         };
     }
@@ -133,7 +134,7 @@ public class BytecodeParserImpl {
         return switch (token) {
             case FUNC -> parseFunction();
             case CALL -> parseFunctionCall();
-            case RETURN_START -> parseExecutorWithOneValue(ReturnExecutor::new);
+            case RETURN -> parseExecutorWithOneValue(ReturnExecutor::new);
             default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
         };
     }
@@ -187,7 +188,12 @@ public class BytecodeParserImpl {
 
         Executor testCondition = parseExecutor();
         Executor thenBlock = parseExecutor();
-        Executor elseBlock = parseExecutor();
+
+        Executor elseBlock = null;
+        if (peekTokens()[0].equals(ELSE.toString())) {
+            move();
+            elseBlock = parseExecutor();
+        }
 
         return new IfExecutor(position, testCondition, thenBlock, elseBlock);
     }
