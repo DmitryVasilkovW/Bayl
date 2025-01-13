@@ -4,7 +4,7 @@
 
 using namespace asmjit;
 
-extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JitExample_generateMultiplicationTemplate(JNIEnv *env, jobject obj, jint a, jint b) {
+extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplate(JNIEnv *env, jobject obj, jint a, jint b) {
     CodeHolder code;
     code.init(Environment::host());
     JitRuntime runtime;
