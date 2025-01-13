@@ -8,6 +8,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 
+file(STRINGS ${CMAKE_HOME_DIRECTORY}/.env ENV_FILE)
+foreach(VAR ${ENV_FILE})
+    string(REGEX MATCH "^[^=]*" KEY ${VAR})
+    string(REGEX REPLACE "^[^=]*=" "" VALUE ${VAR})
+    set(ENV{${KEY}} ${VALUE})
+endforeach()
+
+set(JAVA_HOME $ENV{JAVA_HOME})
+
 FetchContent_Declare(
   asmjit
   GIT_REPOSITORY https://github.com/asmjit/asmjit.git
@@ -22,8 +31,12 @@ add_library(jitExecutors SHARED ${SOURCES})
 
 target_link_libraries(jitExecutors PRIVATE asmjit)
 
-if(UNIX AND NOT APPLE)
-    include_directories(${JAVA_HOME}/include/linux)
-elseif(APPLE)
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     include_directories(${JAVA_HOME}/include/darwin)
+else()
+    include_directories(${JAVA_HOME}/include/linux)
 endif()
+
+include_directories(${JAVA_HOME}/include)
+
+find_package (JNI REQUIRED)

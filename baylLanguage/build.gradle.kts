@@ -7,6 +7,10 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation(project(":jitExecutors"))
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(23))
@@ -19,6 +23,17 @@ tasks.withType<JavaCompile>().configureEach {
     javaCompiler = javaToolchains.compilerFor {
         languageVersion = JavaLanguageVersion.of(23)
     }
+    options.compilerArgs.add("--enable-preview")
+}
+
+var nativeLibPath = "../jitExecutors/build/cmake/"
+
+tasks.withType<JavaExec> {
+    jvmArgs = listOf(
+        "--enable-preview",
+        "-Djava.library.path=${file(nativeLibPath).absolutePath}",
+        "--enable-native-access=ALL-UNNAMED"
+    )
 }
 
 tasks.jar {
