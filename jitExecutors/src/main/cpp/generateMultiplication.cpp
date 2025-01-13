@@ -4,22 +4,19 @@
 #include <atomic>
 #include <mutex>
 
+#include "GlobalJitRuntime.h"
+
 using namespace asmjit;
 
-static std::atomic<bool> isCodeGenerated{false};
-static std::mutex generationMutex;
+static std::atomic<bool> isMultiplicationIntCodeGenerated{false};
+static std::mutex generationMultiplicationIntMutex;
 static jint (*cachedMultiplyFunc)(jint, jint) = nullptr;
-static JitRuntime* globalRuntime = nullptr;
 
 extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplateInt(JNIEnv *env, jobject obj, jint a, jint b) {
-    if (!isCodeGenerated.load(std::memory_order_acquire)) {
-        std::lock_guard<std::mutex> lock(generationMutex);
+    if (!isMultiplicationIntCodeGenerated.load(std::memory_order_acquire)) {
+        std::lock_guard<std::mutex> lock(generationMultiplicationIntMutex);
 
-        if (!isCodeGenerated.load(std::memory_order_relaxed)) {
-            if (globalRuntime == nullptr) {
-                globalRuntime = new JitRuntime();
-            }
-
+        if (!isMultiplicationIntCodeGenerated.load(std::memory_order_relaxed)) {
             CodeHolder code;
             code.init(Environment::host());
 
@@ -47,24 +44,16 @@ extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateMultiplicatio
             typedef jint (*MultiplyFunc)(jint, jint);
             MultiplyFunc func = nullptr;
 
-            Error err = globalRuntime->add(&func, &code);
+            Error err = GlobalJitRuntime::getInstance().getGlobalJitRuntime()->add(&func, &code);
             if (err) {
                 return 0;
             }
 
             cachedMultiplyFunc = func;
 
-            isCodeGenerated.store(true, std::memory_order_release);
+            isMultiplicationIntCodeGenerated.store(true, std::memory_order_release);
         }
     }
 
     return cachedMultiplyFunc(a, b);
-}
-
-__attribute__((destructor))
-static void cleanup() {
-    if (globalRuntime) {
-        delete globalRuntime;
-        globalRuntime = nullptr;
-    }
 }
