@@ -11,7 +11,7 @@ static std::mutex generationMutex;
 static jint (*cachedMultiplyFunc)(jint, jint) = nullptr;
 static JitRuntime* globalRuntime = nullptr;
 
-extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplate(JNIEnv *env, jobject obj, jint a, jint b) {
+extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplateInt(JNIEnv *env, jobject obj, jint a, jint b) {
     if (!isCodeGenerated.load(std::memory_order_acquire)) {
         std::lock_guard<std::mutex> lock(generationMutex);
 
