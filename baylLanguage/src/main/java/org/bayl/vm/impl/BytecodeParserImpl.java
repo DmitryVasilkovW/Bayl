@@ -1,5 +1,9 @@
 package org.bayl.vm.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import org.bayl.SourcePosition;
 import org.bayl.model.BytecodeToken;
 import org.bayl.vm.TriFunction;
@@ -39,11 +43,7 @@ import org.bayl.vm.executor.statement.ForeachExecutor;
 import org.bayl.vm.executor.statement.IfExecutor;
 import org.bayl.vm.executor.statement.ReturnExecutor;
 import org.bayl.vm.executor.statement.WhileExecutor;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import org.bayl.vm.profiler.Profiler;
 import static org.bayl.model.BytecodeToken.ARRAY_END;
 import static org.bayl.model.BytecodeToken.BLOCK_END;
 import static org.bayl.model.BytecodeToken.BODY;
@@ -55,7 +55,10 @@ public class BytecodeParserImpl {
 
     private int iterator;
     private List<String> bytecode;
+    private Profiler profiler;
     private static final String ARGS_DIVISION = " ";
+    private static final String EXCEPTION_MESSAGE = "Unexpected value: ";
+    private static final int THRESHOLD = 5;
 
     public RootExecutor parse(List<String> bytecode) {
         init(bytecode);
@@ -64,8 +67,13 @@ public class BytecodeParserImpl {
         return new RootExecutor(program.getPosition(), program.getStatements());
     }
 
+    public List<BytecodeToken> getMostFrequentlyUsed() {
+        return profiler.getInstructions();
+    }
+
     private void init(List<String> bytecode) {
         this.bytecode = bytecode;
+        profiler = new Profiler(THRESHOLD);
         iterator = 0;
     }
 
@@ -84,6 +92,7 @@ public class BytecodeParserImpl {
 
     private Executor parseExecutor() {
         BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
+        profiler.countInstruction(token);
         return switch (token) {
             case PUSH_N -> parseValue(NumberExecutor::new);
             case PUSH_S -> parseValue(StringExecutor::new);
@@ -98,7 +107,7 @@ public class BytecodeParserImpl {
             case ARRAY_INIT, DICT_INIT -> parseCollection();
             case LOAD, LOOKUP -> parseVarExecutor();
             case FUNC, RETURN, CALL -> parseFunctions();
-            default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }
 
@@ -107,7 +116,7 @@ public class BytecodeParserImpl {
         return switch (token) {
             case FOREACH -> parseForeach();
             case WHILE -> parseExecutorWithTwoValues(WhileExecutor::new);
-            default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }
 
@@ -116,7 +125,7 @@ public class BytecodeParserImpl {
         return switch (token) {
             case LOAD -> parseVariable();
             case LOOKUP -> parseLookup();
-            default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }
 
@@ -125,7 +134,7 @@ public class BytecodeParserImpl {
         return switch (token) {
             case ARRAY_INIT -> parseArray();
             case DICT_INIT -> parseDictionary();
-            default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }
 
@@ -135,7 +144,7 @@ public class BytecodeParserImpl {
             case FUNC -> parseFunction();
             case CALL -> parseFunctionCall();
             case RETURN -> parseExecutorWithOneValue(ReturnExecutor::new);
-            default -> throw new IllegalStateException("Unexpected value: " + peekTokens()[0]);
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }
 
@@ -151,7 +160,7 @@ public class BytecodeParserImpl {
             case LESS_EQUAL -> parseExecutorWithTwoValues(LessEqualOpExecutor::new);
             case NOT -> parseExecutorWithOneValue(NotOpExecutor::new);
             case OR -> parseExecutorWithTwoValues(OrOpExecutor::new);
-            default -> throw new IllegalStateException("Unexpected value: " + token);
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + token);
         };
     }
 
@@ -167,7 +176,7 @@ public class BytecodeParserImpl {
             case MULTIPLY -> parseExecutorWithTwoValues(MultiplyOpExecutor::new);
             case SUBTRACT -> parseExecutorWithTwoValues(SubtractOpExecutor::new);
             case CONCAT -> parseExecutorWithTwoValues(ConcatOpExecutor::new);
-            default -> throw new IllegalStateException("Unexpected value: " + token);
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + token);
         };
     }
 
@@ -365,35 +374,5 @@ public class BytecodeParserImpl {
 
     private String[] split(String line) {
         return line.split(ARGS_DIVISION);
-    }
-
-    public static void main(String[] args) {
-        var test = "BLOCK_START 1 1\n" +
-                "SET 1 5\n" +
-                "FUNC 1 7\n" +
-                "ARG\n" +
-                "LOAD a 1 16\n" +
-                "ARG\n" +
-                "LOAD b 1 19\n" +
-                "BODY\n" +
-                "BLOCK_START 1 22\n" +
-                "RETURN_START 2 5\n" +
-                "PUSH_T true 2 12\n" +
-                "BLOCK_END\n" +
-                "LOAD sum 1 1\n" +
-                "CALL sum 5 1\n" +
-                "LOAD sum 5 1\n" +
-                "ARG\n" +
-                "PUSH_N 1 5 5\n" +
-                "ARG\n" +
-                "PUSH_N 3 5 8\n" +
-                "CALL_END\n" +
-                "BLOCK_END\n";
-
-        List<String> bytecode = new ArrayList<>(Arrays.asList(test.split("\n")));
-
-        var parser = new BytecodeParserImpl();
-        Executor ast = parser.parse(bytecode);
-        ast.eval(new VirtualMachineImpl());
     }
 }

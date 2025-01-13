@@ -1,18 +1,20 @@
 package org.bayl.runtime.function;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.BaylNumber;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class ArrayLenFunction extends Function {
-    private final String[] parameters = {"array"};
+
+    private static final String NAME = "array";
+    private final String[] parameters = {NAME};
 
     @Override
     public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
-        BaylArray array = (BaylArray) interpreter.getVariable("array", pos);
+        BaylArray array = (BaylArray) interpreter.getVariable(NAME, pos);
         return new BaylNumber(array.size());
     }
 

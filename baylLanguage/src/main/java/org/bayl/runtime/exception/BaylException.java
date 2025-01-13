@@ -13,7 +13,7 @@ public class BaylException extends RuntimeException {
     }
 
     public BaylException(String message, SourcePosition position) {
-        super(message + " on line " + position.getLineNumber() +
-            " at column " + position.getColumnNumber());
+        super(message + " on line " + position.getLineNumber()
+                      + " at column " + position.getColumnNumber());
     }
 }

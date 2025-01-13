@@ -13,8 +13,8 @@ import org.bayl.vm.impl.VirtualMachineImpl;
 @EqualsAndHashCode(callSuper = true)
 public class AssignExecutor extends BinaryOpExecutor {
 
-    public AssignExecutor(SourcePosition pos, Executor var, Executor expression) {
-        super(pos, "set!", var, expression);
+    public AssignExecutor(SourcePosition pos, Executor varExecutor, Executor expression) {
+        super(pos, "set!", varExecutor, expression);
     }
 
     @Override

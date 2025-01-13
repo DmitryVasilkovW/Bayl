@@ -1,8 +1,8 @@
 package org.bayl.ast.operator.arithmetic;
 
 import org.bayl.SourcePosition;
-import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.ArithmeticOpNode;
+import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;

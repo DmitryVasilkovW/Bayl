@@ -1,5 +1,14 @@
 package org.bayl.vm.impl;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.bayl.Lexer;
 import org.bayl.Parser;
 import org.bayl.SourcePosition;
@@ -14,15 +23,6 @@ import org.bayl.runtime.function.ArrayPushFunction;
 import org.bayl.runtime.function.PrintFunction;
 import org.bayl.runtime.function.PrintLineFunction;
 import org.bayl.runtime.function.StringLenFunction;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class VirtualMachineImpl {
 
