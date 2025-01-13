@@ -7,6 +7,7 @@ public class JNIExample {
     }
 
     private native int generateMultiplicationTemplateInt(int a, int b);
+    private native double generateMultiplicationTemplateDouble(double a, double b);
 
     public static void main(String[] args) {
         JNIExample example = new JNIExample();
@@ -18,11 +19,11 @@ public class JNIExample {
 
         System.out.println("Multiplication result: " + result);
 
-        int x = 10;
-        int y = 3;
+        double aDouble = 1.5;
+        double bDouble = 3.0;
 
-        int result2 = example.generateMultiplicationTemplateInt(x, y);
+        double resultDouble = example.generateMultiplicationTemplateDouble(aDouble, bDouble);
 
-        System.out.println("Multiplication result: " + result2);
+        System.out.println("Multiplication result: " + resultDouble);
     }
 }
