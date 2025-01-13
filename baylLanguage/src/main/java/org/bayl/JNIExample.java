@@ -17,5 +17,12 @@ public class JNIExample {
         int result = example.generateMultiplicationTemplate(a, b);
 
         System.out.println("Multiplication result: " + result);
+
+        int x = 10;
+        int y = 3;
+
+        int result2 = example.generateMultiplicationTemplate(x, y);
+
+        System.out.println("Multiplication result: " + result2);
     }
 }
