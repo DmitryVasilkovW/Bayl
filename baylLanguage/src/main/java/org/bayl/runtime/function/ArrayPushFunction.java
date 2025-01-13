@@ -1,18 +1,21 @@
 package org.bayl.runtime.function;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
+import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.BaylObject;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
 public class ArrayPushFunction extends Function {
-    private final String[] parameters = {"array", "element"};
+
+    private static final String KEY = "array";
+    private static final String VALUE = "element";
+    private final String[] parameters = {KEY, VALUE};
 
     @Override
     public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
-        BaylArray array = (BaylArray) interpreter.getVariable("array", pos);
-        array.push(interpreter.getVariable("element", pos));
+        BaylArray array = (BaylArray) interpreter.getVariable(KEY, pos);
+        array.push(interpreter.getVariable(VALUE, pos));
         return array;
     }
 

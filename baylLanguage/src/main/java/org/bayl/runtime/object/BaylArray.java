@@ -1,10 +1,11 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.BaylObject;
 import java.util.Iterator;
 import java.util.List;
+import org.bayl.runtime.BaylObject;
 
 public class BaylArray extends BaylObject implements Iterable<BaylObject> {
+
     private List<BaylObject> elements;
 
     public BaylArray(List<BaylObject> elements) {

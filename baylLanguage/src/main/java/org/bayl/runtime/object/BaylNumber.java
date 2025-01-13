@@ -1,10 +1,11 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.BaylObject;
-import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import org.bayl.runtime.BaylObject;
 
 final public class BaylNumber extends BaylObject {
+
     private final BigDecimal value;
 
     public BaylNumber(String value) {

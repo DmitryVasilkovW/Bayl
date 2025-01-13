@@ -3,6 +3,7 @@ package org.bayl.runtime.object;
 import org.bayl.runtime.BaylObject;
 
 final public class BaylBoolean extends BaylObject {
+
     static final public BaylBoolean TRUE = new BaylBoolean(true);
     static final public BaylBoolean FALSE = new BaylBoolean(false);
 
@@ -50,5 +51,10 @@ final public class BaylBoolean extends BaylObject {
     @Override
     public boolean equals(Object object) {
         return this == object;
+    }
+
+    @Override
+    public int hashCode() {
+        return Boolean.hashCode(value);
     }
 }

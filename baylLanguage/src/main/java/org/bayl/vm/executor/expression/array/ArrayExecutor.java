@@ -1,14 +1,13 @@
 package org.bayl.vm.executor.expression.array;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import org.bayl.SourcePosition;
-import org.bayl.ast.Node;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.impl.VirtualMachineImpl;
-import java.util.ArrayList;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 public class ArrayExecutor extends Executor {

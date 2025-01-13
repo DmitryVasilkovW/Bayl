@@ -1,13 +1,13 @@
 package org.bayl.ast.expression.array;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.vm.impl.VirtualMachineImpl;
-import java.util.ArrayList;
-import java.util.List;
 import static org.bayl.model.BytecodeToken.ARRAY_END;
 import static org.bayl.model.BytecodeToken.ARRAY_INIT;
 import static org.bayl.model.BytecodeToken.ARRAY_STORE;

@@ -13,8 +13,10 @@ import static org.bayl.model.BytecodeToken.SET;
 
 public class AssignNode extends BinaryOpNode {
 
-    public AssignNode(SourcePosition pos, Node var, Node expression) {
-        super(pos, "set!", var, expression);
+    private static final String EXCEPTION_MESSAGE = "Left hand of assignment must be a variable.";
+
+    public AssignNode(SourcePosition pos, Node varNode, Node expression) {
+        super(pos, "set!", varNode, expression);
     }
 
     @Override
@@ -29,21 +31,19 @@ public class AssignNode extends BinaryOpNode {
             ((LookupNode) left).set(virtualMachine, value);
             return value;
         }
-        throw new InvalidTypeException("Left hand of assignment must be a variable.", left.getPosition());
+        throw new InvalidTypeException(EXCEPTION_MESSAGE, left.getPosition());
     }
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add(getBytecodeLineWithPosition(
-                SET.toString()
-        ));
+        bytecode.add(getBytecodeLineWithPosition(SET.toString()));
 
         getRight().generateCode(bytecode);
         getLeft().generateCode(bytecode);
 
         Node left = getLeft();
         if (!validateLeft(left)) {
-            throw new InvalidTypeException("Left hand of assignment must be a variable.", left.getPosition());
+            throw new InvalidTypeException(EXCEPTION_MESSAGE, left.getPosition());
         }
     }
 
