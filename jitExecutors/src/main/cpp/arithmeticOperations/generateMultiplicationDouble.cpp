@@ -4,7 +4,7 @@
 #include <atomic>
 #include <mutex>
 
-#include "GlobalJitRuntime.h"
+#include "../GlobalJitRuntime.h"
 
 using namespace asmjit;
 
