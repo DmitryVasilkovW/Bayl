@@ -6,9 +6,10 @@ public class JNIExample {
         System.loadLibrary("jitExecutors");
     }
 
-    private native int generateMultiplicationTemplateInt(int a, int b);
-    private native double generateMultiplicationTemplateDouble(double a, double b);
-    private native int generateAdditionTemplateInt(int a, int b);
+    private native int generateMultiplicationTemplateInt(int arg1, int arg2);
+    private native double generateMultiplicationTemplateDouble(double arg1, double arg2);
+    private native int generateAdditionTemplateInt(int arg1, int arg2);
+    private native double generateAdditionTemplateDouble(double arg1, double arg2);
 
     public static void main(String[] args) {
         JNIExample example = new JNIExample();
@@ -26,5 +27,8 @@ public class JNIExample {
 
         int resultAddition = example.generateAdditionTemplateInt(a, b);
         System.out.println("Addition result: " + resultAddition);
+
+        double resultAdditionDouble = example.generateAdditionTemplateDouble(aDouble, bDouble);
+        System.out.println("Addition result: " + resultAdditionDouble);
     }
 }

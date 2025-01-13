@@ -12,7 +12,7 @@ static std::atomic<bool> isMultiplicationDoubleCodeGenerated{false};
 static std::mutex generationMultiplicationDoubleMutex;
 static jdouble (*cachedMultiplyFuncDouble)(jdouble, jdouble) = nullptr;
 
-extern "C" JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplateDouble(JNIEnv *env, jobject obj, jdouble a, jdouble b) {
+extern "C" JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplateDouble(JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2) {
     if (!isMultiplicationDoubleCodeGenerated.load(std::memory_order_acquire)) {
         std::lock_guard<std::mutex> lock(generationMultiplicationDoubleMutex);
 
@@ -54,5 +54,5 @@ extern "C" JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateMultiplica
         }
     }
 
-    return cachedMultiplyFuncDouble(a, b);
+    return cachedMultiplyFuncDouble(arg1, arg2);
 }

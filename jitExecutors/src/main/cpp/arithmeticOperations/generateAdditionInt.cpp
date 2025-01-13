@@ -12,7 +12,7 @@ static std::atomic<bool> isAdditionIntCodeGenerated{false};
 static std::mutex generationAdditionIntMutex;
 static jint (*cachedAddFunc)(jint, jint) = nullptr;
 
-extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateAdditionTemplateInt(JNIEnv *env, jobject obj, jint a, jint b) {
+extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateAdditionTemplateInt(JNIEnv *env, jobject obj, jint arg1, jint arg2) {
     if (!isAdditionIntCodeGenerated.load(std::memory_order_acquire)) {
         std::lock_guard<std::mutex> lock(generationAdditionIntMutex);
 
@@ -54,5 +54,5 @@ extern "C" JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateAdditionTempl
         }
     }
 
-    return cachedAddFunc(a, b);
+    return cachedAddFunc(arg1, arg2);
 }
