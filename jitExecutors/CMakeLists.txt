@@ -32,6 +32,8 @@ set(BOOST_INCLUDE_LIBRARIES
     multiprecision
     thread
     system
+    any
+    smart_ptr
 )
 
 FetchContent_MakeAvailable(boost)
@@ -54,6 +56,8 @@ target_link_libraries(jitExecutors
     Boost::multiprecision
     Boost::thread
     Boost::system
+    Boost::any
+    Boost::smart_ptr
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")

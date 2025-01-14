@@ -1,4 +1,4 @@
-#include "GlobalJitRuntime.h"
+#include "include/GlobalJitRuntime.h"
 
 GlobalJitRuntime& GlobalJitRuntime::getInstance() {
     static GlobalJitRuntime instance;
