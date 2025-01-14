@@ -122,4 +122,24 @@ extern "C" {
             return 0.0;
         }
     }
+
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateSubtractionTemplateDouble(
+        JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
+    ) {
+        try {
+            auto generator = JITGeneratorFactory::getInstance()
+                .createGenerator("double_subtraction");
+
+            if (!generator) {
+                return 0.0;
+            }
+
+            std::vector<boost::any> args = {arg1, arg2};
+            jvalue result = generator->generate(env, obj, args);
+
+            return result.d;
+        } catch (const std::exception& e) {
+            return 0.0;
+        }
+    }
 }

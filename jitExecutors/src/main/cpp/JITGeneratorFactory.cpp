@@ -6,6 +6,7 @@
 #include "include/arithmeticOperations/DoubleDivisionGenerator.h"
 #include "include/arithmeticOperations/IntAdditionGenerator.h"
 #include "include/arithmeticOperations/DoubleAdditionGenerator.h"
+#include "include/arithmeticOperations/DoubleSubtractionGenerator.h"
 
 JITGeneratorFactory& JITGeneratorFactory::getInstance() {
     static JITGeneratorFactory instance;
@@ -46,3 +47,6 @@ static GeneratorRegistrar<IntAdditionGenerator>
 
 static GeneratorRegistrar<DoubleAdditionGenerator>
     doubleAddRegistrar("double_addition");
+
+static GeneratorRegistrar<DoubleSubtractionGenerator>
+    doubleSubRegistrar("double_subtraction");
