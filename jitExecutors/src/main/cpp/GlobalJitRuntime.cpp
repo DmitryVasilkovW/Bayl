@@ -6,13 +6,12 @@ GlobalJitRuntime& GlobalJitRuntime::getInstance() {
 }
 
 asmjit::JitRuntime* GlobalJitRuntime::getGlobalJitRuntime() {
-    static std::mutex runtimeMutex;
-    std::lock_guard<std::mutex> lock(runtimeMutex);
+    static boost::once_flag initFlag;
+    static boost::shared_ptr<asmjit::JitRuntime> runtime;
 
-    static std::unique_ptr<asmjit::JitRuntime> globalRuntime;
-    if (!globalRuntime) {
-        globalRuntime = std::make_unique<asmjit::JitRuntime>();
-    }
+    boost::call_once(initFlag, []() {
+        runtime = boost::make_shared<asmjit::JitRuntime>();
+    });
 
-    return globalRuntime.get();
+    return runtime.get();
 }

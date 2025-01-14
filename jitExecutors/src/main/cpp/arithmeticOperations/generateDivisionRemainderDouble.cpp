@@ -3,8 +3,10 @@
 #include <asmjit/a64.h>
 #include <atomic>
 #include <mutex>
+#include <cmath>
 
 #include "../GlobalJitRuntime.h"
+#include "../Utils.h"
 
 using namespace asmjit;
 
@@ -73,5 +75,5 @@ extern "C" JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateDivisionRe
         }
     }
 
-    return cachedDivRemFunc(arg1, arg2);
+    return roundToPrecision(cachedDivRemFunc(arg1, arg2), 15);
 }

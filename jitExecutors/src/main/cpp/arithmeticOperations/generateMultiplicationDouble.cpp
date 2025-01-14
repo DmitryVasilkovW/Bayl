@@ -5,6 +5,7 @@
 #include <mutex>
 
 #include "../GlobalJitRuntime.h"
+#include "../Utils.h"
 
 using namespace asmjit;
 
@@ -54,5 +55,5 @@ extern "C" JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateMultiplica
         }
     }
 
-    return cachedMultiplyFuncDouble(arg1, arg2);
+    return roundToPrecision(cachedMultiplyFuncDouble(arg1, arg2), 2);
 }

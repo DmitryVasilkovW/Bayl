@@ -8,6 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 
+set(FETCHCONTENT_QUIET OFF)
+set(FETCHCONTENT_JOBS 6)
+set(CMAKE_BUILD_PARALLEL_LEVEL 6)
+
 file(STRINGS ${CMAKE_HOME_DIRECTORY}/.env ENV_FILE)
 foreach(VAR ${ENV_FILE})
     string(REGEX MATCH "^[^=]*" KEY ${VAR})
@@ -16,6 +20,21 @@ foreach(VAR ${ENV_FILE})
 endforeach()
 
 set(JAVA_HOME $ENV{JAVA_HOME})
+
+FetchContent_Declare(
+  boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG master
+)
+
+set(BOOST_ENABLE_CMAKE ON)
+set(BOOST_INCLUDE_LIBRARIES
+    multiprecision
+    thread
+    system
+)
+
+FetchContent_MakeAvailable(boost)
 
 FetchContent_Declare(
   asmjit
@@ -29,7 +48,13 @@ file(GLOB_RECURSE SOURCES src/main/cpp/*.cpp)
 
 add_library(jitExecutors SHARED ${SOURCES})
 
-target_link_libraries(jitExecutors PRIVATE asmjit)
+target_link_libraries(jitExecutors
+    PRIVATE
+    asmjit
+    Boost::multiprecision
+    Boost::thread
+    Boost::system
+)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     include_directories(${JAVA_HOME}/include/darwin)

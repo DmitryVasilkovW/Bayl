@@ -5,6 +5,7 @@
 #include <mutex>
 
 #include "../GlobalJitRuntime.h"
+#include "../Utils.h"
 
 using namespace asmjit;
 
@@ -49,5 +50,5 @@ extern "C" JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateDivisionTe
         }
     }
 
-    return cachedDivFunc(arg1, arg2);
+    return roundToPrecision(cachedDivFunc(arg1, arg2), 15);
 }
