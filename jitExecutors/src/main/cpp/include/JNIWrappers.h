@@ -25,4 +25,8 @@ extern "C" {
     JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateIncrementTemplate(
         JNIEnv *env, jobject obj, jdouble arg1
     );
+
+     JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDecrementTemplate(
+         JNIEnv *env, jobject obj, jdouble arg1
+     );
 }

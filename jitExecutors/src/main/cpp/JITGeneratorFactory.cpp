@@ -6,6 +6,7 @@
 #include "include/arithmeticOperations/AdditionGenerator.h"
 #include "include/arithmeticOperations/SubtractionGenerator.h"
 #include "include/arithmeticOperations/IncrementGenerator.h"
+#include "include/arithmeticOperations/DecrementGenerator.h"
 
 JITGeneratorFactory& JITGeneratorFactory::getInstance() {
     static JITGeneratorFactory instance;
@@ -46,3 +47,6 @@ static GeneratorRegistrar<SubtractionGenerator>
 
 static GeneratorRegistrar<IncrementGenerator>
     incRegistrar("increment");
+
+static GeneratorRegistrar<DecrementGenerator>
+    decRegistrar("decrement");
