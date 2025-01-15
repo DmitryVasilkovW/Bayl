@@ -14,43 +14,40 @@ jvalue NotGenerator::generate(
     const std::vector<boost::any>& args
 ) {
     if (args.size() != 1) {
-        throw std::runtime_error("Not operation requires exactly 1 argument");
+        throw std::runtime_error("NOT operation requires exactly 1 argument");
     }
 
-    jdouble arg = getArgAs<jdouble>(args[0]);
+    bool arg1 = getArgAs<bool>(args[0]);
 
     boost::call_once(initFlag, [this]() {
         generateNotCode();
     });
 
     jvalue result;
-    result.d = roundToPrecision(cachedNotFunc(arg), 15);
+    result.z = cachedNotFunc(arg1); // Using bool as the result
     return result;
 }
 
 void NotGenerator::generateNotCode() {
-    cachedNotFunc = compileCode<jdouble(*)(jdouble)>(
+    cachedNotFunc = compileCode<jboolean(*)(jboolean)>(  // Ensure we're using jboolean here
         [](ASMJIT_ASSEMBLER& assembler) {
 #ifdef __arm64__
-            auto argReg = asmjit::a64::d0;   // Регистр для аргумента
-            auto resultReg = asmjit::a64::d1;  // Регистр для результата
+            auto aReg = asmjit::a64::x0;   // Register for the argument
+            auto resultReg = asmjit::a64::x1;  // Register for the result
 
-            // Преобразуем аргумент в целое число (побитовое отрицание работает с целыми числами)
-            assembler.fcvtzs(asmjit::a64::x2, argReg);  // Преобразование в целое (int)
+            // Logical NOT operation
+            assembler.eor(resultReg, aReg, asmjit::a64::xzr); // x1 = x0 ^ 1
 
-            // Применяем побитовое отрицание
-            assembler.not_(asmjit::a64::x2, asmjit::a64::x2); // Побитовая инверсия
-            assembler.mov(asmjit::a64::d0, asmjit::a64::x2); // Перенос результата обратно в d0
-            assembler.ret(asmjit::a64::x30);
+            // Move the result back to the return register
+            assembler.mov(asmjit::a64::x0, resultReg);
+            assembler.ret();
 #elif defined(__x86_64__)
-            // Преобразуем аргумент в целое число
-            assembler.cvtsd2si(asmjit::x86::rax, asmjit::x86::xmm0); // Преобразование double в int64_t
+            // Logical NOT operation (using assembler.test)
+            assembler.test(asmjit::x86::rdi, asmjit::x86::rdi);  // Test if non-zero
+            assembler.setnz(asmjit::x86::al);  // Set 1 if non-zero, 0 if zero
 
-            // Применяем побитовое отрицание
-            assembler.not_(asmjit::x86::rax);  // Побитовая инверсия
-
-            // Переводим обратно в xmm0
-            assembler.cvtsi2sd(asmjit::x86::xmm0, asmjit::x86::rax);
+            // Move the result back to xmm0
+            assembler.cvtsi2sd(asmjit::x86::xmm0, asmjit::x86::al);
             assembler.ret();
 #endif
         }

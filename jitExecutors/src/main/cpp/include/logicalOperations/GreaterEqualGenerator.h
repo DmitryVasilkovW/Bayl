@@ -17,7 +17,7 @@ public:
 
 private:
     boost::once_flag initFlag;
-    jdouble (*cachedGreaterEqualsFunc)(jdouble, jdouble) = nullptr;
+    jboolean (*cachedGreaterEqualsFunc)(jdouble, jdouble) = nullptr;
 
     void generateGreaterEqualsCode();
 };

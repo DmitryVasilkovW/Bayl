@@ -143,67 +143,67 @@ extern "C" {
          }
      }
 
-     JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAndTemplate(
-             JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
+     JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAndTemplate(
+             JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
          ) {
              try {
                  auto generator = JITGeneratorFactory::getInstance()
                      .createGenerator("and");
 
                  if (!generator) {
-                     return 0.0;
+                     return JNI_FALSE;
                  }
 
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.d;
+                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
              } catch (const std::exception& e) {
-                 return 0.0;
+                 return JNI_FALSE;
              }
          }
 
-         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotTemplate(
-             JNIEnv *env, jobject obj, jdouble arg1
+         JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotTemplate(
+             JNIEnv *env, jobject obj, jboolean arg1
          ) {
              try {
                  auto generator = JITGeneratorFactory::getInstance()
                      .createGenerator("not");
 
                  if (!generator) {
-                     return 0.0;
+                     return JNI_FALSE;
                  }
 
                  std::vector<boost::any> args = {arg1};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.d;
+                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
              } catch (const std::exception& e) {
-                 return 0.0;
+                 return JNI_FALSE;
              }
          }
 
-         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateOrTemplate(
-             JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
+         JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateOrTemplate(
+             JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
          ) {
              try {
                  auto generator = JITGeneratorFactory::getInstance()
                      .createGenerator("or");
 
                  if (!generator) {
-                     return 0.0;
+                     return JNI_FALSE;
                  }
 
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.d;
+                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
              } catch (const std::exception& e) {
-                 return 0.0;
+                 return JNI_FALSE;
              }
          }
 
-         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualTemplate(
+         JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualTemplate(
              JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
          ) {
              try {
@@ -211,19 +211,19 @@ extern "C" {
                      .createGenerator("greater_equal");
 
                  if (!generator) {
-                     return 0.0;
+                     return JNI_FALSE;
                  }
 
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.d;
+                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
              } catch (const std::exception& e) {
-                 return 0.0;
+                 return JNI_FALSE;
              }
          }
 
-         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateLessEqualTemplate(
+         JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateLessEqualTemplate(
              JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
          ) {
              try {
@@ -231,15 +231,15 @@ extern "C" {
                      .createGenerator("less_equal");
 
                  if (!generator) {
-                     return 0.0;
+                     return JNI_FALSE;
                  }
 
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.d;
+                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
              } catch (const std::exception& e) {
-                 return 0.0;
+                 return JNI_FALSE;
              }
          }
 }

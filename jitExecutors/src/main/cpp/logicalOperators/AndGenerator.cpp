@@ -17,54 +17,37 @@ jvalue AndGenerator::generate(
         throw std::runtime_error("AND operation requires exactly 2 arguments");
     }
 
-    jdouble arg1 = getArgAs<jdouble>(args[0]);
-    jdouble arg2 = getArgAs<jdouble>(args[1]);
+    jboolean arg1 = getArgAs<jboolean>(args[0]);
+    jboolean arg2 = getArgAs<jboolean>(args[1]);
 
     boost::call_once(initFlag, [this]() {
         generateAndCode();
     });
 
     jvalue result;
-    result.d = roundToPrecision(cachedAndFunc(arg1, arg2), 15);
+    result.z = cachedAndFunc(arg1, arg2) ? JNI_TRUE : JNI_FALSE;
     return result;
 }
 
 void AndGenerator::generateAndCode() {
-    cachedAndFunc = compileCode<jdouble(*)(jdouble, jdouble)>(
+    cachedAndFunc = compileCode<jboolean(*)(jboolean, jboolean)>(
         [](ASMJIT_ASSEMBLER& assembler) {
-#ifdef __arm64__
-            auto aReg = asmjit::a64::d0;   // Регистр для a
-            auto bReg = asmjit::a64::d1;   // Регистр для b
-            auto resultReg = asmjit::a64::d2;  // Регистр для результата
+    #ifdef __arm64__
+            auto aReg = asmjit::a64::x0;  // Регистр для первого аргумента (arg1)
+            auto bReg = asmjit::a64::x1;  // Регистр для второго аргумента (arg2)
+            auto resultReg = asmjit::a64::x2;  // Регистр для результата
 
-            // Преобразование значений в целочисленные типы (для побитовой операции)
-            assembler.fcvtzs(asmjit::a64::x3, aReg);   // Преобразуем d0 в x3 (int)
-            assembler.fcvtzs(asmjit::a64::x4, bReg);   // Преобразуем d1 в x4 (int)
-
-            // Побитовая операция AND
-            assembler.and_(asmjit::a64::x5, asmjit::a64::x3, asmjit::a64::x4);  // x5 = x3 & x4
-
-            // Результат возвращаем в d2
-            assembler.fcvtzsd(resultReg, asmjit::a64::x5);  // Преобразуем x5 обратно в double (d2)
-            assembler.mov(asmjit::a64::d0, resultReg);  // Переносим результат в d0
-            assembler.ret(asmjit::a64::x30);
-#elif defined(__x86_64__)
-            // Для x86_64 используем xmm0 и xmm1
-            assembler.movsd(asmjit::x86::xmm2, asmjit::x86::xmm0); // Сохраняем значение xmm0 в xmm2
-            assembler.movsd(asmjit::x86::xmm3, asmjit::x86::xmm1); // Сохраняем значение xmm1 в xmm3
-
-            // Преобразуем значения в целые числа
-            assembler.cvtsd2si(asmjit::x86::eax, asmjit::x86::xmm2);  // xmm2 -> eax
-            assembler.cvtsd2si(asmjit::x86::ebx, asmjit::x86::xmm3);  // xmm3 -> ebx
-
-            // Побитовая операция AND
-            assembler.and_(asmjit::x86::eax, asmjit::x86::ebx);  // eax = eax & ebx
-
-            // Преобразуем результат обратно в double
-            assembler.cvtsi2sd(asmjit::x86::xmm0, asmjit::x86::eax);  // eax -> xmm0
-
+            // Логическая операция AND
+            assembler.and_(resultReg, aReg, bReg);  // x2 = x0 & x1 (AND operation)
+            assembler.mov(asmjit::a64::x0, resultReg);  // Переносим результат обратно в x0
             assembler.ret();
-#endif
+    #elif defined(__x86_64__)
+            // Логическая операция AND
+            assembler.test(asmjit::x86::rdi, asmjit::x86::rsi);  // rdi & rsi
+            assembler.setnz(asmjit::x86::al);  // Устанавливаем результат в al (0 or 1)
+            assembler.cvtsi2sd(asmjit::x86::xmm0, asmjit::x86::al);  // Переводим результат в xmm0 (jboolean)
+            assembler.ret();
+    #endif
         }
     );
 }

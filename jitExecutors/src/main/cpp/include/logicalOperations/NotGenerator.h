@@ -17,7 +17,7 @@ public:
 
 private:
     boost::once_flag initFlag;
-    jdouble (*cachedNotFunc)(jdouble) = nullptr;
+    jboolean (*cachedNotFunc)(jboolean) = nullptr;
 
     void generateNotCode();
 };

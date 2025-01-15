@@ -22,7 +22,7 @@ jvalue GreaterEqualsGenerator::generate(
 }
 
 void GreaterEqualsGenerator::generateGreaterEqualsCode() {
-    cachedGreaterEqualsFunc = compileCode<jdouble(*)(jdouble, jdouble)>(
+    cachedGreaterEqualsFunc = compileCode<jboolean(*)(jdouble, jdouble)>(
         [](ASMJIT_ASSEMBLER& assembler) {
 #ifdef __x86_64__
             // Загружаем аргументы в xmm0 и xmm1

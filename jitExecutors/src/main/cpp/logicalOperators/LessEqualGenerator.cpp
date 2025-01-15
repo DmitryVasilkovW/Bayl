@@ -22,7 +22,7 @@ jvalue LessEqualGenerator::generate(
 }
 
 void LessEqualGenerator::generateLessEqualCode() {
-    cachedLessEqualFunc = compileCode<jdouble(*)(jdouble, jdouble)>(
+    cachedLessEqualFunc = compileCode<jboolean(*)(jdouble, jdouble)>(
         [](ASMJIT_ASSEMBLER& assembler) {
 #ifdef __x86_64__
             // Загружаем аргументы в xmm0 и xmm1
