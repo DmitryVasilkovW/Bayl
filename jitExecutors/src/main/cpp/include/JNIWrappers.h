@@ -46,7 +46,7 @@ extern "C" {
      );
 
      // Оператор GreaterThan or Equal (>=)
-     JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualsTemplate(
+     JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualTemplate(
          JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
      );
 
