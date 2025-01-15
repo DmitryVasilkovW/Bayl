@@ -203,12 +203,12 @@ extern "C" {
              }
          }
 
-         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualsTemplate(
+         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualTemplate(
              JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
          ) {
              try {
                  auto generator = JITGeneratorFactory::getInstance()
-                     .createGenerator("greater_equals");
+                     .createGenerator("greater_equal");
 
                  if (!generator) {
                      return 0.0;

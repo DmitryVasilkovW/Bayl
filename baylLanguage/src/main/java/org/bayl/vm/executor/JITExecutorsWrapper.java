@@ -15,7 +15,7 @@ public class JITExecutorsWrapper {
     public native double generateAndTemplate(double arg1, double arg2);
     public native double generateNotTemplate(double arg1);
     public native double generateOrTemplate(double arg1, double arg2);
-    public native double generateGreaterEqualsTemplate(double arg1, double arg2);
+    public native double generateGreaterEqualTemplate(double arg1, double arg2);
     public native double generateLessEqualTemplate(double arg1, double arg2);
 
     public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class JITExecutorsWrapper {
         double resultOr = example.generateOrTemplate(a, b);
         System.out.println("OR result: " + resultOr);
 
-        double resultGreaterEquals = example.generateGreaterEqualsTemplate(a, b);
+        double resultGreaterEquals = example.generateGreaterEqualTemplate(a, b);
         System.out.println("GreaterEquals result: " + resultGreaterEquals);
 
         double resultLessEqual = example.generateLessEqualTemplate(a, b);
