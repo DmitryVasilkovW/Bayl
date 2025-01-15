@@ -51,7 +51,7 @@ public class JITExecutorsWrapper {
         boolean resultNot = example.generateNotTemplate(false);
         System.out.println("NOT result: " + resultNot);
 
-        boolean resultOr = example.generateOrTemplate(true, true);
+        boolean resultOr = example.generateOrTemplate(false, false);
         System.out.println("OR result: " + resultOr);
 
         boolean resultGreaterEquals = example.generateGreaterEqualTemplate(a, b);
