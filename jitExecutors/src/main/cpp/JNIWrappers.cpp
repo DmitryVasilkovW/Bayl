@@ -142,4 +142,104 @@ extern "C" {
              return 0.0;
          }
      }
+
+     JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAndTemplate(
+             JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
+         ) {
+             try {
+                 auto generator = JITGeneratorFactory::getInstance()
+                     .createGenerator("and");
+
+                 if (!generator) {
+                     return 0.0;
+                 }
+
+                 std::vector<boost::any> args = {arg1, arg2};
+                 jvalue result = generator->generate(env, obj, args);
+
+                 return result.d;
+             } catch (const std::exception& e) {
+                 return 0.0;
+             }
+         }
+
+         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotTemplate(
+             JNIEnv *env, jobject obj, jdouble arg1
+         ) {
+             try {
+                 auto generator = JITGeneratorFactory::getInstance()
+                     .createGenerator("not");
+
+                 if (!generator) {
+                     return 0.0;
+                 }
+
+                 std::vector<boost::any> args = {arg1};
+                 jvalue result = generator->generate(env, obj, args);
+
+                 return result.d;
+             } catch (const std::exception& e) {
+                 return 0.0;
+             }
+         }
+
+         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateOrTemplate(
+             JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
+         ) {
+             try {
+                 auto generator = JITGeneratorFactory::getInstance()
+                     .createGenerator("or");
+
+                 if (!generator) {
+                     return 0.0;
+                 }
+
+                 std::vector<boost::any> args = {arg1, arg2};
+                 jvalue result = generator->generate(env, obj, args);
+
+                 return result.d;
+             } catch (const std::exception& e) {
+                 return 0.0;
+             }
+         }
+
+         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualsTemplate(
+             JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
+         ) {
+             try {
+                 auto generator = JITGeneratorFactory::getInstance()
+                     .createGenerator("greater_equals");
+
+                 if (!generator) {
+                     return 0.0;
+                 }
+
+                 std::vector<boost::any> args = {arg1, arg2};
+                 jvalue result = generator->generate(env, obj, args);
+
+                 return result.d;
+             } catch (const std::exception& e) {
+                 return 0.0;
+             }
+         }
+
+         JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateLessEqualTemplate(
+             JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
+         ) {
+             try {
+                 auto generator = JITGeneratorFactory::getInstance()
+                     .createGenerator("less_equal");
+
+                 if (!generator) {
+                     return 0.0;
+                 }
+
+                 std::vector<boost::any> args = {arg1, arg2};
+                 jvalue result = generator->generate(env, obj, args);
+
+                 return result.d;
+             } catch (const std::exception& e) {
+                 return 0.0;
+             }
+         }
 }
