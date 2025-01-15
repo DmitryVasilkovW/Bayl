@@ -21,8 +21,8 @@ public class JITExecutorsWrapper {
     public static void main(String[] args) {
         JITExecutorsWrapper example = new JITExecutorsWrapper();
 
-        double a = 3.0;
-        double b = 1.4;
+        double a = 2.0;
+        double b = 2.5;
 
         double resultMultiplication = example.generateMultiplicationTemplate(a, b);
         System.out.println("Multiplication result: " + resultMultiplication);
