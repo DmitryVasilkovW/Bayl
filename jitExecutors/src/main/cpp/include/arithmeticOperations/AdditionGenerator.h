@@ -3,7 +3,6 @@
 #include "../AbstractJITGenerator.h"
 #include "../Utils.h"
 
-
 class AdditionGenerator : public AbstractJITGenerator {
 public:
     jvalue generate(
