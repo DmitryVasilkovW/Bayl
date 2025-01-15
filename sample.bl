@@ -65,3 +65,6 @@ range = function(start_number, end_number, step = 1) {
 
 // Calling functions
 println(sum(range(1, 9)));
+
+temp = 3 / 2;
+println(temp);
