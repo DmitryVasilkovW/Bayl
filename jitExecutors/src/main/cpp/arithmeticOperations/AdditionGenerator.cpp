@@ -1,4 +1,4 @@
-#include "../include/arithmeticOperations/DoubleAdditionGenerator.h"
+#include "../include/arithmeticOperations/AdditionGenerator.h"
 
 #ifdef __arm64__
     #define ASMJIT_ASSEMBLER asmjit::a64::Assembler
@@ -8,7 +8,7 @@
     #error "Unsupported architecture"
 #endif
 
-jvalue DoubleAdditionGenerator::generate(
+jvalue AdditionGenerator::generate(
     JNIEnv* env,
     jobject obj,
     const std::vector<boost::any>& args
@@ -29,7 +29,7 @@ jvalue DoubleAdditionGenerator::generate(
     return result;
 }
 
-void DoubleAdditionGenerator::generateAdditionCode() {
+void AdditionGenerator::generateAdditionCode() {
     cachedAddFunc = compileCode<jdouble(*)(jdouble, jdouble)>(
         [](ASMJIT_ASSEMBLER& assembler) {
 #ifdef __arm64__

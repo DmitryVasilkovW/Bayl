@@ -2,31 +2,23 @@
 #include <jni.h>
 
 extern "C" {
-    JNIEXPORT jint JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplateInt(
-        JNIEnv *env, jobject obj, jint arg1, jint arg2
-    );
-
-    JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_JNIExample_generateMultiplicationTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     );
 
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionRemainderTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionRemainderTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     );
 
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     );
 
-    JNIEXPORT jint JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplateInt(
-        JNIEnv *env, jobject obj, jint arg1, jint arg2
-    );
-
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     );
 
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateSubtractionTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateSubtractionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     );
 }

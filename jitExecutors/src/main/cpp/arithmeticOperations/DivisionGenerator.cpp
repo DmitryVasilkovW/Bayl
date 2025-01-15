@@ -1,4 +1,4 @@
-#include "../include/arithmeticOperations/DoubleDivisionGenerator.h"
+#include "../include/arithmeticOperations/DivisionGenerator.h"
 
 #ifdef __arm64__
     #define ASMJIT_ASSEMBLER asmjit::a64::Assembler
@@ -8,7 +8,7 @@
     #error "Unsupported architecture"
 #endif
 
-jvalue DoubleDivisionGenerator::generate(
+jvalue DivisionGenerator::generate(
     JNIEnv* env,
     jobject obj,
     const std::vector<boost::any>& args
@@ -29,7 +29,7 @@ jvalue DoubleDivisionGenerator::generate(
     return result;
 }
 
-void DoubleDivisionGenerator::generateDivisionCode() {
+void DivisionGenerator::generateDivisionCode() {
     asmjit::CodeHolder code;
     code.init(asmjit::Environment::host());
 

@@ -1,4 +1,4 @@
-#include "../include/arithmeticOperations/DoubleDivisionRemainderGenerator.h"
+#include "../include/arithmeticOperations/DivisionRemainderGenerator.h"
 
 #ifdef __arm64__
     #define ASMJIT_ASSEMBLER asmjit::a64::Assembler
@@ -8,7 +8,7 @@
     #error "Unsupported architecture"
 #endif
 
-jvalue DoubleDivisionRemainderGenerator::generate(
+jvalue DivisionRemainderGenerator::generate(
     JNIEnv* env, 
     jobject obj, 
     const std::vector<boost::any>& args
@@ -29,7 +29,7 @@ jvalue DoubleDivisionRemainderGenerator::generate(
     return result;
 }
 
-void DoubleDivisionRemainderGenerator::generateDivisionRemainderCode() {
+void DivisionRemainderGenerator::generateDivisionRemainderCode() {
     asmjit::CodeHolder code;
     code.init(asmjit::Environment::host());
 

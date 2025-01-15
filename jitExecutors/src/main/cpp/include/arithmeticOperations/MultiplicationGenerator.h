@@ -3,7 +3,7 @@
 #include "../AbstractJITGenerator.h"
 #include "../Utils.h"
 
-class DoubleSubtractionGenerator : public AbstractJITGenerator {
+class MultiplicationGenerator : public AbstractJITGenerator {
 public:
     jvalue generate(
         JNIEnv* env,
@@ -12,12 +12,12 @@ public:
     ) override;
 
    std::unique_ptr<AbstractJITGenerator> clone() const override {
-        return std::make_unique<DoubleSubtractionGenerator>(*this);
+        return std::make_unique<MultiplicationGenerator>(*this);
    }
 
 private:
     boost::once_flag initFlag;
-    jdouble (*cachedSubFunc)(jdouble, jdouble) = nullptr;
+    jdouble (*cachedMultiplyFunc)(jdouble, jdouble) = nullptr;
 
-    void generateSubtractionCode();
+    void generateMultiplicationCode();
 };

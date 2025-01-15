@@ -3,7 +3,7 @@
 #include "../AbstractJITGenerator.h"
 #include "../Utils.h"
 
-class DoubleDivisionRemainderGenerator : public AbstractJITGenerator {
+class DivisionRemainderGenerator : public AbstractJITGenerator {
 public:
     jvalue generate(
         JNIEnv* env,
@@ -12,7 +12,7 @@ public:
     ) override;
 
    std::unique_ptr<AbstractJITGenerator> clone() const override {
-        return std::make_unique<DoubleDivisionRemainderGenerator>(*this);
+        return std::make_unique<DivisionRemainderGenerator>(*this);
     }
 
 private:

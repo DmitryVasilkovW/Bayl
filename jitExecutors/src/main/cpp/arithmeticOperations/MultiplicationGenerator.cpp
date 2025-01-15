@@ -1,4 +1,4 @@
-#include "../include/arithmeticOperations/DoubleMultiplicationGenerator.h"
+#include "../include/arithmeticOperations/MultiplicationGenerator.h"
 
 #ifdef __arm64__
     #define ASMJIT_ASSEMBLER asmjit::a64::Assembler
@@ -8,13 +8,13 @@
     #error "Unsupported architecture"
 #endif
 
-jvalue DoubleMultiplicationGenerator::generate(
+jvalue MultiplicationGenerator::generate(
     JNIEnv* env,
     jobject obj,
     const std::vector<boost::any>& args
 ) {
     if (args.size() != 2) {
-        throw std::runtime_error("Double multiplication requires exactly 2 arguments");
+        throw std::runtime_error("Multiplication requires exactly 2 arguments");
     }
 
     jdouble arg1 = getArgAs<jdouble>(args[0]);
@@ -25,15 +25,15 @@ jvalue DoubleMultiplicationGenerator::generate(
     });
 
     jvalue result;
-    result.d = roundToPrecision(cachedMultiplyFuncDouble(arg1, arg2), 2);
+    result.d = roundToPrecision(cachedMultiplyFunc(arg1, arg2), 2);
     return result;
 }
 
-void DoubleMultiplicationGenerator::generateMultiplicationCode() {
+void MultiplicationGenerator::generateMultiplicationCode() {
     asmjit::CodeHolder code;
     code.init(asmjit::Environment::host());
 
-    cachedMultiplyFuncDouble = compileCode<jdouble(*)(jdouble, jdouble)>(
+    cachedMultiplyFunc = compileCode<jdouble(*)(jdouble, jdouble)>(
         [](ASMJIT_ASSEMBLER& assembler) {
 #ifdef __arm64__
             auto aReg = asmjit::a64::d0;   // Регистр для a

@@ -1,12 +1,10 @@
 #include "include/JITGeneratorFactory.h"
 #include "include/AbstractJITGenerator.h"
-#include "include/arithmeticOperations/IntMultiplicationGenerator.h"
-#include "include/arithmeticOperations/DoubleMultiplicationGenerator.h"
-#include "include/arithmeticOperations/DoubleDivisionRemainderGenerator.h"
-#include "include/arithmeticOperations/DoubleDivisionGenerator.h"
-#include "include/arithmeticOperations/IntAdditionGenerator.h"
-#include "include/arithmeticOperations/DoubleAdditionGenerator.h"
-#include "include/arithmeticOperations/DoubleSubtractionGenerator.h"
+#include "include/arithmeticOperations/MultiplicationGenerator.h"
+#include "include/arithmeticOperations/DivisionRemainderGenerator.h"
+#include "include/arithmeticOperations/DivisionGenerator.h"
+#include "include/arithmeticOperations/AdditionGenerator.h"
+#include "include/arithmeticOperations/SubtractionGenerator.h"
 
 JITGeneratorFactory& JITGeneratorFactory::getInstance() {
     static JITGeneratorFactory instance;
@@ -30,23 +28,17 @@ std::unique_ptr<AbstractJITGenerator> JITGeneratorFactory::createGenerator(
     return nullptr;
 }
 
-static GeneratorRegistrar<IntMultiplicationGenerator>
-    intMultiplyRegistrar("int_multiply");
+static GeneratorRegistrar<MultiplicationGenerator>
+    multiplyRegistrar("multiply");
 
-static GeneratorRegistrar<DoubleMultiplicationGenerator>
-    doubleMultiplyRegistrar("double_multiply");
+static GeneratorRegistrar<DivisionRemainderGenerator>
+    divRemRegistrar("div_remainder");
 
-static GeneratorRegistrar<DoubleDivisionRemainderGenerator>
-    doubleDivRemRegistrar("double_div_remainder");
+static GeneratorRegistrar<DivisionGenerator>
+    divRegistrar("division");
 
-static GeneratorRegistrar<DoubleDivisionGenerator>
-    doubleDivRegistrar("double_division");
+static GeneratorRegistrar<AdditionGenerator>
+    addRegistrar("addition");
 
-static GeneratorRegistrar<IntAdditionGenerator>
-    intAddRegistrar("int_addition");
-
-static GeneratorRegistrar<DoubleAdditionGenerator>
-    doubleAddRegistrar("double_addition");
-
-static GeneratorRegistrar<DoubleSubtractionGenerator>
-    doubleSubRegistrar("double_subtraction");
+static GeneratorRegistrar<SubtractionGenerator>
+    subRegistrar("subtraction");

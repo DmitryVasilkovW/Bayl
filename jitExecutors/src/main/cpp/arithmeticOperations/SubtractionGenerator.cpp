@@ -1,4 +1,4 @@
-#include "../include/arithmeticOperations/DoubleSubtractionGenerator.h"
+#include "../include/arithmeticOperations/SubtractionGenerator.h"
 
 #ifdef __arm64__
     #define ASMJIT_ASSEMBLER asmjit::a64::Assembler
@@ -8,7 +8,7 @@
     #error "Unsupported architecture"
 #endif
 
-jvalue DoubleSubtractionGenerator::generate(
+jvalue SubtractionGenerator::generate(
     JNIEnv* env,
     jobject obj,
     const std::vector<boost::any>& args
@@ -29,7 +29,7 @@ jvalue DoubleSubtractionGenerator::generate(
     return result;
 }
 
-void DoubleSubtractionGenerator::generateSubtractionCode() {
+void SubtractionGenerator::generateSubtractionCode() {
     cachedSubFunc = compileCode<jdouble(*)(jdouble, jdouble)>(
         [](ASMJIT_ASSEMBLER& assembler) {
 #ifdef __arm64__

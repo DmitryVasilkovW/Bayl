@@ -5,41 +5,31 @@ public class JITExecutorsWrapper {
         System.loadLibrary("jitExecutors");
     }
 
-    public native int generateMultiplicationTemplateInt(int arg1, int arg2);
-    public native double generateMultiplicationTemplateDouble(double arg1, double arg2);
-    public native int generateAdditionTemplateInt(int arg1, int arg2);
-    public native double generateAdditionTemplateDouble(double arg1, double arg2);
-    public native double generateDivisionRemainderTemplateDouble(double arg1, double arg2);
-    public native double generateDivisionTemplateDouble(double arg1, double arg2);
-    public native double generateSubtractionTemplateDouble(double arg1, double arg2);
+    public native double generateMultiplicationTemplate(double arg1, double arg2);
+    public native double generateAdditionTemplate(double arg1, double arg2);
+    public native double generateDivisionRemainderTemplate(double arg1, double arg2);
+    public native double generateDivisionTemplate(double arg1, double arg2);
+    public native double generateSubtractionTemplate(double arg1, double arg2);
 
     public static void main(String[] args) {
         JITExecutorsWrapper example = new JITExecutorsWrapper();
 
-        int a = 5;
-        int b = 3;
-        double aDouble = 3.0;
-        double bDouble = 1.4;
+        double a = 3.0;
+        double b = 1.4;
 
-        int resultMultiplication = example.generateMultiplicationTemplateInt(a, b);
+        double resultMultiplication = example.generateMultiplicationTemplate(a, b);
         System.out.println("Multiplication result: " + resultMultiplication);
 
-        double resultMultiplicationDouble = example.generateMultiplicationTemplateDouble(aDouble, bDouble);
-        System.out.println("Multiplication result: " + resultMultiplicationDouble);
-
-        int resultAddition = example.generateAdditionTemplateInt(a, b);
+        double resultAddition = example.generateAdditionTemplate(a, b);
         System.out.println("Addition result: " + resultAddition);
 
-        double resultAdditionDouble = example.generateAdditionTemplateDouble(aDouble, bDouble);
-        System.out.println("Addition result: " + resultAdditionDouble);
-
-        double resultDivisionRemainder = example.generateDivisionRemainderTemplateDouble(aDouble, bDouble);
+        double resultDivisionRemainder = example.generateDivisionRemainderTemplate(a, b);
         System.out.println("Division remainder result: " + resultDivisionRemainder);
 
-        double resultDivision = example.generateDivisionTemplateDouble(aDouble, bDouble);
+        double resultDivision = example.generateDivisionTemplate(a, b);
         System.out.println("Division: " + resultDivision);
 
-        double resultSubtractionDouble = example.generateSubtractionTemplateDouble(bDouble, aDouble);
-        System.out.println("Subtraction: " + resultSubtractionDouble);
+        double resultSubtraction = example.generateSubtractionTemplate(b, a);
+        System.out.println("Subtraction: " + resultSubtraction);
     }
 }

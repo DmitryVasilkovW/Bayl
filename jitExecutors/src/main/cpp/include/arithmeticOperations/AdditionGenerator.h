@@ -1,8 +1,10 @@
 #pragma once
 #include <boost/thread/once.hpp>
 #include "../AbstractJITGenerator.h"
+#include "../Utils.h"
 
-class IntAdditionGenerator : public AbstractJITGenerator {
+
+class AdditionGenerator : public AbstractJITGenerator {
 public:
     jvalue generate(
         JNIEnv* env,
@@ -11,12 +13,12 @@ public:
     ) override;
 
    std::unique_ptr<AbstractJITGenerator> clone() const override {
-        return std::make_unique<IntAdditionGenerator>(*this);
-    }
+        return std::make_unique<AdditionGenerator>(*this);
+   }
 
 private:
     boost::once_flag initFlag;
-    jint (*cachedAddFunc)(jint, jint) = nullptr;
+    jdouble (*cachedAddFunc)(jdouble, jdouble) = nullptr;
 
     void generateAdditionCode();
 };

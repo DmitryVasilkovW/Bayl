@@ -3,32 +3,12 @@
 #include "include/AbstractJITGenerator.h"
 
 extern "C" {
-    JNIEXPORT jint JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateMultiplicationTemplateInt(
-        JNIEnv *env, jobject obj, jint arg1, jint arg2
-    ) {
-        try {
-            auto generator = JITGeneratorFactory::getInstance()
-                .createGenerator("int_multiply");
-
-            if (!generator) {
-                return 0;
-            }
-
-            std::vector<boost::any> args = {arg1, arg2};
-            jvalue result = generator->generate(env, obj, args);
-
-            return result.i;
-        } catch (const std::exception& e) {
-            return 0;
-        }
-    }
-
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateMultiplicationTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateMultiplicationTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     ) {
         try {
             auto generator = JITGeneratorFactory::getInstance()
-                .createGenerator("double_multiply");
+                .createGenerator("multiply");
 
             if (!generator) {
                 return 0.0;
@@ -43,12 +23,12 @@ extern "C" {
         }
     }
 
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionRemainderTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionRemainderTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     ) {
         try {
             auto generator = JITGeneratorFactory::getInstance()
-                .createGenerator("double_div_remainder");
+                .createGenerator("div_remainder");
 
             if (!generator) {
                 return 0.0;
@@ -63,12 +43,12 @@ extern "C" {
         }
     }
 
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     ) {
         try {
             auto generator = JITGeneratorFactory::getInstance()
-                .createGenerator("double_division");
+                .createGenerator("division");
 
             if (!generator) {
                 return 0.0;
@@ -83,32 +63,12 @@ extern "C" {
         }
     }
 
-    JNIEXPORT jint JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplateInt(
-        JNIEnv *env, jobject obj, jint arg1, jint arg2
-    ) {
-        try {
-            auto generator = JITGeneratorFactory::getInstance()
-                .createGenerator("int_addition");
-
-            if (!generator) {
-                return 0;
-            }
-
-            std::vector<boost::any> args = {arg1, arg2};
-            jvalue result = generator->generate(env, obj, args);
-
-            return result.i;
-        } catch (const std::exception& e) {
-            return 0;
-        }
-    }
-
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     ) {
         try {
             auto generator = JITGeneratorFactory::getInstance()
-                .createGenerator("double_addition");
+                .createGenerator("addition");
 
             if (!generator) {
                 return 0.0;
@@ -123,12 +83,12 @@ extern "C" {
         }
     }
 
-    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateSubtractionTemplateDouble(
+    JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateSubtractionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
     ) {
         try {
             auto generator = JITGeneratorFactory::getInstance()
-                .createGenerator("double_subtraction");
+                .createGenerator("subtraction");
 
             if (!generator) {
                 return 0.0;
