@@ -10,6 +10,7 @@ public class JITExecutorsWrapper {
     public native double generateDivisionRemainderTemplate(double arg1, double arg2);
     public native double generateDivisionTemplate(double arg1, double arg2);
     public native double generateSubtractionTemplate(double arg1, double arg2);
+    public native double generateIncrementTemplate(double arg1);
 
     public static void main(String[] args) {
         JITExecutorsWrapper example = new JITExecutorsWrapper();
@@ -31,5 +32,8 @@ public class JITExecutorsWrapper {
 
         double resultSubtraction = example.generateSubtractionTemplate(b, a);
         System.out.println("Subtraction: " + resultSubtraction);
+
+        double resultIncrement = example.generateIncrementTemplate(a);
+        System.out.println("Increment: " + resultIncrement);
     }
 }
