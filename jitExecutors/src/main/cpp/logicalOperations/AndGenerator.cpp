@@ -25,7 +25,7 @@ jvalue AndGenerator::generate(
     });
 
     jvalue result;
-    result.z = cachedAndFunc(arg1, arg2) ? JNI_TRUE : JNI_FALSE;
+    result.z = cachedAndFunc(arg1, arg2) ? JNI_TRUE : JNI_FALSE;  // Правильная логика для AND
     return result;
 }
 
@@ -39,12 +39,16 @@ void AndGenerator::generateAndCode() {
 
             // Логическая операция AND
             assembler.and_(resultReg, aReg, bReg);  // x2 = x0 & x1 (AND operation)
-            assembler.mov(asmjit::a64::x0, resultReg);  // Переносим результат обратно в x0
+
+            // Переносим результат обратно в x0 (результат будет 0 или 1)
+            assembler.mov(asmjit::a64::x0, resultReg);
             assembler.ret();
     #elif defined(__x86_64__)
             // Логическая операция AND
             assembler.test(asmjit::x86::rdi, asmjit::x86::rsi);  // rdi & rsi
             assembler.setnz(asmjit::x86::al);  // Устанавливаем результат в al (0 or 1)
+
+            // Переводим результат в jboolean
             assembler.cvtsi2sd(asmjit::x86::xmm0, asmjit::x86::al);  // Переводим результат в xmm0 (jboolean)
             assembler.ret();
     #endif
