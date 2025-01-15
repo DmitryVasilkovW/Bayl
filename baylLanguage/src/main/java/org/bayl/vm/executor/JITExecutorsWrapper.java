@@ -39,7 +39,7 @@ public class JITExecutorsWrapper {
         double resultDivision = example.generateDivisionTemplateDouble(aDouble, bDouble);
         System.out.println("Division: " + resultDivision);
 
-        double resultSubtraction = example.generateSubtractionTemplateDouble(aDouble, bDouble);
-        System.out.println("Subtraction: " + resultSubtraction);
+        double resultSubtractionDouble = example.generateSubtractionTemplateDouble(bDouble, aDouble);
+        System.out.println("Subtraction: " + resultSubtractionDouble);
     }
 }
