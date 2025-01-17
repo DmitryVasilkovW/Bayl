@@ -6,7 +6,7 @@ import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.object.BaylString;
 
-public abstract class BaylObject implements Comparable<BaylObject> {
+public abstract class BaylObject implements BaylType, Comparable<BaylObject> {
 
     public BaylNumber toNumber(SourcePosition pos) {
         if (this instanceof BaylNumber) {

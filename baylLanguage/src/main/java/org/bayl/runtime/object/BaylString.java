@@ -1,9 +1,11 @@
 package org.bayl.runtime.object;
 
+import org.bayl.runtime.BaylMeaningful;
 import org.bayl.runtime.BaylObject;
 
-final public class BaylString extends BaylObject {
-    private String value;
+final public class BaylString extends BaylObject implements BaylMeaningful {
+
+    private final String value;
 
     public BaylString(String value) {
         this.value = value;

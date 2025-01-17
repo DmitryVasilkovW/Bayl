@@ -1,8 +1,9 @@
 package org.bayl.runtime.object;
 
+import org.bayl.runtime.BaylMeaningful;
 import org.bayl.runtime.BaylObject;
 
-final public class BaylBoolean extends BaylObject {
+final public class BaylBoolean extends BaylObject implements BaylMeaningful {
 
     static final public BaylBoolean TRUE = new BaylBoolean(true);
     static final public BaylBoolean FALSE = new BaylBoolean(false);

@@ -3,7 +3,8 @@ package org.bayl.runtime.object;
 import org.bayl.runtime.BaylObject;
 
 public class DictionaryEntry extends BaylObject {
-    private BaylObject key;
+
+    private final BaylObject key;
     private BaylObject value;
 
     public DictionaryEntry(BaylObject key, BaylObject value) {
