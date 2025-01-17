@@ -1,8 +1,9 @@
 package org.bayl.vm;
 
-import org.bayl.vm.model.Instruction;
 import java.util.List;
+import org.bayl.vm.executor.control.RootExecutor;
 
 public interface BytecodeParser {
-    List<Instruction> parse(List<String> bytecode);
+
+    RootExecutor parse(List<String> bytecode);
 }

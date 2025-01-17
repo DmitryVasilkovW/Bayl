@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import org.bayl.SourcePosition;
 import org.bayl.model.BytecodeToken;
+import org.bayl.vm.BytecodeParser;
 import org.bayl.vm.TriFunction;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.control.BlockExecutor;
@@ -51,7 +52,7 @@ import static org.bayl.model.BytecodeToken.CALL_END;
 import static org.bayl.model.BytecodeToken.DICT_END;
 import static org.bayl.model.BytecodeToken.ELSE;
 
-public class BytecodeParserImpl {
+public class BytecodeParserImpl implements BytecodeParser {
 
     private int iterator;
     private List<String> bytecode;
@@ -60,6 +61,7 @@ public class BytecodeParserImpl {
     private static final String EXCEPTION_MESSAGE = "Unexpected value: ";
     private static final int THRESHOLD = 5;
 
+    @Override
     public RootExecutor parse(List<String> bytecode) {
         init(bytecode);
 

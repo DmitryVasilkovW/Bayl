@@ -2,9 +2,10 @@ package org.bayl.runtime.object;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import org.bayl.runtime.BaylMeaningful;
 import org.bayl.runtime.BaylObject;
 
-final public class BaylNumber extends BaylObject {
+final public class BaylNumber extends BaylObject implements BaylMeaningful {
 
     private final BigDecimal value;
 

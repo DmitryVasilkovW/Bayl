@@ -8,6 +8,5 @@ public class Launcher {
     public static void main(String[] args) throws IOException {
         VirtualMachineImpl virtualMachine = new VirtualMachineImpl();
         virtualMachine.eval(new File(args[0]));
-        //TODO Print nice error messages instead of throwing IOExceptions
     }
 }

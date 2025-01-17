@@ -6,7 +6,7 @@ import org.bayl.runtime.BaylObject;
 
 public class BaylArray extends BaylObject implements Iterable<BaylObject> {
 
-    private List<BaylObject> elements;
+    private final List<BaylObject> elements;
 
     public BaylArray(List<BaylObject> elements) {
         this.elements = elements;

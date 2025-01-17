@@ -1,11 +1,12 @@
 package org.bayl.runtime.object;
 
-import org.bayl.runtime.BaylObject;
 import java.util.Iterator;
 import java.util.Map;
+import org.bayl.runtime.BaylObject;
 
 public class Dictionary extends BaylObject implements Iterable<Map.Entry<BaylObject, BaylObject>> {
-    private Map<BaylObject, BaylObject> dict;
+
+    private final Map<BaylObject, BaylObject> dict;
 
     public Dictionary(Map<BaylObject, BaylObject> dict) {
         this.dict = dict;
