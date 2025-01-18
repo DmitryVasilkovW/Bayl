@@ -142,4 +142,44 @@ extern "C" {
              return 0.0;
          }
      }
+
+     JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateEqualsTemplate(
+         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
+     ) {
+         try {
+             auto generator = JITGeneratorFactory::getInstance()
+                 .createGenerator("equals");
+
+             if (!generator) {
+                 return false;
+             }
+
+             std::vector<boost::any> args = {arg1, arg2};
+             jvalue result = generator->generate(env, obj, args);
+
+             return result.z;
+         } catch (const std::exception& e) {
+             return false;
+         }
+     }
+
+     JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotEqualsTemplate(
+         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
+     ) {
+         try {
+             auto generator = JITGeneratorFactory::getInstance()
+                 .createGenerator("notequals");
+
+             if (!generator) {
+                 return false;
+             }
+
+             std::vector<boost::any> args = {arg1, arg2};
+             jvalue result = generator->generate(env, obj, args);
+
+             return result.z;
+         } catch (const std::exception& e) {
+             return false;
+         }
+     }
 }

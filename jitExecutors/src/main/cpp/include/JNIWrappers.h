@@ -29,4 +29,12 @@ extern "C" {
      JNIEXPORT jdouble JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDecrementTemplate(
          JNIEnv *env, jobject obj, jdouble arg1
      );
+
+     JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateEqualsTemplate(
+         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
+     );
+
+     JNIEXPORT jboolean JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotEqualsTemplate(
+         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
+     );
 }

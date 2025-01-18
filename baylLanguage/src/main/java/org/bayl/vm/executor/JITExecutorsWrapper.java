@@ -12,6 +12,8 @@ public class JITExecutorsWrapper {
     public native double generateSubtractionTemplate(double arg1, double arg2);
     public native double generateIncrementTemplate(double arg1);
     public native double generateDecrementTemplate(double arg1);
+    public native boolean generateEqualsTemplate(boolean arg1, boolean arg2);
+    public native boolean generateNotEqualsTemplate(boolean arg1, boolean arg2);
 
     public static void main(String[] args) {
         JITExecutorsWrapper example = new JITExecutorsWrapper();
@@ -39,5 +41,17 @@ public class JITExecutorsWrapper {
 
         double resultDecrement = example.generateDecrementTemplate(a);
         System.out.println("Decrement: " + resultDecrement);
+
+        boolean resultEquals = example.generateEqualsTemplate(true, true);
+        System.out.println("Equals: " + resultEquals);
+
+        boolean resultEquals2 = example.generateEqualsTemplate(true, false);
+        System.out.println("Equals: " + resultEquals2);
+
+        boolean resultNotEquals = example.generateNotEqualsTemplate(true, false);
+        System.out.println("NotEquals: " + resultNotEquals);
+
+        boolean resultNotEquals2 = example.generateNotEqualsTemplate(true, true);
+        System.out.println("NotEquals: " + resultNotEquals2);
     }
 }

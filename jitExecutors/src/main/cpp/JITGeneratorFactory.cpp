@@ -7,6 +7,8 @@
 #include "include/arithmeticOperations/SubtractionGenerator.h"
 #include "include/arithmeticOperations/IncrementGenerator.h"
 #include "include/arithmeticOperations/DecrementGenerator.h"
+#include "include/logicalOperations/EqualsGenerator.h"
+#include "include/logicalOperations/NotEqualsGenerator.h"
 
 JITGeneratorFactory& JITGeneratorFactory::getInstance() {
     static JITGeneratorFactory instance;
@@ -50,3 +52,9 @@ static GeneratorRegistrar<IncrementGenerator>
 
 static GeneratorRegistrar<DecrementGenerator>
     decRegistrar("decrement");
+
+static GeneratorRegistrar<EqualsGenerator>
+    eqlsRegistrar("equals");
+
+static GeneratorRegistrar<NotEqualsGenerator>
+    noteqlsRegistrar("notequals");
