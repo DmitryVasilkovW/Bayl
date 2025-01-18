@@ -1,6 +1,6 @@
 package org.bayl.runtime.exception;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.object.Dictionary;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.BaylBoolean;

@@ -1,6 +1,6 @@
 package org.bayl.runtime.exception;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 
 public class TooFewArgumentsException extends BaylException {
     private static final long serialVersionUID = -8841576834370732148L;

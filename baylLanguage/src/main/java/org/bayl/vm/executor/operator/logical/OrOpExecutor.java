@@ -1,7 +1,7 @@
 package org.bayl.vm.executor.operator.logical;
 
 import lombok.EqualsAndHashCode;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.vm.executor.BinaryOpExecutor;

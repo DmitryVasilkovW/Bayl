@@ -1,6 +1,6 @@
 package org.bayl.runtime.function;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.BaylObject;

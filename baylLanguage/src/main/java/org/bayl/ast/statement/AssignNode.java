@@ -1,11 +1,11 @@
 package org.bayl.ast.statement;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
-import org.bayl.ast.expression.array.LookupNode;
+import org.bayl.ast.expression.collection.LookupNode;
 import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
 import static org.bayl.model.BytecodeToken.SET;

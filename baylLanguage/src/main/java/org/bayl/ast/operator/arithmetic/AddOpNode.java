@@ -1,10 +1,10 @@
 package org.bayl.ast.operator.arithmetic;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.ArithmeticOpNode;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylNumber;
 import static org.bayl.model.BytecodeToken.ADD;

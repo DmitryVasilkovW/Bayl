@@ -2,7 +2,7 @@ package org.bayl.runtime.function;
 
 import java.util.List;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.Parameter;

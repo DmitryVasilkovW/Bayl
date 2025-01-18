@@ -3,7 +3,7 @@ package org.bayl.memory;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylMeaningful;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylType;

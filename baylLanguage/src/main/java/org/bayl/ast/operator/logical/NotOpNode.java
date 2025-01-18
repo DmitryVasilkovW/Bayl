@@ -1,10 +1,10 @@
 package org.bayl.ast.operator.logical;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.BooleanOpNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.UnaryOpNode;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
 import static org.bayl.model.BytecodeToken.NOT;

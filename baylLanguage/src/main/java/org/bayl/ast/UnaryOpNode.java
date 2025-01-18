@@ -1,6 +1,6 @@
 package org.bayl.ast;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 
 public abstract class UnaryOpNode extends Node {
 

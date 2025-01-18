@@ -1,6 +1,6 @@
 package org.bayl.runtime;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.object.BaylBoolean;
 import org.bayl.runtime.object.BaylNumber;

@@ -1,9 +1,9 @@
 package org.bayl.ast.classes;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.ast.statement.BlockNode;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.ast.control.BlockNode;
+import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.classes.UserClass;
 import org.bayl.vm.Environment;

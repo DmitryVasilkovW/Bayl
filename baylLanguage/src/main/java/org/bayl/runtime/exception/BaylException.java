@@ -1,6 +1,6 @@
 package org.bayl.runtime.exception;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 
 public class BaylException extends RuntimeException {
     private static final long serialVersionUID = 1L;
