@@ -5,8 +5,8 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.PUSH_T;
+import org.bayl.vm.Environment;
 
 public class TrueNode extends Node {
 
@@ -17,7 +17,7 @@ public class TrueNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return BaylBoolean.TRUE;
     }
 

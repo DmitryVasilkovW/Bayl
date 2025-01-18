@@ -1,18 +1,18 @@
 package org.bayl.ast.expression.array;
 
-import org.bayl.SourcePosition;
-import org.bayl.ast.Node;
-import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.DictionaryEntry;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.bayl.SourcePosition;
+import org.bayl.ast.Node;
+import org.bayl.bytecode.Bytecode;
 import static org.bayl.model.BytecodeToken.DICT_END;
 import static org.bayl.model.BytecodeToken.DICT_INIT;
 import static org.bayl.model.BytecodeToken.DICT_PAIR;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.DictionaryEntry;
+import org.bayl.vm.Environment;
 
 public class DictionaryNode extends Node {
 
@@ -24,7 +24,7 @@ public class DictionaryNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         Map<BaylObject, BaylObject> entries = new LinkedHashMap<BaylObject, BaylObject>(elements.size());
         for (DictionaryEntryNode node : elements) {
             DictionaryEntry entry = (DictionaryEntry) node.eval(virtualMachine);

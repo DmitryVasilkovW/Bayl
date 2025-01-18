@@ -2,6 +2,7 @@ package org.bayl.memory;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylMeaningful;
 import org.bayl.runtime.BaylObject;
@@ -9,10 +10,21 @@ import org.bayl.runtime.BaylType;
 import org.bayl.runtime.exception.UnsetVariableException;
 import org.bayl.runtime.object.BaylRef;
 
+@Getter
 public class BaylMemory {
 
-    private final Map<String, BaylType> globalStorage = new HashMap<>();
-    private final Map<BaylRef, BaylObject> heap = new HashMap<>();
+    private final Map<String, BaylType> globalStorage;
+    private final Map<BaylRef, BaylObject> heap;
+
+    public BaylMemory(Map<String, BaylType> globalStorage, Map<BaylRef, BaylObject> heap) {
+        this.heap = heap;
+        this.globalStorage = globalStorage;
+    }
+
+    public BaylMemory() {
+        this.heap = new HashMap<>();
+        this.globalStorage = new HashMap<>();
+    }
 
     public BaylObject getVariable(String name, SourcePosition pos) {
         BaylType value = globalStorage.get(name);

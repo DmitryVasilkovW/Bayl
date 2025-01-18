@@ -5,7 +5,7 @@ import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.BaylNumber;
-import org.bayl.vm.impl.VirtualMachineImpl;
+import org.bayl.vm.Environment;
 
 public class ArrayLenFunction extends Function {
 
@@ -13,7 +13,7 @@ public class ArrayLenFunction extends Function {
     private final String[] parameters = {NAME};
 
     @Override
-    public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
+    public BaylObject eval(Environment interpreter, SourcePosition pos) {
         BaylArray array = (BaylArray) interpreter.getVariable(NAME, pos);
         return new BaylNumber(array.size());
     }

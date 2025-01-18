@@ -8,8 +8,8 @@ import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.SET;
+import org.bayl.vm.Environment;
 
 public class AssignNode extends BinaryOpNode {
 
@@ -20,7 +20,7 @@ public class AssignNode extends BinaryOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         Node left = getLeft();
         BaylObject value = getRight().eval(virtualMachine);
         if (left instanceof VariableNode) {

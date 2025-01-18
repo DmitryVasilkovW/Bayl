@@ -7,7 +7,6 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 import static org.bayl.model.BytecodeToken.ARG;
@@ -15,6 +14,7 @@ import static org.bayl.model.BytecodeToken.CALL;
 import static org.bayl.model.BytecodeToken.CALL_DYNAMIC;
 import static org.bayl.model.BytecodeToken.CALL_DYNAMIC_END;
 import static org.bayl.model.BytecodeToken.CALL_END;
+import org.bayl.vm.Environment;
 
 public class FunctionCallNode extends Node {
 
@@ -36,7 +36,7 @@ public class FunctionCallNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylObject expression = functionNode.eval(virtualMachine);
         if (!(expression instanceof Function)) {
             throw new InvalidTypeException("Call to invalid function", getPosition());

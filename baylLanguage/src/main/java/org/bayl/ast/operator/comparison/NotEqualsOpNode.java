@@ -5,8 +5,8 @@ import org.bayl.ast.Node;
 import org.bayl.ast.RelationalOpNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.NOT_EQUALS;
+import org.bayl.vm.Environment;
 
 public class NotEqualsOpNode extends RelationalOpNode {
 
@@ -15,7 +15,7 @@ public class NotEqualsOpNode extends RelationalOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return equals(virtualMachine).not();
     }
 

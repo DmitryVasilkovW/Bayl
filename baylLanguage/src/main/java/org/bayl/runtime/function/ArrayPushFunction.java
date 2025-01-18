@@ -4,7 +4,7 @@ import org.bayl.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.object.BaylArray;
-import org.bayl.vm.impl.VirtualMachineImpl;
+import org.bayl.vm.Environment;
 
 public class ArrayPushFunction extends Function {
 
@@ -13,7 +13,7 @@ public class ArrayPushFunction extends Function {
     private final String[] parameters = {KEY, VALUE};
 
     @Override
-    public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
+    public BaylObject eval(Environment interpreter, SourcePosition pos) {
         BaylArray array = (BaylArray) interpreter.getVariable(KEY, pos);
         array.push(interpreter.getVariable(VALUE, pos));
         return array;

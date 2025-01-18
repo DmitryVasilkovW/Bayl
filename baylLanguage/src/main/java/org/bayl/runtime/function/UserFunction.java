@@ -2,13 +2,13 @@ package org.bayl.runtime.function;
 
 import java.util.List;
 
-import org.bayl.vm.impl.VirtualMachineImpl;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.exception.ReturnException;
 import org.bayl.runtime.BaylObject;
+import org.bayl.vm.Environment;
 
 public class UserFunction extends Function {
     private final List<Parameter> parameters;
@@ -39,7 +39,7 @@ public class UserFunction extends Function {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
+    public BaylObject eval(Environment interpreter, SourcePosition pos) {
         try {
             return body.eval(interpreter);
         } catch (ReturnException e) {

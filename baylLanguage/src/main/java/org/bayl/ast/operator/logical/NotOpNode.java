@@ -7,8 +7,8 @@ import org.bayl.ast.UnaryOpNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.NOT;
+import org.bayl.vm.Environment;
 
 public class NotOpNode extends UnaryOpNode implements BooleanOpNode {
 
@@ -17,7 +17,7 @@ public class NotOpNode extends UnaryOpNode implements BooleanOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylBoolean operand = getOperand().eval(virtualMachine).toBoolean(getOperand().getPosition());
         return operand.not();
     }

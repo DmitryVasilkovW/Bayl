@@ -7,8 +7,8 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.OR;
+import org.bayl.vm.Environment;
 
 public class OrOpNode extends BinaryOpNode implements BooleanOpNode {
 
@@ -17,7 +17,7 @@ public class OrOpNode extends BinaryOpNode implements BooleanOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylBoolean left = getLeft().eval(virtualMachine).toBoolean(getLeft().getPosition());
         if (left.booleanValue()) {
             return left;

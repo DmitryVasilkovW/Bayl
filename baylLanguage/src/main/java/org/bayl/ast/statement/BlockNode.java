@@ -5,9 +5,10 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.model.BytecodeToken;
 import org.bayl.runtime.BaylObject;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.List;
+import java.util.stream.Stream;
 import static org.bayl.model.BytecodeToken.BLOCK_START;
+import org.bayl.vm.Environment;
 
 public class BlockNode extends Node {
 
@@ -26,8 +27,12 @@ public class BlockNode extends Node {
         return statements;
     }
 
+    public Stream<Node> gerStreamOfStatements() {
+        return statements.stream();
+    }
+
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylObject ret = null;
         for (Node statement : statements) {
             ret = statement.eval(virtualMachine);

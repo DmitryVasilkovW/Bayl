@@ -1,16 +1,17 @@
 package org.bayl.runtime.function;
 
+import java.util.List;
 import org.bayl.SourcePosition;
-import org.bayl.ast.Node;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.exception.ReturnException;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.impl.VirtualMachineImpl;
-import java.util.List;
 
 public class UserFunctionTMP extends Function {
+
     private final List<Parameter> parameters;
     private final Executor body;
 
@@ -39,9 +40,9 @@ public class UserFunctionTMP extends Function {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl interpreter, SourcePosition pos) {
+    public BaylObject eval(Environment interpreter, SourcePosition pos) {
         try {
-            return body.eval(interpreter);
+            return body.eval(((VirtualMachineImpl) interpreter));
         } catch (ReturnException e) {
             return e.getReturn();
         }

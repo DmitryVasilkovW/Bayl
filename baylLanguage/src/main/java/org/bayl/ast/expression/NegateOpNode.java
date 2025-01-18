@@ -7,8 +7,8 @@ import org.bayl.ast.UnaryOpNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylNumber;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.NEGATE;
+import org.bayl.vm.Environment;
 
 public class NegateOpNode extends UnaryOpNode implements ArithmeticOpNode {
 
@@ -17,7 +17,7 @@ public class NegateOpNode extends UnaryOpNode implements ArithmeticOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylNumber operand = getOperand().eval(virtualMachine).toNumber(getOperand().getPosition());
         return operand.negate();
     }

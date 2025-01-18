@@ -1,20 +1,17 @@
 package org.bayl.ast.statement;
 
+import java.util.Map;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.array.DictionaryEntryNode;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.Bytecode;
+import static org.bayl.model.BytecodeToken.FOREACH;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.Dictionary;
-import org.bayl.vm.impl.VirtualMachineImpl;
-import java.util.Map;
-import static org.bayl.model.BytecodeToken.AS;
-import static org.bayl.model.BytecodeToken.FOREACH;
-import static org.bayl.model.BytecodeToken.LOOP_BODY;
-import static org.bayl.model.BytecodeToken.ON_VAR;
+import org.bayl.vm.Environment;
 
 public class ForeachNode extends Node {
 
@@ -30,7 +27,7 @@ public class ForeachNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylObject onVariable = virtualMachine.getVariable(onVariableNode.getName(), onVariableNode.getPosition());
         BaylObject ret = null;
         if (onVariable instanceof BaylArray) {
