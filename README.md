@@ -194,3 +194,23 @@ print(dict); // выведет {1=1}
   arr = [1, 2];
   array_push(arr, 3); // в arr будет 1, 2, 3
   ```
+  
+# Классы
+
+- Полем класса может быть любое значение.
+- Вернуть из класса можно только значимый тип.
+
+  Примеры:
+
+  ```js
+  person = class {
+    age = 20;
+    name = "Micle";
+
+    printAge = function () {
+        return println(age);
+    };
+  };
+
+  person -> printAge();
+  ```

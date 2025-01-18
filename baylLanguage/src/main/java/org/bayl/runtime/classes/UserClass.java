@@ -15,12 +15,18 @@ import org.bayl.runtime.BaylClass;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.exception.TooFewArgumentsException;
+import org.bayl.runtime.function.ArrayLenFunction;
+import org.bayl.runtime.function.ArrayPushFunction;
+import org.bayl.runtime.function.PrintFunction;
+import org.bayl.runtime.function.PrintLineFunction;
+import org.bayl.runtime.function.StringLenFunction;
+import org.bayl.runtime.function.UserFunction;
 import org.bayl.vm.Environment;
 
 public class UserClass extends BaylClass implements Environment {
 
     private BaylMemory memory;
-    private Map<String, FunctionNode> methods;
+    private Map<String, Function> methods;
     private final BlockNode body;
     private BaylObject call;
 
@@ -39,7 +45,7 @@ public class UserClass extends BaylClass implements Environment {
         }
 
         if (methods.containsKey(name)) {
-            call = methods.get(name).eval(virtualMachine);
+            call = methods.get(name);
             return;
         }
         call = memory.getVariable(name, pos);
@@ -58,7 +64,7 @@ public class UserClass extends BaylClass implements Environment {
         try {
             return memory.getVariable(name, pos);
         } catch (Exception e) {
-            return methods.get(name).eval(this);
+            return methods.get(name);
         }
     }
 
@@ -125,12 +131,18 @@ public class UserClass extends BaylClass implements Environment {
                         Node value = ((AssignNode) node).getRight();
 
                         if (value instanceof FunctionNode) {
-                            methods.put(name, (FunctionNode) value);
+                            methods.put(name, ((UserFunction) (value).eval(virtualMachine)));
                         } else {
                             memory.setVariable(name, value.eval(virtualMachine));
                         }
                     }
                 }
         );
+
+        methods.put("print", new PrintFunction());
+        methods.put("println", new PrintLineFunction());
+        methods.put("str_len", new StringLenFunction());
+        methods.put("arr_len", new ArrayLenFunction());
+        methods.put("array_push", new ArrayPushFunction());
     }
 }
