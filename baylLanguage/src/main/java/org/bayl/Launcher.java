@@ -5,8 +5,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class Launcher {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         VirtualMachineImpl virtualMachine = new VirtualMachineImpl();
-        virtualMachine.eval(new File(args[0]));
+        try {
+            virtualMachine.eval(new File(args[0]));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
