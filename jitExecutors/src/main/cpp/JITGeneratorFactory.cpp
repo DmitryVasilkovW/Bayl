@@ -12,6 +12,8 @@
 #include "include/logicalOperations/OrGenerator.h"
 #include "include/logicalOperations/GreaterEqualGenerator.h"
 #include "include/logicalOperations/LessEqualGenerator.h"
+#include "include/logicalOperations/EqualsGenerator.h"
+#include "include/logicalOperations/NotEqualsGenerator.h"
 
 JITGeneratorFactory& JITGeneratorFactory::getInstance() {
     static JITGeneratorFactory instance;
@@ -70,3 +72,9 @@ static GeneratorRegistrar<GreaterEqualsGenerator>
 
 static GeneratorRegistrar<LessEqualGenerator>
     leRegistrar("less_equal");
+
+static GeneratorRegistrar<EqualsGenerator>
+    eqlsRegistrar("equals");
+
+static GeneratorRegistrar<NotEqualsGenerator>
+    noteqlsRegistrar("notequals");
