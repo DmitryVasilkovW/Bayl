@@ -47,13 +47,13 @@ public class JITExecutorsWrapper {
         double resultDecrement = example.generateDecrementTemplate(a);
         System.out.println("Decrement: " + resultDecrement);
 
-        boolean resultAnd = example.generateAndTemplate(false, false);
+        boolean resultAnd = example.generateAndTemplate(true, false);
         System.out.println("AND result: " + resultAnd);
 
         boolean resultNot = example.generateNotTemplate(false);
         System.out.println("NOT result: " + resultNot);
 
-        boolean resultOr = example.generateOrTemplate(false, false);
+        boolean resultOr = example.generateOrTemplate(true, false);
         System.out.println("OR result: " + resultOr);
 
         boolean resultGreaterEquals = example.generateGreaterEqualTemplate(a, b);

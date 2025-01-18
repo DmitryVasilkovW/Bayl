@@ -17,30 +17,12 @@ jvalue GreaterEqualsGenerator::generate(
     });
 
     jvalue result;
-    result.d = roundToPrecision(cachedGreaterEqualsFunc(arg1, arg2), 15);  // Округление с точностью до 15 знаков
+    result.z = cachedGreaterEqualsFunc(arg1, arg2) ? JNI_TRUE : JNI_FALSE;
     return result;
 }
 
 void GreaterEqualsGenerator::generateGreaterEqualsCode() {
-    cachedGreaterEqualsFunc = compileCode<jboolean(*)(jdouble, jdouble)>(
-        [](ASMJIT_ASSEMBLER& assembler) {
-#ifdef __x86_64__
-            // Загружаем аргументы в xmm0 и xmm1
-            assembler.movsd(asmjit::x86::xmm0, asmjit::x86::ptr(asmjit::x86::rdi));  // arg1
-            assembler.movsd(asmjit::x86::xmm1, asmjit::x86::ptr(asmjit::x86::rsi));  // arg2
-
-            // Сравниваем значения
-            assembler.ucomisd(asmjit::x86::xmm0, asmjit::x86::xmm1);
-            assembler.setae(asmjit::x86::al);  // Устанавливаем флаг, если arg1 >= arg2
-
-            // Преобразуем флаг в число (0 или 1)
-            assembler.movzx(asmjit::x86::rax, asmjit::x86::al);
-
-            // Возвращаем результат в xmm0
-            assembler.cvtsi2sd(asmjit::x86::xmm0, asmjit::x86::rax);
-
-            assembler.ret();
-#endif
-        }
-    );
+    cachedGreaterEqualsFunc = [](jdouble a, jdouble b) -> bool {
+        return a >= b;
+    };
 }

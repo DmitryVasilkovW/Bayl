@@ -17,7 +17,7 @@ public:
 
 private:
     boost::once_flag initFlag;
-    jboolean (*cachedOrFunc)(jboolean, jboolean) = nullptr;
+    bool (*cachedOrFunc)(jboolean, jboolean) = nullptr;
 
     void generateOrCode();
 };

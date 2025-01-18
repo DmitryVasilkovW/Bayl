@@ -17,7 +17,7 @@ public:
 
 private:
     boost::once_flag initFlag;
-    jboolean (*cachedLessEqualFunc)(jdouble, jdouble) = nullptr;
+    bool (*cachedLessEqualFunc)(jdouble, jdouble) = nullptr;
 
     void generateLessEqualCode();
 };

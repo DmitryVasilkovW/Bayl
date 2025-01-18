@@ -30,30 +30,9 @@ jvalue AndGenerator::generate(
 }
 
 void AndGenerator::generateAndCode() {
-    cachedAndFunc = compileCode<jboolean(*)(jboolean, jboolean)>(
-        [](ASMJIT_ASSEMBLER& assembler) {
-    #ifdef __arm64__
-            auto aReg = asmjit::a64::x0;  // Регистр для первого аргумента (arg1)
-            auto bReg = asmjit::a64::x1;  // Регистр для второго аргумента (arg2)
-            auto resultReg = asmjit::a64::x2;  // Регистр для результата
-
-            // Логическая операция AND
-            assembler.and_(resultReg, aReg, bReg);  // x2 = x0 & x1 (AND operation)
-
-            // Переносим результат обратно в x0 (результат будет 0 или 1)
-            assembler.mov(asmjit::a64::x0, resultReg);
-            assembler.ret();
-    #elif defined(__x86_64__)
-            // Логическая операция AND
-            assembler.test(asmjit::x86::rdi, asmjit::x86::rsi);  // rdi & rsi
-            assembler.setnz(asmjit::x86::al);  // Устанавливаем результат в al (0 or 1)
-
-            // Переводим результат в jboolean
-            assembler.cvtsi2sd(asmjit::x86::xmm0, asmjit::x86::al);  // Переводим результат в xmm0 (jboolean)
-            assembler.ret();
-    #endif
-        }
-    );
+    cachedAndFunc = [](jboolean a, jboolean b) -> bool {
+        return a && b;
+    };
 }
 
 #undef ASMJIT_ASSEMBLER

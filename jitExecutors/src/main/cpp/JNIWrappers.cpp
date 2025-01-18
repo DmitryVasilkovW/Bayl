@@ -157,7 +157,7 @@ extern "C" {
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
+                 return result.z ? JNI_TRUE : JNI_FALSE;
              } catch (const std::exception& e) {
                  return JNI_FALSE;
              }
@@ -177,7 +177,7 @@ extern "C" {
                  std::vector<boost::any> args = {arg1};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
+                 return result.z ? JNI_TRUE : JNI_FALSE;
              } catch (const std::exception& e) {
                  return JNI_FALSE;
              }
@@ -197,7 +197,7 @@ extern "C" {
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
+                 return result.z ? JNI_TRUE : JNI_FALSE;
              } catch (const std::exception& e) {
                  return JNI_FALSE;
              }
@@ -217,7 +217,7 @@ extern "C" {
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
+                 return result.z ? JNI_TRUE : JNI_FALSE;
              } catch (const std::exception& e) {
                  return JNI_FALSE;
              }
@@ -237,7 +237,7 @@ extern "C" {
                  std::vector<boost::any> args = {arg1, arg2};
                  jvalue result = generator->generate(env, obj, args);
 
-                 return result.z ? JNI_TRUE : JNI_FALSE; // Возвращаем jboolean (true/false)
+                 return result.z ? JNI_TRUE : JNI_FALSE;
              } catch (const std::exception& e) {
                  return JNI_FALSE;
              }
