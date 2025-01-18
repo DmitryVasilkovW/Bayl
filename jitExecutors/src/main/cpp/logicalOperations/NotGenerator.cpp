@@ -1,13 +1,5 @@
 #include "../include/logicalOperations/NotGenerator.h"
 
-#ifdef __arm64__
-    #define ASMJIT_ASSEMBLER asmjit::a64::Assembler
-#elif defined(__x86_64__)
-    #define ASMJIT_ASSEMBLER asmjit::x86::Assembler
-#else
-    #error "Unsupported architecture"
-#endif
-
 jvalue NotGenerator::generate(
     JNIEnv* env,
     jobject obj,
@@ -24,7 +16,7 @@ jvalue NotGenerator::generate(
     });
 
     jvalue result;
-    result.z = cachedNotFunc(arg1); // Using jboolean as the result
+    result.z = cachedNotFunc(arg1);
     return result;
 }
 
@@ -33,5 +25,3 @@ void NotGenerator::generateNotCode() {
         return !a;
     };
 }
-
-#undef ASMJIT_ASSEMBLER

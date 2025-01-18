@@ -1,13 +1,5 @@
 #include "../include/logicalOperations/AndGenerator.h"
 
-#ifdef __arm64__
-    #define ASMJIT_ASSEMBLER asmjit::a64::Assembler
-#elif defined(__x86_64__)
-    #define ASMJIT_ASSEMBLER asmjit::x86::Assembler
-#else
-    #error "Unsupported architecture"
-#endif
-
 jvalue AndGenerator::generate(
     JNIEnv* env,
     jobject obj,
@@ -34,5 +26,3 @@ void AndGenerator::generateAndCode() {
         return a && b;
     };
 }
-
-#undef ASMJIT_ASSEMBLER

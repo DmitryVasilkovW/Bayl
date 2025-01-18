@@ -17,6 +17,10 @@ public class JITExecutorsWrapper {
     public native boolean generateOrTemplate(boolean arg1, boolean arg2);
     public native boolean generateGreaterEqualTemplate(double arg1, double arg2);
     public native boolean generateLessEqualTemplate(double arg1, double arg2);
+    public native boolean generateGreaterTemplate(double arg1, double arg2);
+    public native boolean generateLessTemplate(double arg1, double arg2);
+    public native boolean generateEqualsDoubleTemplate(double arg1, double arg2);
+    public native boolean generateNotEqualsDoubleTemplate(double arg1, double arg2);
     public native boolean generateEqualsTemplate(boolean arg1, boolean arg2);
     public native boolean generateNotEqualsTemplate(boolean arg1, boolean arg2);
 
@@ -73,5 +77,17 @@ public class JITExecutorsWrapper {
 
         boolean resultNotEquals2 = example.generateNotEqualsTemplate(true, true);
         System.out.println("NotEquals: " + resultNotEquals2);
+
+        boolean resultGreater = example.generateGreaterTemplate(a, b);
+        System.out.println("Greater: " + resultGreater);
+
+        boolean resultLess = example.generateLessTemplate(a, b);
+        System.out.println("Less: " + resultLess);
+
+        boolean resultEqualsDouble = example.generateEqualsDoubleTemplate(a, a);
+        System.out.println("EqualsDouble: " + resultEqualsDouble);
+
+        boolean resultNotEqualsDouble = example.generateNotEqualsDoubleTemplate(a, a);
+        System.out.println("NotEqualsDouble: " + resultNotEqualsDouble);
     }
 }

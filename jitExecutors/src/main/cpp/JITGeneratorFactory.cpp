@@ -14,6 +14,10 @@
 #include "include/logicalOperations/LessEqualGenerator.h"
 #include "include/logicalOperations/EqualsGenerator.h"
 #include "include/logicalOperations/NotEqualsGenerator.h"
+#include "include/logicalOperations/GreaterGenerator.h"
+#include "include/logicalOperations/LessGenerator.h"
+#include "include/logicalOperations/EqualsDoubleGenerator.h"
+#include "include/logicalOperations/NotEqualsDoubleGenerator.h"
 
 JITGeneratorFactory& JITGeneratorFactory::getInstance() {
     static JITGeneratorFactory instance;
@@ -78,3 +82,15 @@ static GeneratorRegistrar<EqualsGenerator>
 
 static GeneratorRegistrar<NotEqualsGenerator>
     noteqlsRegistrar("notequals");
+
+static GeneratorRegistrar<GreaterGenerator>
+    gRegistrar("greater");
+
+static GeneratorRegistrar<LessGenerator>
+    lRegistrar("less");
+
+static GeneratorRegistrar<EqualsDoubleGenerator>
+    eqlsDoubleRegistrar("equals_double");
+
+static GeneratorRegistrar<NotEqualsDoubleGenerator>
+    noteqlsDoubleRegistrar("not_equals_double");
