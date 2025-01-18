@@ -4,8 +4,8 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.WHILE;
+import org.bayl.vm.Environment;
 
 public class WhileNode extends Node {
 
@@ -27,7 +27,7 @@ public class WhileNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylObject ret = null;
         while (testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue()) {
             ret = loopBody.eval(virtualMachine);

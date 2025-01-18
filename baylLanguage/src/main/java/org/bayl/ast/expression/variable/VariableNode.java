@@ -4,8 +4,8 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.LOAD;
+import org.bayl.vm.Environment;
 
 public class VariableNode extends Node {
 
@@ -26,7 +26,7 @@ public class VariableNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return virtualMachine.getVariable(name, getPosition());
     }
 

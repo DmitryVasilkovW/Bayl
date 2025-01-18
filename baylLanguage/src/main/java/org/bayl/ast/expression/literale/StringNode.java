@@ -5,8 +5,8 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.PUSH_S;
+import org.bayl.vm.Environment;
 
 public class StringNode extends Node {
 
@@ -18,7 +18,7 @@ public class StringNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return literal;
     }
 

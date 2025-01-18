@@ -4,12 +4,12 @@ import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.Bytecode;
+import static org.bayl.model.BytecodeToken.LOOKUP;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.Dictionary;
-import org.bayl.vm.impl.VirtualMachineImpl;
-import static org.bayl.model.BytecodeToken.LOOKUP;
+import org.bayl.vm.Environment;
 
 public class LookupNode extends Node {
 
@@ -22,7 +22,7 @@ public class LookupNode extends Node {
         this.keyNode = keyNode;
     }
 
-    public BaylObject get(VirtualMachineImpl interpreter) {
+    public BaylObject get(Environment interpreter) {
         BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
         BaylObject ret = null;
         if (var instanceof BaylArray) {
@@ -35,7 +35,7 @@ public class LookupNode extends Node {
         throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());
     }
 
-    public void set(VirtualMachineImpl interpreter, BaylObject result) {
+    public void set(Environment interpreter, BaylObject result) {
         BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
         BaylObject ret = null;
         if (var instanceof BaylArray) {
@@ -51,7 +51,7 @@ public class LookupNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return get(virtualMachine);
     }
 

@@ -5,12 +5,12 @@ import java.util.List;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.ARRAY_END;
 import static org.bayl.model.BytecodeToken.ARRAY_INIT;
 import static org.bayl.model.BytecodeToken.ARRAY_STORE;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylArray;
+import org.bayl.vm.Environment;
 
 public class ArrayNode extends Node {
 
@@ -22,7 +22,7 @@ public class ArrayNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         var items = new ArrayList<BaylObject>(elements.size());
         for (Node node : elements) {
             items.add(node.eval(virtualMachine));

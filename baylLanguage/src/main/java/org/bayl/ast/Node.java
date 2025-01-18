@@ -3,6 +3,7 @@ package org.bayl.ast;
 import org.bayl.SourcePosition;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
+import org.bayl.vm.Environment;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
 public abstract class Node {
@@ -34,7 +35,7 @@ public abstract class Node {
         return getPosition().getLineNumber() + " " + getPosition().getColumnNumber();
     }
 
-    public abstract BaylObject eval(VirtualMachineImpl virtualMachine);
+    public abstract BaylObject eval(Environment virtualMachine);
 
     public abstract void generateCode(Bytecode bytecode);
 }

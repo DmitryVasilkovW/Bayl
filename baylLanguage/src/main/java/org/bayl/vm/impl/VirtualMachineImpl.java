@@ -23,8 +23,9 @@ import org.bayl.runtime.function.ArrayPushFunction;
 import org.bayl.runtime.function.PrintFunction;
 import org.bayl.runtime.function.PrintLineFunction;
 import org.bayl.runtime.function.StringLenFunction;
+import org.bayl.vm.Environment;
 
-public class VirtualMachineImpl {
+public class VirtualMachineImpl implements Environment {
 
     private Map<String, BaylObject> symbolTable = new HashMap<String, BaylObject>();
 
@@ -36,6 +37,7 @@ public class VirtualMachineImpl {
         symbolTable.put("array_push", new ArrayPushFunction());
     }
 
+    @Override
     public BaylObject getVariable(String name, SourcePosition pos) {
         if (!symbolTable.containsKey(name)) {
             throw new UnsetVariableException(name, pos);
@@ -43,6 +45,7 @@ public class VirtualMachineImpl {
         return symbolTable.get(name);
     }
 
+    @Override
     public void setVariable(String name, BaylObject value) {
         symbolTable.put(name, value);
     }
@@ -54,6 +57,7 @@ public class VirtualMachineImpl {
         }
     }
 
+    @Override
     public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
         Map<String, BaylObject> savedSymbolTable =
                 new HashMap<String, BaylObject>(symbolTable);

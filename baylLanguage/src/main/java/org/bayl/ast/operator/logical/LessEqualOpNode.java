@@ -6,8 +6,8 @@ import org.bayl.ast.RelationalOpNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.LESS_EQUAL;
+import org.bayl.vm.Environment;
 
 public class LessEqualOpNode extends RelationalOpNode {
 
@@ -16,7 +16,7 @@ public class LessEqualOpNode extends RelationalOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return BaylBoolean.valueOf(compare(virtualMachine) <= 0);
     }
 

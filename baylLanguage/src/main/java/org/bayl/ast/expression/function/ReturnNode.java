@@ -5,8 +5,8 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.ReturnException;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.RETURN;
+import org.bayl.vm.Environment;
 
 public class ReturnNode extends Node {
 
@@ -18,7 +18,7 @@ public class ReturnNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         throw new ReturnException(expression.eval(virtualMachine));
     }
 

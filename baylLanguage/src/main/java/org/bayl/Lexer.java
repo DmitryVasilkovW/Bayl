@@ -95,7 +95,11 @@ public class Lexer {
                 return createToken(TokenType.PLUS, '+');
             }
             case '-': {
-                return createToken(TokenType.MINUS, '-');
+                if (lookAhead(2) == '>') {
+                    return createToken(TokenType.CLASS_CALL, "->");
+                } else {
+                    return createToken(TokenType.MINUS, '-');
+                }
             }
             case '*': {
                 return createToken(TokenType.MULTIPLY, '*');
@@ -370,6 +374,7 @@ public class Lexer {
             case "as" -> new Token(pos, TokenType.AS, word);
             case "function" -> new Token(pos, TokenType.FUNCTION, word);
             case "return" -> new Token(pos, TokenType.RETURN, word);
+            case "class" -> new Token(pos, TokenType.CLASS, word);
             default -> new Token(pos, TokenType.VARIABLE, word);
         };
     }

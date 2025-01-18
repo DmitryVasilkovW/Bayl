@@ -1,6 +1,10 @@
 package org.bayl;
 
+import java.util.LinkedList;
+import java.util.List;
 import org.bayl.ast.Node;
+import org.bayl.ast.classes.ClassCallNode;
+import org.bayl.ast.classes.ClassNode;
 import org.bayl.ast.control.RootNode;
 import org.bayl.ast.expression.FalseNode;
 import org.bayl.ast.expression.ModOpNode;
@@ -13,6 +17,7 @@ import org.bayl.ast.expression.array.DictionaryNode;
 import org.bayl.ast.expression.array.LookupNode;
 import org.bayl.ast.expression.function.FunctionCallNode;
 import org.bayl.ast.expression.function.FunctionNode;
+import org.bayl.ast.expression.function.ReturnNode;
 import org.bayl.ast.expression.literale.NumberNode;
 import org.bayl.ast.expression.literale.StringNode;
 import org.bayl.ast.expression.variable.VariableNode;
@@ -34,12 +39,9 @@ import org.bayl.ast.statement.AssignNode;
 import org.bayl.ast.statement.BlockNode;
 import org.bayl.ast.statement.ForeachNode;
 import org.bayl.ast.statement.IfNode;
-import org.bayl.ast.expression.function.ReturnNode;
 import org.bayl.ast.statement.WhileNode;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.exception.ParserException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Parser {
 
@@ -110,6 +112,10 @@ public class Parser {
                 Node functionCall = functionCall(var);
                 match(TokenType.END_STATEMENT);
                 return functionCall;
+            } else if (lookAhead(1) == TokenType.CLASS_CALL) {
+                Node classCall = classCall(var);
+                match(TokenType.END_STATEMENT);
+                return classCall;
             } else {
                 SourcePosition pos = match(TokenType.ASSIGN).getPosition();
                 Node value = expression();
@@ -243,6 +249,13 @@ public class Parser {
         }
     }
 
+    private ClassNode classNode() {
+        SourcePosition pos = match(TokenType.CLASS).getPosition();
+        BlockNode body = block();
+
+        return new ClassNode(pos, body);
+    }
+
     private FunctionNode function() {
         // FUNCTION! LPAREN! parameterList? RPAREN!
         // LBRACE! block() RBRACE!
@@ -289,10 +302,14 @@ public class Parser {
             } else {
                 return functionNode;
             }
+        } else if (lookAhead(2) == TokenType.CLASS_CALL) {
+            return classCall(variable());
         } else if (type == TokenType.LBRACKET) {
             return array();
         } else if (type == TokenType.LBRACE) {
             return dictionary();
+        } else if (type == TokenType.CLASS) {
+            return classNode();
         } else {
             // An expression can result in a string, boolean or number
             return stringExpression();
@@ -346,6 +363,13 @@ public class Parser {
                                          expression, factor());
         }
         return expression;
+    }
+
+    private Node classCall(Node classNode) {
+        SourcePosition pos = match(TokenType.CLASS_CALL).getPosition();
+        String name = lookAheadBuffer.getToken(0).getText();
+        Node attribute = expression();
+        return new ClassCallNode(pos, classNode, attribute, name);
     }
 
     private Node signExpression() {

@@ -8,12 +8,12 @@ import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.function.UserFunction;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 import static org.bayl.model.BytecodeToken.ARG;
 import static org.bayl.model.BytecodeToken.BODY;
 import static org.bayl.model.BytecodeToken.FUNC;
+import org.bayl.vm.Environment;
 
 public class FunctionNode extends Node {
 
@@ -29,7 +29,7 @@ public class FunctionNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         List<Parameter> params = new ArrayList<Parameter>(parameters.size());
         for (Node node : parameters) {
             // TODO clean up getting parameters

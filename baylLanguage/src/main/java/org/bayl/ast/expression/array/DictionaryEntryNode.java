@@ -5,7 +5,7 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.DictionaryEntry;
-import org.bayl.vm.impl.VirtualMachineImpl;
+import org.bayl.vm.Environment;
 
 public class DictionaryEntryNode extends Node {
 
@@ -27,7 +27,7 @@ public class DictionaryEntryNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return new DictionaryEntry(key.eval(virtualMachine), value.eval(virtualMachine));
     }
 

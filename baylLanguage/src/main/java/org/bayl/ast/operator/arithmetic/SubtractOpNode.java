@@ -1,14 +1,14 @@
 package org.bayl.ast.operator.arithmetic;
 
 import org.bayl.SourcePosition;
-import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.ArithmeticOpNode;
+import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
+import static org.bayl.model.BytecodeToken.SUBTRACT;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylNumber;
-import org.bayl.vm.impl.VirtualMachineImpl;
-import static org.bayl.model.BytecodeToken.SUBTRACT;
+import org.bayl.vm.Environment;
 
 public class SubtractOpNode extends BinaryOpNode implements ArithmeticOpNode {
 
@@ -17,7 +17,7 @@ public class SubtractOpNode extends BinaryOpNode implements ArithmeticOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylNumber left = getLeft().eval(virtualMachine).toNumber(getLeft().getPosition());
         BaylNumber right = getRight().eval(virtualMachine).toNumber(getRight().getPosition());
         return left.subtract(right);

@@ -9,5 +9,6 @@ public enum TokenType {
     LESS_THEN, LESS_EQUAL, EQUAL, GREATER_EQUAL, GREATER_THEN, NOT_EQUAL, // Comparison operators
     NUMBER, STRING_LITERAL, TRUE, FALSE, // Constant types
     IF, ELSE, WHILE, FOR_EACH, AS, // Control structures
-    VARIABLE, FUNCTION, RETURN // Other keywords
+    VARIABLE, FUNCTION, RETURN, // Other keywords,
+    CLASS, CLASS_CALL
 }

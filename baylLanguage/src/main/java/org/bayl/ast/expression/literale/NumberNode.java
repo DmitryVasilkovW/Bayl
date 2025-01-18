@@ -3,10 +3,10 @@ package org.bayl.ast.expression.literale;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
+import static org.bayl.model.BytecodeToken.PUSH_N;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylNumber;
-import org.bayl.vm.impl.VirtualMachineImpl;
-import static org.bayl.model.BytecodeToken.PUSH_N;
+import org.bayl.vm.Environment;
 
 public class NumberNode extends Node {
 
@@ -23,7 +23,7 @@ public class NumberNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return number;
     }
 

@@ -6,8 +6,8 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylString;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import static org.bayl.model.BytecodeToken.CONCAT;
+import org.bayl.vm.Environment;
 
 public class ConcatOpNode extends BinaryOpNode {
 
@@ -16,7 +16,7 @@ public class ConcatOpNode extends BinaryOpNode {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylString left = getLeft().eval(virtualMachine).toBaylString();
         BaylString right = getRight().eval(virtualMachine).toBaylString();
         return left.concat(right);

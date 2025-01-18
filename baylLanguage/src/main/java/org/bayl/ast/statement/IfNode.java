@@ -3,13 +3,11 @@ package org.bayl.ast.statement;
 import org.bayl.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.vm.impl.VirtualMachineImpl;
-import static org.bayl.model.BytecodeToken.CONDITION;
 import static org.bayl.model.BytecodeToken.ELSE;
 import static org.bayl.model.BytecodeToken.IF;
-import static org.bayl.model.BytecodeToken.THEN;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.vm.Environment;
 
 public class IfNode extends Node {
 
@@ -37,7 +35,7 @@ public class IfNode extends Node {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         boolean test = testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue();
         if (test) {
             return thenBlock.eval(virtualMachine);

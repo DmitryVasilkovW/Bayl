@@ -1,9 +1,9 @@
 package org.bayl;
 
 public class Token {
-    private SourcePosition position;
-    private TokenType type;
-    private String text;
+    private final SourcePosition position;
+    private final TokenType type;
+    private final String text;
 
     public Token(SourcePosition position, TokenType type, String text) {
         this.position = position;
