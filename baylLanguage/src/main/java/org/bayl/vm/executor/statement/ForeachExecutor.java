@@ -1,13 +1,13 @@
 package org.bayl.vm.executor.statement;
 
 import lombok.EqualsAndHashCode;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.object.BaylArray;
 import org.bayl.runtime.object.Dictionary;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.executor.expression.array.DictionaryEntryExecutor;
+import org.bayl.vm.executor.expression.collection.DictionaryEntryExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.Map;

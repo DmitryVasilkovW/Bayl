@@ -1,7 +1,7 @@
 package org.bayl.vm.executor.control;
 
 import lombok.EqualsAndHashCode;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.vm.executor.Executor;
 import java.util.List;
 

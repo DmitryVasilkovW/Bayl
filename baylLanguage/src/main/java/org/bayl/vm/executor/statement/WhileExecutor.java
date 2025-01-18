@@ -1,7 +1,7 @@
 package org.bayl.vm.executor.statement;
 
 import lombok.EqualsAndHashCode;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.impl.VirtualMachineImpl;

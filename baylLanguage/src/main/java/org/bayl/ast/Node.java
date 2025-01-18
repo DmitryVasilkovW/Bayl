@@ -1,10 +1,9 @@
 package org.bayl.ast;
 
-import org.bayl.SourcePosition;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.model.SourcePosition;
+import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.Environment;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 public abstract class Node {
 

@@ -1,6 +1,6 @@
 package org.bayl.runtime;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.vm.Environment;
 
 public abstract class Function extends BaylObject {

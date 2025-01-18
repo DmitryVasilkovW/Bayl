@@ -1,9 +1,8 @@
 package org.bayl.ast.control;
 
-import org.bayl.SourcePosition;
-import org.bayl.ast.statement.BlockNode;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.bytecode.impl.Bytecode;
 import java.util.List;
 
 public class RootNode extends BlockNode {

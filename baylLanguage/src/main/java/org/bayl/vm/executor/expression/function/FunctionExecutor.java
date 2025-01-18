@@ -1,7 +1,7 @@
 package org.bayl.vm.executor.expression.function;
 
 import lombok.EqualsAndHashCode;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.function.UserFunctionTMP;

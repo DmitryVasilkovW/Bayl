@@ -1,6 +1,6 @@
 package org.bayl.runtime.exception;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 
 public class LexerException extends BaylException {
     private static final long serialVersionUID = -6905527358249165699L;

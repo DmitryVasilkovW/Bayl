@@ -1,10 +1,10 @@
 package org.bayl;
 
 import org.bayl.ast.control.RootNode;
-import org.bayl.ast.expression.FalseNode;
-import org.bayl.ast.expression.ModOpNode;
-import org.bayl.ast.expression.PowerOpNode;
-import org.bayl.ast.expression.TrueNode;
+import org.bayl.ast.expression.literale.FalseNode;
+import org.bayl.ast.operator.arithmetic.ModOpNode;
+import org.bayl.ast.operator.arithmetic.PowerOpNode;
+import org.bayl.ast.expression.literale.TrueNode;
 import org.bayl.ast.expression.literale.NumberNode;
 import org.bayl.ast.expression.literale.StringNode;
 import org.bayl.ast.operator.arithmetic.AddOpNode;
@@ -12,6 +12,8 @@ import org.bayl.ast.operator.arithmetic.DivideOpNode;
 import org.bayl.ast.operator.arithmetic.MultiplyOpNode;
 import org.bayl.ast.operator.arithmetic.SubtractOpNode;
 import org.bayl.ast.statement.AssignNode;
+import org.bayl.syntax.Lexer;
+import org.bayl.syntax.Parser;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.StringReader;

@@ -1,11 +1,11 @@
 package org.bayl.ast.statement;
 
 import java.util.Map;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.ast.expression.array.DictionaryEntryNode;
+import org.bayl.ast.expression.collection.DictionaryEntryNode;
 import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.FOREACH;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;

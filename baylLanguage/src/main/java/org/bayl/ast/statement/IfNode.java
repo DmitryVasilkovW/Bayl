@@ -1,8 +1,8 @@
 package org.bayl.ast.statement;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.ELSE;
 import static org.bayl.model.BytecodeToken.IF;
 import org.bayl.runtime.BaylObject;

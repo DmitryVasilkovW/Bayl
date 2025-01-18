@@ -1,9 +1,9 @@
 package org.bayl.ast.operator.comparison;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.RelationalOpNode;
-import org.bayl.bytecode.Bytecode;
+import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
 import static org.bayl.model.BytecodeToken.EQUALS;
 import org.bayl.vm.Environment;

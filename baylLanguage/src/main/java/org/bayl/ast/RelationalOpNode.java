@@ -1,6 +1,6 @@
 package org.bayl.ast;
 
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidOperatorException;
 import org.bayl.runtime.exception.TypeMismatchException;

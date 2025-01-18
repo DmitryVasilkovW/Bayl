@@ -1,7 +1,7 @@
 package org.bayl.vm.executor;
 
 import lombok.EqualsAndHashCode;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 
 @EqualsAndHashCode(callSuper = true)
 public abstract class UnaryOpExecutor extends Executor {
