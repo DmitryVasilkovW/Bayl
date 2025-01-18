@@ -13,7 +13,7 @@ public:
 
    std::unique_ptr<AbstractJITGenerator> clone() const override {
         return std::make_unique<DivisionRemainderGenerator>(*this);
-    }
+   }
 
 private:
     boost::once_flag initFlag;

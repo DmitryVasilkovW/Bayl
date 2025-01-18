@@ -3,7 +3,7 @@
 #include "../AbstractJITGenerator.h"
 #include "../Utils.h"
 
-class AdditionGenerator : public AbstractJITGenerator {
+class AndGenerator : public AbstractJITGenerator {
 public:
     jvalue generate(
         JNIEnv* env,
@@ -11,13 +11,13 @@ public:
         const std::vector<boost::any>& args
     ) override;
 
-   std::unique_ptr<AbstractJITGenerator> clone() const override {
-        return std::make_unique<AdditionGenerator>(*this);
-   }
+    std::unique_ptr<AbstractJITGenerator> clone() const override {
+        return std::make_unique<AndGenerator>(*this);
+    }
 
 private:
     boost::once_flag initFlag;
-    jdouble (*cachedAddFunc)(jdouble, jdouble) = nullptr;
+    jboolean (*cachedAndFunc)(jboolean, jboolean) = nullptr;
 
-    void generateAdditionCode();
+    void generateAndCode();
 };
