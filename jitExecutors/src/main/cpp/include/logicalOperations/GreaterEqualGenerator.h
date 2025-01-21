@@ -3,7 +3,7 @@
 #include "../AbstractJITGenerator.h"
 #include "../Utils.h"
 
-class GreaterEqualsGenerator : public AbstractJITGenerator {
+class GreaterEqualGenerator : public AbstractJITGenerator {
 public:
     jvalue generate(
         JNIEnv* env,
@@ -12,12 +12,12 @@ public:
     ) override;
 
     std::unique_ptr<AbstractJITGenerator> clone() const override {
-        return std::make_unique<GreaterEqualsGenerator>(*this);
+        return std::make_unique<GreaterEqualGenerator>(*this);
     }
 
 private:
     boost::once_flag initFlag;
-    bool (*cachedGreaterEqualsFunc)(jdouble, jdouble) = nullptr;
+    bool (*cachedGreaterEqualFunc)(jdouble, jdouble) = nullptr;
 
-    void generateGreaterEqualsCode();
+    void generateGreaterEqualCode();
 };

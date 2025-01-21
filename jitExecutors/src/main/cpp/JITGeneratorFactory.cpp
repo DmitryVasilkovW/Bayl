@@ -71,8 +71,8 @@ static GeneratorRegistrar<NotGenerator>
 static GeneratorRegistrar<OrGenerator>
     orRegistrar("or");
 
-static GeneratorRegistrar<GreaterEqualsGenerator>
-    geRegistrar("greater_equals");
+static GeneratorRegistrar<GreaterEqualGenerator>
+    geRegistrar("greater_equal");
 
 static GeneratorRegistrar<LessEqualGenerator>
     leRegistrar("less_equal");

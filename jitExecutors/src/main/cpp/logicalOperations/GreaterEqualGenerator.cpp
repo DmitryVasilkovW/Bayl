@@ -1,6 +1,6 @@
 #include "../include/logicalOperations/GreaterEqualGenerator.h"
 
-jvalue GreaterEqualsGenerator::generate(
+jvalue GreaterEqualGenerator::generate(
     JNIEnv* env,
     jobject obj,
     const std::vector<boost::any>& args
@@ -13,16 +13,16 @@ jvalue GreaterEqualsGenerator::generate(
     jdouble arg2 = getArgAs<jdouble>(args[1]);
 
     boost::call_once(initFlag, [this]() {
-        generateGreaterEqualsCode();
+        generateGreaterEqualCode();
     });
 
     jvalue result;
-    result.z = cachedGreaterEqualsFunc(arg1, arg2) ? JNI_TRUE : JNI_FALSE;
+    result.z = cachedGreaterEqualFunc(arg1, arg2) ? JNI_TRUE : JNI_FALSE;
     return result;
 }
 
-void GreaterEqualsGenerator::generateGreaterEqualsCode() {
-    cachedGreaterEqualsFunc = [](jdouble a, jdouble b) -> bool {
+void GreaterEqualGenerator::generateGreaterEqualCode() {
+    cachedGreaterEqualFunc = [](jdouble a, jdouble b) -> bool {
         return a >= b;
     };
 }
