@@ -20,6 +20,7 @@ java {
 }
 
 tasks.withType<JavaCompile>().configureEach {
+    dependsOn(":jitExecutors:build")
     javaCompiler = javaToolchains.compilerFor {
         languageVersion = JavaLanguageVersion.of(23)
     }
