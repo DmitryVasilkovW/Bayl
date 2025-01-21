@@ -1,6 +1,7 @@
 package org.bayl.vm.executor.expression.function;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
@@ -11,6 +12,7 @@ import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @EqualsAndHashCode(callSuper = true)
 public class FunctionCallExecutor extends Executor {
 
