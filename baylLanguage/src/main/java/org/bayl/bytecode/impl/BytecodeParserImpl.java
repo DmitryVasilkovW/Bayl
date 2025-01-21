@@ -2,8 +2,10 @@ package org.bayl.bytecode.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import static org.bayl.model.BytecodeToken.DICT_PAIR;
 import org.bayl.model.SourcePosition;
 import org.bayl.model.BytecodeToken;
 import org.bayl.bytecode.BytecodeParser;
@@ -97,7 +99,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         profiler.countInstruction(token);
         return switch (token) {
             case PUSH_N -> parseValue(NumberExecutor::new);
-            case PUSH_S -> parseValue(StringExecutor::new);
+            case PUSH_S -> parseString();
             case PUSH_T -> parseBoolConstant(TrueExecutor::new);
             case PUSH_F -> parseBoolConstant(FalseExecutor::new);
             case IF -> parseIf();
@@ -187,7 +189,15 @@ public class BytecodeParserImpl implements BytecodeParser {
         SourcePosition position = parsePosition(tokens);
 
         VariableExecutor onVar = parseVariable();
-        Executor asVar = parseVarExecutor();
+
+        Executor asVar;
+        BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
+        if (token.equals(DICT_PAIR)) {
+            asVar = parseDictionaryEntry();
+        } else {
+            asVar = parseVarExecutor();
+        }
+
         Executor body = parseExecutor();
 
         return new ForeachExecutor(position, onVar, asVar, body);
@@ -314,6 +324,39 @@ public class BytecodeParserImpl implements BytecodeParser {
         SourcePosition position = parsePosition(tokens);
 
         return constructor.apply(position, value);
+    }
+
+    private StringExecutor parseString() {
+        String[] tokens = getTokens();
+        SourcePosition position = parsePosition(tokens);
+
+        var sb = new StringBuilder();
+        for (int i = 1; i < tokens.length - 2; i++) {
+            String current = tokens[i];
+
+            if (current.isEmpty()) {
+                sb.append(ARGS_DIVISION);
+            } else {
+                addStringValue(
+                        sb,
+                        current,
+                        i != tokens.length - 3
+                );
+            }
+        }
+
+        return new StringExecutor(position, sb.toString());
+    }
+
+    private void addStringValue(StringBuilder sb, String current, boolean expression) {
+        if (expression) {
+            sb
+                    .append(current)
+                    .append(ARGS_DIVISION);
+            return;
+        }
+
+        sb.append(current);
     }
 
     private Executor parseBoolConstant(Function<SourcePosition, Executor> constructor) {

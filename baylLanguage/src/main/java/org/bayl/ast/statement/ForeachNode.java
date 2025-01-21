@@ -1,6 +1,8 @@
 package org.bayl.ast.statement;
 
 import java.util.Map;
+import org.bayl.model.BytecodeToken;
+import static org.bayl.model.BytecodeToken.DICT_PAIR;
 import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.collection.DictionaryEntryNode;
@@ -72,6 +74,9 @@ public class ForeachNode extends Node {
         );
 
         onVariableNode.generateCode(bytecode);
+        if (asNode instanceof DictionaryEntryNode) {
+            bytecode.add(DICT_PAIR + " " + asNode.getPositionForBytecode());
+        }
         asNode.generateCode(bytecode);
         loopBody.generateCode(bytecode);
     }

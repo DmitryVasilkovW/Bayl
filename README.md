@@ -149,7 +149,7 @@ sum = function(a, b) {
 arr = [1, 2, 3];
 
 arr_len(arr); // вернет 3
-arr_push(arr, 4); // в arr будет 1, 2, 3, 4
+array_push(arr, 4); // в arr будет 1, 2, 3, 4
 print(arr); // выведет [1, 2, 3, 4]
 ```
 

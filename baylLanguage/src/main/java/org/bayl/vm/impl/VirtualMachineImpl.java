@@ -9,6 +9,8 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bayl.bytecode.impl.Bytecode;
+import org.bayl.bytecode.impl.BytecodeParserImpl;
 import org.bayl.syntax.Lexer;
 import org.bayl.syntax.Parser;
 import org.bayl.model.SourcePosition;
@@ -24,10 +26,11 @@ import org.bayl.runtime.function.PrintFunction;
 import org.bayl.runtime.function.PrintLineFunction;
 import org.bayl.runtime.function.StringLenFunction;
 import org.bayl.vm.Environment;
+import org.bayl.vm.executor.control.RootExecutor;
 
 public class VirtualMachineImpl implements Environment {
 
-    private Map<String, BaylObject> symbolTable = new HashMap<String, BaylObject>();
+    private Map<String, BaylObject> symbolTable = new HashMap<>();
 
     public VirtualMachineImpl() {
         symbolTable.put("print", new PrintFunction());
@@ -100,7 +103,10 @@ public class VirtualMachineImpl implements Environment {
         Lexer lexer = new Lexer(reader);
         Parser parser = new Parser(lexer);
         RootNode program = parser.program();
+        List<String> bytecode = new Bytecode().getInstructions(program);
 
-        return program.eval(this);
+        RootExecutor exe = new BytecodeParserImpl().parse(bytecode);
+
+        return exe.eval(this);
     }
 }
