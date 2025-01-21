@@ -4,7 +4,7 @@
 
 extern "C" {
 JNIEXPORT jdouble
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateMultiplicationTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateMultiplicationTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -25,7 +25,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateMultiplicationTemp
 }
 
 JNIEXPORT jdouble
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionRemainderTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateDivisionRemainderTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -46,7 +46,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionRemainderT
 }
 
 JNIEXPORT jdouble
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateDivisionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -67,7 +67,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDivisionTemplate(
 }
 
 JNIEXPORT jdouble
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateAdditionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -88,7 +88,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAdditionTemplate(
 }
 
 JNIEXPORT jdouble
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateSubtractionTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateSubtractionTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -109,7 +109,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateSubtractionTemplat
 }
 
 JNIEXPORT jdouble
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateIncrementTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateIncrementTemplate(
         JNIEnv *env, jobject obj, jdouble arg1
 ) {
     try {
@@ -130,7 +130,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateIncrementTemplate(
 }
 
 JNIEXPORT jdouble
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDecrementTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateDecrementTemplate(
         JNIEnv *env, jobject obj, jdouble arg1
 ) {
     try {
@@ -151,7 +151,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateDecrementTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAndTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateAndTemplate(
         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
 ) {
     try {
@@ -172,7 +172,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateAndTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateNotTemplate(
         JNIEnv *env, jobject obj, jboolean arg1
 ) {
     try {
@@ -193,7 +193,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateOrTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateOrTemplate(
         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
 ) {
     try {
@@ -214,7 +214,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateOrTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateGreaterEqualTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -235,7 +235,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterEqualTempla
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateLessEqualTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateLessEqualTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -256,7 +256,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateLessEqualTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateEqualsTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateEqualsTemplate(
         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
 ) {
     try {
@@ -277,7 +277,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateEqualsTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotEqualsTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateNotEqualsTemplate(
         JNIEnv *env, jobject obj, jboolean arg1, jboolean arg2
 ) {
     try {
@@ -298,7 +298,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotEqualsTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateGreaterTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -319,7 +319,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateGreaterTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateLessTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateLessTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -340,7 +340,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateLessTemplate(
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateEqualsDoubleTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateEqualsDoubleTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
@@ -361,7 +361,7 @@ JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateEqualsDoubleTempla
 }
 
 JNIEXPORT jboolean
-JNICALL Java_org_bayl_vm_executor_JITExecutorsWrapper_generateNotEqualsDoubleTemplate(
+JNICALL Java_org_bayl_runtime_compile_jit_JITExecutorsWrapper_generateNotEqualsDoubleTemplate(
         JNIEnv *env, jobject obj, jdouble arg1, jdouble arg2
 ) {
     try {
