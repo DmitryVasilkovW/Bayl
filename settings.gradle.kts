@@ -7,3 +7,5 @@ pluginManagement {
 }
 
 rootProject.name = "bayl"
+include("baylLanguage")
+include("jitExecutors")

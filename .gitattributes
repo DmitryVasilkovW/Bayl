@@ -10,3 +10,13 @@
 # Binary files should be left untouched
 *.jar           binary
 
+build
+.gradle
+.idea
+
+# Syntax highlighting
+*.bl linguist-language=JavaScript
+
+*.gradle linguist-detectable=true
+*.gradle linguist-language=kotlin
+*.gradle.kts linguist-language=kotlin
