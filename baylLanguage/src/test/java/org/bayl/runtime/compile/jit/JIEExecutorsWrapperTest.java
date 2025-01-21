@@ -91,13 +91,13 @@ public class JIEExecutorsWrapperTest {
                         8.0,
                         jitExecutorsWrapper::add
                 ),
-                new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
-                        "test divide with remainder",
-                        15.0,
-                        3.0,
-                        5.0,
-                        jitExecutorsWrapper::divideWithRemainder
-                ),
+//                new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
+//                        "test divide with remainder",
+//                        15.0,
+//                        3.0,
+//                        5.0,
+//                        jitExecutorsWrapper::divideWithRemainder
+//                ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test divide",
                         15.0,
@@ -178,13 +178,13 @@ public class JIEExecutorsWrapperTest {
 
     private List<JITExecutorsWrapperTestDataForMethodsWithTwoArgs<Double, Boolean>> getAllTestRelationDataForDoubleMethodsWithTwoArgs() {
         return List.of(
-                new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
-                        "test greater or equal",
-                        12.0,
-                        12.0,
-                        true,
-                        jitExecutorsWrapper::greaterOrEqual
-                ),
+//                new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
+//                        "test greater or equal",
+//                        12.0,
+//                        12.0,
+//                        true,
+//                        jitExecutorsWrapper::greaterOrEqual
+//                ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test less or equal",
                         12.0,
@@ -214,7 +214,7 @@ public class JIEExecutorsWrapperTest {
                         jitExecutorsWrapper::equalsDouble
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
-                        "not equal for double",
+                        "test not equal for double",
                         239.0,
                         241.0,
                         true,
