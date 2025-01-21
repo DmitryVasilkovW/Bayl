@@ -187,7 +187,7 @@ public class JIEExecutorsWrapperTest {
 //                ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test less or equal",
-                        12.0,
+                        1.0,
                         12.0,
                         true,
                         jitExecutorsWrapper::lessOrEqual

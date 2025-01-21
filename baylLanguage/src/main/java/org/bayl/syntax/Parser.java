@@ -76,7 +76,7 @@ public class Parser {
     }
 
     public RootNode program() {
-        List<Node> script = new LinkedList<Node>();
+        List<Node> script = new LinkedList<>();
         while (lookAhead(1) != null) {
             script.add(statement());
         }
@@ -84,7 +84,7 @@ public class Parser {
         var b = new Bytecode();
         a.generateCode(b);
 
-        System.out.println(b.toString());
+        System.out.println(b);
         return a;
     }
 

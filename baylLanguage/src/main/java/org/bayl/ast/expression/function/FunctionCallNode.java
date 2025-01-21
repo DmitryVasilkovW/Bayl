@@ -1,19 +1,17 @@
 package org.bayl.ast.expression.function;
 
-import org.bayl.model.SourcePosition;
+import java.util.ArrayList;
+import java.util.List;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.impl.Bytecode;
+import static org.bayl.model.BytecodeToken.ARG;
+import static org.bayl.model.BytecodeToken.CALL;
+import static org.bayl.model.BytecodeToken.CALL_END;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Function;
 import org.bayl.runtime.exception.InvalidTypeException;
-import java.util.ArrayList;
-import java.util.List;
-import static org.bayl.model.BytecodeToken.ARG;
-import static org.bayl.model.BytecodeToken.CALL;
-import static org.bayl.model.BytecodeToken.CALL_DYNAMIC;
-import static org.bayl.model.BytecodeToken.CALL_DYNAMIC_END;
-import static org.bayl.model.BytecodeToken.CALL_END;
 import org.bayl.vm.Environment;
 
 public class FunctionCallNode extends Node {
@@ -80,22 +78,13 @@ public class FunctionCallNode extends Node {
     }
 
     private String getStartLine() {
-        if (functionNode instanceof VariableNode) {
-            return getBytecodeLineWithPosition(
-                    CALL.toString(),
-                    getFunctionName()
-            );
-        }
-
         return getBytecodeLineWithPosition(
-                CALL_DYNAMIC.toString()
+                CALL.toString(),
+                getFunctionName()
         );
     }
 
     private String getEndLine() {
-        if (functionNode instanceof VariableNode) {
-            return CALL_END.toString();
-        }
-        return CALL_DYNAMIC_END.toString();
+        return CALL_END.toString();
     }
 }
