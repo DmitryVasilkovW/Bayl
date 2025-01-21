@@ -54,4 +54,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+
+    jvmArgs = listOf(
+        "-Djava.library.path=${file(nativeLibPath).absolutePath}",
+        "--enable-native-access=ALL-UNNAMED"
+    )
 }

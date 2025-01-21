@@ -1,9 +1,9 @@
-package util;
+package util.bytecode;
 
 import org.bayl.vm.executor.Executor;
 import java.util.List;
 
-public record TestData(
+public record BytecodeParserTestData(
         String message,
         List<String> bytecode,
         Executor expected

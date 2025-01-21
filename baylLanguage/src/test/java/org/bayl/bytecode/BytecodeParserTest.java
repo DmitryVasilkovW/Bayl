@@ -1,50 +1,53 @@
-package org.bayl.vm;
+package org.bayl.bytecode;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.bayl.bytecode.impl.BytecodeParserImpl;
 import org.bayl.model.SourcePosition;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.control.BlockExecutor;
 import org.bayl.vm.executor.control.RootExecutor;
-import org.bayl.vm.executor.expression.literale.FalseExecutor;
-import org.bayl.vm.executor.operator.arithmetic.ModOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.NegateOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.PowerOpExecutor;
-import org.bayl.vm.executor.expression.literale.TrueExecutor;
 import org.bayl.vm.executor.expression.collection.ArrayExecutor;
 import org.bayl.vm.executor.expression.collection.DictionaryEntryExecutor;
 import org.bayl.vm.executor.expression.collection.DictionaryExecutor;
 import org.bayl.vm.executor.expression.collection.LookupExecutor;
 import org.bayl.vm.executor.expression.function.FunctionCallExecutor;
 import org.bayl.vm.executor.expression.function.FunctionExecutor;
+import org.bayl.vm.executor.expression.function.ReturnExecutor;
+import org.bayl.vm.executor.expression.literale.FalseExecutor;
 import org.bayl.vm.executor.expression.literale.NumberExecutor;
 import org.bayl.vm.executor.expression.literale.StringExecutor;
+import org.bayl.vm.executor.expression.literale.TrueExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.executor.operator.string.ConcatOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.AddOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.DivideOpExecutor;
+import org.bayl.vm.executor.operator.arithmetic.ModOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.MultiplyOpExecutor;
+import org.bayl.vm.executor.operator.arithmetic.NegateOpExecutor;
+import org.bayl.vm.executor.operator.arithmetic.PowerOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.SubtractOpExecutor;
 import org.bayl.vm.executor.operator.comparison.EqualsOpExecutor;
+import org.bayl.vm.executor.operator.comparison.GreaterEqualOpExecutor;
 import org.bayl.vm.executor.operator.comparison.GreaterThanOpExecutor;
+import org.bayl.vm.executor.operator.comparison.LessEqualOpExecutor;
 import org.bayl.vm.executor.operator.comparison.LessThanOpExecutor;
 import org.bayl.vm.executor.operator.comparison.NotEqualsOpExecutor;
 import org.bayl.vm.executor.operator.logical.AndOpExecutor;
-import org.bayl.vm.executor.operator.comparison.GreaterEqualOpExecutor;
-import org.bayl.vm.executor.operator.comparison.LessEqualOpExecutor;
 import org.bayl.vm.executor.operator.logical.NotOpExecutor;
 import org.bayl.vm.executor.operator.logical.OrOpExecutor;
+import org.bayl.vm.executor.operator.string.ConcatOpExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
 import org.bayl.vm.executor.statement.ForeachExecutor;
 import org.bayl.vm.executor.statement.IfExecutor;
-import org.bayl.vm.executor.expression.function.ReturnExecutor;
 import org.bayl.vm.executor.statement.WhileExecutor;
-import org.bayl.bytecode.impl.BytecodeParserImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import util.TestData;
+
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import util.bytecode.BytecodeParserTestData;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BytecodeParserTest {
@@ -54,14 +57,14 @@ public class BytecodeParserTest {
     @ParameterizedTest(name = "{index} => {arguments}")
     @DisplayName("Test parsing bytecode: {0}")
     @MethodSource("getAllTestData")
-    public void testBytecodeParser(TestData test) {
+    public void testBytecodeParser(BytecodeParserTestData test) {
         Executor result = parser.parse(test.bytecode());
-        assertEquals(result, test.expected(), test.message());
+        assertEquals(test.expected(), result, test.message());
     }
 
-    private List<TestData> getAllTestData() {
+    private List<BytecodeParserTestData> getAllTestData() {
         return List.of(
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing array",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -77,7 +80,7 @@ public class BytecodeParserTest {
                                           getVar(1, 1, "a"),
                                           getArray(1, 5, getNumber(1, 6, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing dictionary",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -97,7 +100,7 @@ public class BytecodeParserTest {
                                                   getPair(1, 10, getString(1, 6, "1"), getNumber(1, 12, "1")),
                                                   getPair(1, 19, getString(1, 15, "3"), getNumber(1, 21, "3")))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing lookup",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -124,7 +127,7 @@ public class BytecodeParserTest {
                                           getLookup(2, 2, getVar(2, 1, "a"), getNumber(2, 3, "2")),
                                           getNumber(2, 8, "9")))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing function with two parameters",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 5\n" +
@@ -162,7 +165,7 @@ public class BytecodeParserTest {
                                                                                     getVar(3, 12, "c"),
                                                                                     getNumber(3, 16, "1")))))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing calling function",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 5\n" +
@@ -216,7 +219,7 @@ public class BytecodeParserTest {
                                                             getVar(6, 7, "sum"),
                                                             List.of(getNumber(6, 11, "1"), getNumber(6, 14, "2"))))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing assign string",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -227,7 +230,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getString(1, 5, "A")))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing assign number",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -238,7 +241,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getNumber(1, 5, "7")))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing assign true",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -249,7 +252,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getTrue(1, 5)))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing assign false",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -260,7 +263,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getFalse(1, 5)))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing mod operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -273,7 +276,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getMod(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing power operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -286,7 +289,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getPower(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing negate operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -298,7 +301,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getNegate(1, 5, getNumber(1, 6, "7"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing add operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -311,7 +314,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getAdd(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing divide operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -324,7 +327,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getDivide(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing multiply operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -337,7 +340,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getMultiply(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing subtract operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -350,7 +353,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getSubtract(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing equals operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -363,7 +366,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getEquals(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing greater_than operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -376,7 +379,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getGreaterThan(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing less_than operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -389,7 +392,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getLessThan(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing not_equals operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -402,7 +405,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getNotEquals(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing and operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -415,7 +418,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getAnd(1, 7, getTrue(1, 5), getTrue(1, 9))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing greater_equal operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -428,7 +431,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getGreaterEqual(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing less_equal operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -441,7 +444,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getLessEqual(1, 7, getNumber(1, 5, "1"), getNumber(1, 9, "2"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing not operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -453,7 +456,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getNot(1, 7, getTrue(1, 5))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing or operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -466,7 +469,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getOr(1, 10, getTrue(1, 5), getTrue(1, 13))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing concat operator",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -479,7 +482,7 @@ public class BytecodeParserTest {
                                               getVar(1, 1, "a"),
                                               getConcat(1, 7, getString(1, 5, "23"), getString(1, 9, "9"))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing if",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "IF 1 1\n" +
@@ -497,7 +500,7 @@ public class BytecodeParserTest {
                                           getBlock(1, 12, getAssign(2, 7,
                                                                     getVar(2, 5, "c"), getNumber(2, 9, "1")))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing if with else",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "IF 1 1\n" +
@@ -523,7 +526,7 @@ public class BytecodeParserTest {
                                           getBlock(3, 8, getAssign(4, 7,
                                                                     getVar(4, 5, "c"), getNumber(4, 9, "2")))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing foreach",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +
@@ -556,7 +559,7 @@ public class BytecodeParserTest {
                                                                 getVar(4, 5, "println"),
                                                                 List.of(getVar(4, 13, "i"))))))
                 ),
-                new TestData(
+                new BytecodeParserTestData(
                         "test parsing while",
                         getBytecode("BLOCK_START 1 1\n" +
                                             "SET 1 3\n" +

@@ -1,10 +1,9 @@
-package org.bayl;
+package org.bayl.syntax;
 
 import org.bayl.model.SourcePosition;
 import org.bayl.model.Token;
 import org.bayl.model.TokenType;
 import org.bayl.runtime.exception.LexerException;
-import org.bayl.syntax.Lexer;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.StringReader;

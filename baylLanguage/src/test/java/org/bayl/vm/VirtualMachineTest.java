@@ -1,4 +1,7 @@
-package org.bayl;
+package org.bayl.vm;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylBoolean;
@@ -6,17 +9,16 @@ import org.bayl.runtime.object.BaylNumber;
 import org.bayl.runtime.object.BaylString;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
-public class InterpreterTest {
+public class VirtualMachineTest {
 
-    private final VirtualMachineImpl interpreter = new VirtualMachineImpl();
+    private final VirtualMachineImpl virtualMachine = new VirtualMachineImpl();
 
     private void assertResult(String script, BaylObject expected) {
         try {
-            BaylObject actual = interpreter.eval(script);
+            BaylObject actual = virtualMachine.eval(script);
             assertEquals(expected, actual);
         } catch (IOException e) {
             fail(e.getMessage());

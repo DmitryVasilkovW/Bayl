@@ -1,4 +1,4 @@
-package org.bayl;
+package org.bayl.syntax;
 
 import org.bayl.syntax.token.util.PeekReader;
 import org.junit.jupiter.api.AfterEach;

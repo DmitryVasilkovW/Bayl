@@ -1,4 +1,4 @@
-package org.bayl;
+package org.bayl.syntax;
 
 import org.bayl.ast.control.RootNode;
 import org.bayl.ast.expression.literale.FalseNode;
@@ -12,8 +12,6 @@ import org.bayl.ast.operator.arithmetic.DivideOpNode;
 import org.bayl.ast.operator.arithmetic.MultiplyOpNode;
 import org.bayl.ast.operator.arithmetic.SubtractOpNode;
 import org.bayl.ast.statement.AssignNode;
-import org.bayl.syntax.Lexer;
-import org.bayl.syntax.Parser;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.StringReader;

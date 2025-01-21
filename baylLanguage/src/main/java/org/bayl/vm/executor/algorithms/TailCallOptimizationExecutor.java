@@ -1,13 +1,14 @@
 package org.bayl.vm.executor.algorithms;
 
-import lombok.EqualsAndHashCode;
-import org.bayl.SourcePosition;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.BaylNumber;
 import org.bayl.vm.executor.BinaryOpExecutor;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.maker.ArithmeticOpExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
+
+import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 public class TailCallOptimizationExecutor extends BinaryOpExecutor implements ArithmeticOpExecutor {
