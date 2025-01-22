@@ -138,11 +138,5 @@ public class UserClass extends BaylClass implements Environment {
                     }
                 }
         );
-
-        methods.put("print", new PrintFunction());
-        methods.put("println", new PrintLineFunction());
-        methods.put("str_len", new StringLenFunction());
-        methods.put("arr_len", new ArrayLenFunction());
-        methods.put("array_push", new ArrayPushFunction());
     }
 }

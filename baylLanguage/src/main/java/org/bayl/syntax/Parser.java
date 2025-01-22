@@ -102,8 +102,8 @@ public class Parser {
 
     private Node statement() {
         TokenType type = lookAhead(1);
-        if (type == TokenType.FUNCTION) {
-            Node functionCall = functionCall(function());
+        if (type == TokenType.FUNCTION || type == TokenType.TAIL_FUNCTION) {
+            Node functionCall = functionCall(function(type));
             match(TokenType.END_STATEMENT);
             return functionCall;
         } else if (type == TokenType.VARIABLE) {
@@ -252,10 +252,10 @@ public class Parser {
         return new ClassNode(pos, body);
     }
 
-    private FunctionNode function() {
+    private FunctionNode function(TokenType type) {
         // FUNCTION! LPAREN! parameterList? RPAREN!
         // LBRACE! block() RBRACE!
-        SourcePosition pos = match(TokenType.FUNCTION).getPosition();
+        SourcePosition pos = match(type).getPosition();
         match(TokenType.LPAREN);
         List<Node> paramList = FunctionNode.NO_PARAMETERS;
         if (lookAhead(1) != TokenType.RPAREN) {
@@ -291,8 +291,8 @@ public class Parser {
 
     private Node expression() {
         TokenType type = lookAhead(1);
-        if (type == TokenType.FUNCTION) {
-            Node functionNode = function();
+        if (type == TokenType.FUNCTION || type == TokenType.TAIL_FUNCTION) {
+            Node functionNode = function(type);
             if (lookAhead(1) == TokenType.LPAREN) {
                 return functionCall(functionNode);
             } else {

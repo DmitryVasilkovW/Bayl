@@ -8,6 +8,12 @@ import org.bayl.runtime.ValueType;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylType;
 import org.bayl.runtime.exception.UnsetVariableException;
+import org.bayl.runtime.function.impl.collection.array.ArrayLenFunction;
+import org.bayl.runtime.function.impl.collection.array.ArrayPushFunction;
+import org.bayl.runtime.function.impl.io.PrintFunction;
+import org.bayl.runtime.function.impl.io.PrintLineFunction;
+import org.bayl.runtime.function.impl.literal.IsNullFunction;
+import org.bayl.runtime.function.impl.literal.string.StringLenFunction;
 import org.bayl.runtime.object.BaylRef;
 
 @Getter
@@ -16,14 +22,25 @@ public class BaylMemory {
     private final Map<String, BaylType> globalStorage;
     private final Map<BaylRef, BaylObject> heap;
 
-    public BaylMemory(Map<String, BaylType> globalStorage, Map<BaylRef, BaylObject> heap) {
+    public BaylMemory(Map<BaylRef, BaylObject> heap, Map<String, BaylType> globalStorage) {
         this.heap = heap;
         this.globalStorage = globalStorage;
+        initFunctions();
     }
 
     public BaylMemory() {
         this.heap = new HashMap<>();
         this.globalStorage = new HashMap<>();
+        initFunctions();
+    }
+
+    private void initFunctions() {
+        setVariable("print", new PrintFunction());
+        setVariable("println", new PrintLineFunction());
+        setVariable("str_len", new StringLenFunction());
+        setVariable("arr_len", new ArrayLenFunction());
+        setVariable("array_push", new ArrayPushFunction());
+        setVariable("is_null", new IsNullFunction());
     }
 
     public BaylObject getVariable(String name, SourcePosition pos) {
@@ -40,7 +57,7 @@ public class BaylMemory {
     public void setVariable(String name, BaylObject value) {
         if (isValueType(value)) {
             globalStorage.put(name, value);
-        } else if (isRef(value)) {
+        } else {
             BaylRef ref = getNewRef(name);
 
             globalStorage.put(name, ref);

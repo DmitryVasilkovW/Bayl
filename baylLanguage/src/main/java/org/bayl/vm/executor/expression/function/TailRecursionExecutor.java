@@ -1,6 +1,7 @@
 package org.bayl.vm.executor.expression.function;
 
-import lombok.EqualsAndHashCode;
+import java.util.ArrayList;
+import java.util.List;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
@@ -9,16 +10,13 @@ import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
-import java.util.ArrayList;
-import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
-public class FunctionExecutor extends Executor {
+public class TailRecursionExecutor extends Executor {
 
     private final List<Executor> parameters;
     private final Executor body;
 
-    public FunctionExecutor(SourcePosition pos, List<Executor> parameters, Executor body) {
+    public TailRecursionExecutor(SourcePosition pos, List<Executor> parameters, Executor body) {
         super(pos);
         this.parameters = parameters;
         this.body = body;
@@ -64,5 +62,4 @@ public class FunctionExecutor extends Executor {
         sb.append(')');
         return sb.toString();
     }
-
 }

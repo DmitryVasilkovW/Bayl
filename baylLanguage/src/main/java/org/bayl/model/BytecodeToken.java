@@ -22,7 +22,7 @@ public enum BytecodeToken {
     LOOKUP,
 
     CALL, CALL_DYNAMIC, CALL_END, CALL_DYNAMIC_END, ARG,
-    FUNC, BODY,
+    FUNC, BODY, TAIL_FUNCTION,
     RETURN,
 
     MOD,

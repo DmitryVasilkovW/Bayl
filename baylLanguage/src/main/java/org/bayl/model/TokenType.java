@@ -17,7 +17,9 @@ public enum TokenType {
 
     IF, ELSE, WHILE, FOR_EACH, AS,
 
-    VARIABLE, FUNCTION, RETURN,
+    VARIABLE, RETURN,
+
+    FUNCTION, TAIL_FUNCTION,
 
     CLASS, CLASS_CALL
 }

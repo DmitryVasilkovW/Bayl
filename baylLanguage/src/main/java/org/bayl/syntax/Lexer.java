@@ -368,6 +368,7 @@ public class Lexer {
             case "foreach" -> new Token(pos, TokenType.FOR_EACH, word);
             case "as" -> new Token(pos, TokenType.AS, word);
             case "function" -> new Token(pos, TokenType.FUNCTION, word);
+            case "recursion" -> new Token(pos, TokenType.TAIL_FUNCTION, word);
             case "return" -> new Token(pos, TokenType.RETURN, word);
             case "class" -> new Token(pos, TokenType.CLASS, word);
             default -> new Token(pos, TokenType.VARIABLE, word);
