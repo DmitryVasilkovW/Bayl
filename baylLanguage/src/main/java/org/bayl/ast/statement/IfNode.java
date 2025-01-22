@@ -6,7 +6,7 @@ import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.ELSE;
 import static org.bayl.model.BytecodeToken.IF;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.object.value.BaylBoolean;
 import org.bayl.vm.Environment;
 
 public class IfNode extends Node {

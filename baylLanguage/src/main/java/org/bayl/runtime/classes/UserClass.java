@@ -13,20 +13,20 @@ import org.bayl.ast.control.BlockNode;
 import org.bayl.memory.BaylMemory;
 import org.bayl.runtime.BaylClass;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.exception.TooFewArgumentsException;
-import org.bayl.runtime.function.ArrayLenFunction;
-import org.bayl.runtime.function.ArrayPushFunction;
-import org.bayl.runtime.function.PrintFunction;
-import org.bayl.runtime.function.PrintLineFunction;
-import org.bayl.runtime.function.StringLenFunction;
+import org.bayl.runtime.function.impl.collection.array.ArrayLenFunction;
+import org.bayl.runtime.function.impl.collection.array.ArrayPushFunction;
+import org.bayl.runtime.function.impl.io.PrintFunction;
+import org.bayl.runtime.function.impl.io.PrintLineFunction;
+import org.bayl.runtime.function.impl.literal.string.StringLenFunction;
 import org.bayl.runtime.function.UserFunction;
 import org.bayl.vm.Environment;
 
 public class UserClass extends BaylClass implements Environment {
 
     private BaylMemory memory;
-    private Map<String, Function> methods;
+    private Map<String, BaylFunction> methods;
     private final BlockNode body;
     private BaylObject call;
 
@@ -74,7 +74,7 @@ public class UserClass extends BaylClass implements Environment {
     }
 
     @Override
-    public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
+    public BaylObject callFunction(BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName) {
         var heap = new HashMap<>(memory.getHeap());
         var global = new HashMap<>(memory.getGlobalStorage());
 

@@ -9,7 +9,7 @@ import static org.bayl.model.BytecodeToken.ARRAY_END;
 import static org.bayl.model.BytecodeToken.ARRAY_INIT;
 import static org.bayl.model.BytecodeToken.ARRAY_STORE;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.object.ref.BaylArray;
 import org.bayl.vm.Environment;
 
 public class ArrayNode extends Node {

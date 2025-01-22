@@ -2,7 +2,6 @@ package org.bayl.bytecode.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import static org.bayl.model.BytecodeToken.DICT_PAIR;
@@ -14,6 +13,7 @@ import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.control.BlockExecutor;
 import org.bayl.vm.executor.control.RootExecutor;
 import org.bayl.vm.executor.expression.literale.FalseExecutor;
+import org.bayl.vm.executor.expression.literale.NullExecutor;
 import org.bayl.vm.executor.operator.arithmetic.ModOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.NegateOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.PowerOpExecutor;
@@ -100,8 +100,9 @@ public class BytecodeParserImpl implements BytecodeParser {
         return switch (token) {
             case PUSH_N -> parseValue(NumberExecutor::new);
             case PUSH_S -> parseString();
-            case PUSH_T -> parseBoolConstant(TrueExecutor::new);
-            case PUSH_F -> parseBoolConstant(FalseExecutor::new);
+            case PUSH_T -> parseConstant(TrueExecutor::new);
+            case PUSH_F -> parseConstant(FalseExecutor::new);
+            case PUSH_NULL -> parseConstant(NullExecutor::new);
             case IF -> parseIf();
             case FOREACH, WHILE -> parseLoops();
             case SET, NEGATE, MOD, POWER, ADD, DIVIDE, MULTIPLY, SUBTRACT, CONCAT -> parseOperator();
@@ -359,7 +360,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         sb.append(current);
     }
 
-    private Executor parseBoolConstant(Function<SourcePosition, Executor> constructor) {
+    private Executor parseConstant(Function<SourcePosition, Executor> constructor) {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
 

@@ -3,10 +3,10 @@ package org.bayl.vm.executor.operator.string;
 import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylString;
+import org.bayl.runtime.object.value.BaylString;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.BinaryOpExecutor;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class ConcatOpExecutor extends BinaryOpExecutor {
@@ -16,7 +16,7 @@ public class ConcatOpExecutor extends BinaryOpExecutor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylString left = getLeft().eval(virtualMachine).toBaylString();
         BaylString right = getRight().eval(virtualMachine).toBaylString();
         return left.concat(right);

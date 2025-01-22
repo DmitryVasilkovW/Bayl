@@ -4,7 +4,7 @@ import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.object.value.BaylBoolean;
 import static org.bayl.model.BytecodeToken.PUSH_F;
 import org.bayl.vm.Environment;
 

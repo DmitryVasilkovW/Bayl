@@ -10,8 +10,8 @@ import static org.bayl.model.BytecodeToken.DICT_END;
 import static org.bayl.model.BytecodeToken.DICT_INIT;
 import static org.bayl.model.BytecodeToken.DICT_PAIR;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.DictionaryEntry;
+import org.bayl.runtime.object.ref.Dictionary;
+import org.bayl.runtime.object.ref.DictionaryEntry;
 import org.bayl.vm.Environment;
 
 public class DictionaryNode extends Node {

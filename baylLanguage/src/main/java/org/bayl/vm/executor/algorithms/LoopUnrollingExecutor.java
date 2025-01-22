@@ -2,11 +2,11 @@ package org.bayl.vm.executor.algorithms;
 
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.object.value.BaylNumber;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.BinaryOpExecutor;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.maker.ArithmeticOpExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +30,7 @@ public class LoopUnrollingExecutor extends BinaryOpExecutor implements Arithmeti
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         // Выполняем вычисления для левого и правого операнда
         BaylNumber leftVal = (BaylNumber) left.eval(virtualMachine);
         BaylNumber rightVal = (BaylNumber) right.eval(virtualMachine);

@@ -1,12 +1,13 @@
 package org.bayl.vm;
 
+import org.bayl.runtime.object.value.BaylNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.runtime.object.BaylNumber;
-import org.bayl.runtime.object.BaylString;
+import org.bayl.runtime.object.value.BaylBoolean;
+import org.bayl.runtime.object.value.BaylNumber;
+import org.bayl.runtime.object.value.BaylString;
 import org.bayl.vm.impl.VirtualMachineImpl;
 import org.junit.jupiter.api.Test;
 
@@ -62,6 +63,11 @@ public class VirtualMachineTest {
         assertResult("x = 0x3BE;", new BaylNumber("958"));
         assertResult("x = 0o52;", new BaylNumber("42"));
         assertResult("x = 0b101;", new BaylNumber("5"));
+    }
+
+    @Test
+    public void testNull() {
+        assertResult("n = null;", new BaylNull());
     }
 
     @Test

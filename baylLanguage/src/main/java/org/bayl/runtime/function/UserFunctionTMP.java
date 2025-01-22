@@ -3,14 +3,14 @@ package org.bayl.runtime.function;
 import java.util.List;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.exception.ReturnException;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.impl.VirtualMachineImpl;
 
-public class UserFunctionTMP extends Function {
+public class UserFunctionTMP extends BaylFunction {
 
     private final List<Parameter> parameters;
     private final Executor body;

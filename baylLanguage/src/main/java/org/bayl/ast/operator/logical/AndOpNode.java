@@ -6,7 +6,7 @@ import org.bayl.ast.BooleanOpNode;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.object.value.BaylBoolean;
 import static org.bayl.model.BytecodeToken.AND;
 import org.bayl.vm.Environment;
 

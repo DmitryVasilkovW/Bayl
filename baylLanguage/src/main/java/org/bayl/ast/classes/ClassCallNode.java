@@ -1,5 +1,6 @@
 package org.bayl.ast.classes;
 
+import static org.bayl.model.BytecodeToken.CLASS_CALL;
 import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.function.FunctionCallNode;
@@ -38,6 +39,13 @@ public class ClassCallNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-
+        bytecode.add(
+                getBytecodeLineWithPosition(
+                        CLASS_CALL.toString(),
+                        name
+                )
+        );
+        classNode.generateCode(bytecode);
+        attribute.generateCode(bytecode);
     }
 }

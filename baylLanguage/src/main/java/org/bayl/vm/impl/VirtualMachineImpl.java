@@ -11,20 +11,21 @@ import java.util.List;
 import java.util.Map;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.bytecode.impl.BytecodeParserImpl;
+import org.bayl.runtime.function.impl.literal.IsNullFunction;
 import org.bayl.syntax.Lexer;
 import org.bayl.syntax.Parser;
 import org.bayl.model.SourcePosition;
 import org.bayl.ast.control.RootNode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.exception.TooFewArgumentsException;
 import org.bayl.runtime.exception.UnsetVariableException;
-import org.bayl.runtime.function.ArrayLenFunction;
-import org.bayl.runtime.function.ArrayPushFunction;
-import org.bayl.runtime.function.PrintFunction;
-import org.bayl.runtime.function.PrintLineFunction;
-import org.bayl.runtime.function.StringLenFunction;
+import org.bayl.runtime.function.impl.collection.array.ArrayLenFunction;
+import org.bayl.runtime.function.impl.collection.array.ArrayPushFunction;
+import org.bayl.runtime.function.impl.io.PrintFunction;
+import org.bayl.runtime.function.impl.io.PrintLineFunction;
+import org.bayl.runtime.function.impl.literal.string.StringLenFunction;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.control.RootExecutor;
 
@@ -38,6 +39,7 @@ public class VirtualMachineImpl implements Environment {
         symbolTable.put("str_len", new StringLenFunction());
         symbolTable.put("arr_len", new ArrayLenFunction());
         symbolTable.put("array_push", new ArrayPushFunction());
+        symbolTable.put("is_null", new IsNullFunction());
     }
 
     @Override
@@ -55,13 +57,13 @@ public class VirtualMachineImpl implements Environment {
 
     public void checkFunctionExists(String functionName, SourcePosition pos) {
         BaylObject symbol = getVariable(functionName, pos);
-        if (!(symbol instanceof Function)) {
+        if (!(symbol instanceof BaylFunction)) {
             throw new InvalidTypeException(functionName + " is not a function", pos);
         }
     }
 
     @Override
-    public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
+    public BaylObject callFunction(BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName) {
         Map<String, BaylObject> savedSymbolTable =
                 new HashMap<String, BaylObject>(symbolTable);
         int noMissingArgs = 0;

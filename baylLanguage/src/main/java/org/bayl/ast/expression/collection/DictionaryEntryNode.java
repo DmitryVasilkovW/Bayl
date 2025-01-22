@@ -4,7 +4,7 @@ import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.DictionaryEntry;
+import org.bayl.runtime.object.ref.DictionaryEntry;
 import org.bayl.vm.Environment;
 
 public class DictionaryEntryNode extends Node {

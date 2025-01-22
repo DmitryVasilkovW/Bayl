@@ -4,11 +4,11 @@ import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.BinaryOpExecutor;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.collection.LookupExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class AssignExecutor extends BinaryOpExecutor {
@@ -18,7 +18,7 @@ public class AssignExecutor extends BinaryOpExecutor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         Executor left = getLeft();
         BaylObject value = getRight().eval(virtualMachine);
         if (left instanceof VariableExecutor) {

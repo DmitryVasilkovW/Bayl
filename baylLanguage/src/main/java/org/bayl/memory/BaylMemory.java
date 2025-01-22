@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import org.bayl.model.SourcePosition;
-import org.bayl.runtime.BaylMeaningful;
+import org.bayl.runtime.ValueType;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylType;
 import org.bayl.runtime.exception.UnsetVariableException;
@@ -29,7 +29,7 @@ public class BaylMemory {
     public BaylObject getVariable(String name, SourcePosition pos) {
         BaylType value = globalStorage.get(name);
 
-        if (isMeaningful(value)) {
+        if (isValueType(value)) {
             return (BaylObject) value;
         } else if (isRef(value)) {
             return heap.get((BaylRef) value);
@@ -38,7 +38,7 @@ public class BaylMemory {
     }
 
     public void setVariable(String name, BaylObject value) {
-        if (isMeaningful(value)) {
+        if (isValueType(value)) {
             globalStorage.put(name, value);
         } else if (isRef(value)) {
             BaylRef ref = getNewRef(name);
@@ -52,9 +52,9 @@ public class BaylMemory {
         return new BaylRef(name);
     }
 
-    private boolean isMeaningful(Object o) {
+    private boolean isValueType(Object o) {
         return o instanceof BaylObject
-                && o instanceof BaylMeaningful;
+                && o instanceof ValueType;
     }
 
     private boolean isRef(Object o) {

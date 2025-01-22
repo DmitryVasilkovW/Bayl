@@ -6,7 +6,7 @@ import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.object.value.BaylNumber;
 import static org.bayl.model.BytecodeToken.POWER;
 import org.bayl.vm.Environment;
 

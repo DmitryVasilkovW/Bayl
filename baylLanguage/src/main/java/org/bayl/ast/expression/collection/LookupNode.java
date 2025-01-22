@@ -7,8 +7,8 @@ import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.LOOKUP;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.ref.BaylArray;
+import org.bayl.runtime.object.ref.Dictionary;
 import org.bayl.vm.Environment;
 
 public class LookupNode extends Node {

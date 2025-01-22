@@ -5,7 +5,7 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.PUSH_N;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.object.value.BaylNumber;
 import org.bayl.vm.Environment;
 
 public class NumberNode extends Node {

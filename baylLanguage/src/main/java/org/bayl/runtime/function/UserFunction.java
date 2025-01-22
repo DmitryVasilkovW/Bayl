@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.exception.ReturnException;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.Environment;
 
-public class UserFunction extends Function {
+public class UserFunction extends BaylFunction {
     private final List<Parameter> parameters;
     private final Node body;
 

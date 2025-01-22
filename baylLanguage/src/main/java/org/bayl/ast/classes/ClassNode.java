@@ -1,5 +1,6 @@
 package org.bayl.ast.classes;
 
+import static org.bayl.model.BytecodeToken.CLASS;
 import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.control.BlockNode;
@@ -24,6 +25,9 @@ public class ClassNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
-        bytecode.add("CLASS");
+        bytecode.add(
+                getBytecodeLineWithPosition(CLASS.toString())
+        );
+        body.generateCode(bytecode);
     }
 }

@@ -3,7 +3,7 @@ package org.bayl.runtime;
 import org.bayl.model.SourcePosition;
 import org.bayl.vm.Environment;
 
-public abstract class Function extends BaylObject {
+public abstract class BaylFunction extends BaylObject {
 
     abstract public int getParameterCount();
 
