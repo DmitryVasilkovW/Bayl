@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
-import org.bayl.runtime.function.UserFunctionTMP;
+import org.bayl.runtime.function.UserFunction;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
@@ -45,7 +45,7 @@ public class FunctionExecutor extends Executor {
             Parameter param = new Parameter(parameterName, parameterValue);
             params.add(param);
         }
-        return new UserFunctionTMP(params, body);
+        return new UserFunction(params, body);
     }
 
     @Override

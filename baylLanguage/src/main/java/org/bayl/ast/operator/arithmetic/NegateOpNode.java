@@ -1,25 +1,16 @@
 package org.bayl.ast.operator.arithmetic;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.ArithmeticOpNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.UnaryOpNode;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.value.BaylNumber;
 import static org.bayl.model.BytecodeToken.NEGATE;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class NegateOpNode extends UnaryOpNode implements ArithmeticOpNode {
 
     public NegateOpNode(SourcePosition pos, Node value) {
         super(pos, "-", value);
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        BaylNumber operand = getOperand().eval(virtualMachine).toNumber(getOperand().getPosition());
-        return operand.negate();
     }
 
     @Override

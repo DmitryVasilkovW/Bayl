@@ -1,15 +1,10 @@
 package org.bayl.ast.expression.collection;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.LOOKUP;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.runtime.object.ref.BaylArray;
-import org.bayl.runtime.object.ref.Dictionary;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class LookupNode extends Node {
 
@@ -20,39 +15,6 @@ public class LookupNode extends Node {
         super(pos);
         this.varNode = varNode;
         this.keyNode = keyNode;
-    }
-
-    public BaylObject get(Environment interpreter) {
-        BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
-        BaylObject ret = null;
-        if (var instanceof BaylArray) {
-            int index = keyNode.eval(interpreter).toNumber(keyNode.getPosition()).intValue();
-            return ((BaylArray) var).get(index);
-        } else if (var instanceof Dictionary) {
-            BaylObject key = keyNode.eval(interpreter);
-            return ((Dictionary) var).get(key);
-        }
-        throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());
-    }
-
-    public void set(Environment interpreter, BaylObject result) {
-        BaylObject var = interpreter.getVariable(varNode.getName(), varNode.getPosition());
-        BaylObject ret = null;
-        if (var instanceof BaylArray) {
-            int index = keyNode.eval(interpreter).toNumber(keyNode.getPosition()).intValue();
-            ((BaylArray) var).set(index, result);
-            return;
-        } else if (var instanceof Dictionary) {
-            BaylObject key = keyNode.eval(interpreter);
-            ((Dictionary) var).set(key, result);
-            return;
-        }
-        throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return get(virtualMachine);
     }
 
     @Override

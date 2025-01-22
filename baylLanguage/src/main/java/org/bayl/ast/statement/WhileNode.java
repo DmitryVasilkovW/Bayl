@@ -1,11 +1,9 @@
 package org.bayl.ast.statement;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
 import static org.bayl.model.BytecodeToken.WHILE;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class WhileNode extends Node {
 
@@ -16,23 +14,6 @@ public class WhileNode extends Node {
         super(pos);
         this.testCondition = testCondition;
         this.loopBody = loopBody;
-    }
-
-    public Node getTestCondition() {
-        return testCondition;
-    }
-
-    public Node getLoopBody() {
-        return loopBody;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        BaylObject ret = null;
-        while (testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue()) {
-            ret = loopBody.eval(virtualMachine);
-        }
-        return ret;
     }
 
     @Override

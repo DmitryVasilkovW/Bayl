@@ -1,13 +1,10 @@
 package org.bayl.ast.classes;
 
-import static org.bayl.model.BytecodeToken.CLASS;
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.ast.control.BlockNode;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.classes.UserClass;
-import org.bayl.vm.Environment;
+import static org.bayl.model.BytecodeToken.CLASS;
+import org.bayl.model.SourcePosition;
 
 public class ClassNode extends Node {
 
@@ -16,11 +13,6 @@ public class ClassNode extends Node {
     public ClassNode(SourcePosition position, BlockNode body) {
         super(position);
         this.body = body;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return new UserClass(body);
     }
 
     @Override

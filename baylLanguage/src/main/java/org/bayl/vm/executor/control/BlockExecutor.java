@@ -1,11 +1,13 @@
 package org.bayl.vm.executor.control;
 
 import lombok.EqualsAndHashCode;
+import org.bayl.ast.Node;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import java.util.List;
+import java.util.stream.Stream;
 
 @EqualsAndHashCode(callSuper = true)
 public class BlockExecutor extends Executor {
@@ -23,6 +25,10 @@ public class BlockExecutor extends Executor {
 
     public List<Executor> getStatements() {
         return statements;
+    }
+
+    public Stream<Executor> gerStreamOfStatements() {
+        return statements.stream();
     }
 
     @Override

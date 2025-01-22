@@ -10,6 +10,8 @@ import org.bayl.model.BytecodeToken;
 import org.bayl.bytecode.BytecodeParser;
 import org.bayl.vm.TriFunction;
 import org.bayl.vm.executor.Executor;
+import org.bayl.vm.executor.classes.ClassCallExecutor;
+import org.bayl.vm.executor.classes.ClassExecutor;
 import org.bayl.vm.executor.control.BlockExecutor;
 import org.bayl.vm.executor.control.RootExecutor;
 import org.bayl.vm.executor.expression.literale.FalseExecutor;
@@ -98,11 +100,8 @@ public class BytecodeParserImpl implements BytecodeParser {
         BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
         profiler.countInstruction(token);
         return switch (token) {
-            case PUSH_N -> parseValue(NumberExecutor::new);
-            case PUSH_S -> parseString();
-            case PUSH_T -> parseConstant(TrueExecutor::new);
-            case PUSH_F -> parseConstant(FalseExecutor::new);
-            case PUSH_NULL -> parseConstant(NullExecutor::new);
+            case PUSH_N, PUSH_S, PUSH_T, PUSH_F, PUSH_NULL -> parseLiteral();
+            case CLASS, CLASS_CALL -> parseClasses();
             case IF -> parseIf();
             case FOREACH, WHILE -> parseLoops();
             case SET, NEGATE, MOD, POWER, ADD, DIVIDE, MULTIPLY, SUBTRACT, CONCAT -> parseOperator();
@@ -112,6 +111,18 @@ public class BytecodeParserImpl implements BytecodeParser {
             case ARRAY_INIT, DICT_INIT -> parseCollection();
             case LOAD, LOOKUP -> parseVarExecutor();
             case FUNC, RETURN, CALL -> parseFunctions();
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
+        };
+    }
+
+    private Executor parseLiteral() {
+        BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
+        return switch (token) {
+            case PUSH_N -> parseValue(NumberExecutor::new);
+            case PUSH_S -> parseString();
+            case PUSH_T -> parseConstant(TrueExecutor::new);
+            case PUSH_F -> parseConstant(FalseExecutor::new);
+            case PUSH_NULL -> parseConstant(NullExecutor::new);
             default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }
@@ -183,6 +194,35 @@ public class BytecodeParserImpl implements BytecodeParser {
             case CONCAT -> parseExecutorWithTwoValues(ConcatOpExecutor::new);
             default -> throw new IllegalStateException(EXCEPTION_MESSAGE + token);
         };
+    }
+
+    private Executor parseClasses() {
+        BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
+        return switch (token) {
+            case CLASS -> parseClass();
+            case CLASS_CALL -> parseClassCall();
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + token);
+        };
+    }
+
+    private ClassExecutor parseClass() {
+        String[] tokens = getTokens();
+        SourcePosition position = parsePosition(tokens);
+
+        BlockExecutor bode = parseBlock();
+
+        return new ClassExecutor(position, bode);
+    }
+
+    private ClassCallExecutor parseClassCall() {
+        String[] tokens = getTokens();
+        SourcePosition position = parsePosition(tokens);
+
+        Executor classExecutor = parseExecutor();
+        Executor attribute = parseExecutor();
+        String name = tokens[1];
+
+        return new ClassCallExecutor(position, classExecutor, attribute, name);
     }
 
     private ForeachExecutor parseForeach() {

@@ -18,11 +18,6 @@ public class StringNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return literal;
-    }
-
-    @Override
     public String toString() {
         return '"' + literal.toString() + '"';
     }

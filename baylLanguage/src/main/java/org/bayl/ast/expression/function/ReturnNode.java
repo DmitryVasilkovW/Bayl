@@ -18,11 +18,6 @@ public class ReturnNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Environment virtualMachine) {
-        throw new ReturnException(expression.eval(virtualMachine));
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("(return ");

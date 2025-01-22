@@ -27,19 +27,6 @@ public class BlockNode extends Node {
         return statements;
     }
 
-    public Stream<Node> gerStreamOfStatements() {
-        return statements.stream();
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        BaylObject ret = null;
-        for (Node statement : statements) {
-            ret = statement.eval(virtualMachine);
-        }
-        return ret;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

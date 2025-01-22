@@ -1,13 +1,10 @@
 package org.bayl.ast.statement;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.ELSE;
 import static org.bayl.model.BytecodeToken.IF;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.value.BaylBoolean;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class IfNode extends Node {
 
@@ -20,29 +17,6 @@ public class IfNode extends Node {
         this.testCondition = testCondition;
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
-    }
-
-    public Node getTestCondition() {
-        return testCondition;
-    }
-
-    public Node getThenBlock() {
-        return thenBlock;
-    }
-
-    public Node getElseBlock() {
-        return elseBlock;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        boolean test = testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue();
-        if (test) {
-            return thenBlock.eval(virtualMachine);
-        } else if (elseBlock != null) {
-            return elseBlock.eval(virtualMachine);
-        }
-        return BaylBoolean.FALSE;
     }
 
     @Override

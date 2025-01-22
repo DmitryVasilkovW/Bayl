@@ -1,12 +1,10 @@
 package org.bayl.ast.expression.literale;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.PUSH_N;
-import org.bayl.runtime.BaylObject;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.object.value.BaylNumber;
-import org.bayl.vm.Environment;
 
 public class NumberNode extends Node {
 
@@ -20,11 +18,6 @@ public class NumberNode extends Node {
     @Override
     public String toString() {
         return number.toString();
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return number;
     }
 
     @Override

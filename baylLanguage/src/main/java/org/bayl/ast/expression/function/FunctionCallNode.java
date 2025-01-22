@@ -9,10 +9,6 @@ import static org.bayl.model.BytecodeToken.ARG;
 import static org.bayl.model.BytecodeToken.CALL;
 import static org.bayl.model.BytecodeToken.CALL_END;
 import org.bayl.model.SourcePosition;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.BaylFunction;
-import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.vm.Environment;
 
 public class FunctionCallNode extends Node {
 
@@ -31,20 +27,6 @@ public class FunctionCallNode extends Node {
             return ((VariableNode) functionNode).getName();
         }
         return null;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        BaylObject expression = functionNode.eval(virtualMachine);
-        if (!(expression instanceof BaylFunction)) {
-            throw new InvalidTypeException("Call to invalid function", getPosition());
-        }
-        BaylFunction function = (BaylFunction) expression;
-        List<BaylObject> args = new ArrayList<BaylObject>(arguments.size());
-        for (Node node : arguments) {
-            args.add(node.eval(virtualMachine));
-        }
-        return virtualMachine.callFunction(function, args, getPosition(), getFunctionName());
     }
 
     @Override

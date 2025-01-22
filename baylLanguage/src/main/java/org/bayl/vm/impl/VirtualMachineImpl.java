@@ -65,7 +65,7 @@ public class VirtualMachineImpl implements Environment {
     @Override
     public BaylObject callFunction(BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName) {
         Map<String, BaylObject> savedSymbolTable =
-                new HashMap<String, BaylObject>(symbolTable);
+                new HashMap<>(symbolTable);
         int noMissingArgs = 0;
         int noRequiredArgs = 0;
         for (int paramIndex = 0;
