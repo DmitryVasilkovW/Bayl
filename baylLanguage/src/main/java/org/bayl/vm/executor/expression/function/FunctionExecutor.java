@@ -4,18 +4,16 @@ import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
-import org.bayl.runtime.function.UserFunctionTMP;
+import org.bayl.runtime.function.UserFunction;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 public class FunctionExecutor extends Executor {
-
-    final static public List<Executor> NO_PARAMETERS = new ArrayList<Executor>(0);
 
     private final List<Executor> parameters;
     private final Executor body;
@@ -27,7 +25,7 @@ public class FunctionExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         List<Parameter> params = new ArrayList<Parameter>(parameters.size());
         for (Executor Executor : parameters) {
             // TODO clean up getting parameters
@@ -45,7 +43,7 @@ public class FunctionExecutor extends Executor {
             Parameter param = new Parameter(parameterName, parameterValue);
             params.add(param);
         }
-        return new UserFunctionTMP(params, body);
+        return new UserFunction(params, body);
     }
 
     @Override

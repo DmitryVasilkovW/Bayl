@@ -5,7 +5,10 @@ public enum BytecodeToken {
     PUSH_N,
     PUSH_T,
     PUSH_F,
+    PUSH_NULL,
     LOAD,
+
+    CLASS, CLASS_CALL,
 
     BLOCK_START, BLOCK_END,
 
@@ -19,7 +22,7 @@ public enum BytecodeToken {
     LOOKUP,
 
     CALL, CALL_DYNAMIC, CALL_END, CALL_DYNAMIC_END, ARG,
-    FUNC, BODY,
+    FUNC, BODY, TAIL_FUNCTION,
     RETURN,
 
     MOD,

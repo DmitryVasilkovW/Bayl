@@ -2,7 +2,6 @@ package org.bayl.bytecode.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import static org.bayl.model.BytecodeToken.DICT_PAIR;
@@ -11,9 +10,13 @@ import org.bayl.model.BytecodeToken;
 import org.bayl.bytecode.BytecodeParser;
 import org.bayl.vm.TriFunction;
 import org.bayl.vm.executor.Executor;
+import org.bayl.vm.executor.classes.ClassCallExecutor;
+import org.bayl.vm.executor.classes.ClassExecutor;
 import org.bayl.vm.executor.control.BlockExecutor;
 import org.bayl.vm.executor.control.RootExecutor;
+import org.bayl.vm.executor.expression.function.TailRecursionExecutor;
 import org.bayl.vm.executor.expression.literale.FalseExecutor;
+import org.bayl.vm.executor.expression.literale.NullExecutor;
 import org.bayl.vm.executor.operator.arithmetic.ModOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.NegateOpExecutor;
 import org.bayl.vm.executor.operator.arithmetic.PowerOpExecutor;
@@ -98,10 +101,8 @@ public class BytecodeParserImpl implements BytecodeParser {
         BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
         profiler.countInstruction(token);
         return switch (token) {
-            case PUSH_N -> parseValue(NumberExecutor::new);
-            case PUSH_S -> parseString();
-            case PUSH_T -> parseBoolConstant(TrueExecutor::new);
-            case PUSH_F -> parseBoolConstant(FalseExecutor::new);
+            case PUSH_N, PUSH_S, PUSH_T, PUSH_F, PUSH_NULL -> parseLiteral();
+            case CLASS, CLASS_CALL -> parseClasses();
             case IF -> parseIf();
             case FOREACH, WHILE -> parseLoops();
             case SET, NEGATE, MOD, POWER, ADD, DIVIDE, MULTIPLY, SUBTRACT, CONCAT -> parseOperator();
@@ -110,7 +111,19 @@ public class BytecodeParserImpl implements BytecodeParser {
             case BLOCK_START -> parseBlock();
             case ARRAY_INIT, DICT_INIT -> parseCollection();
             case LOAD, LOOKUP -> parseVarExecutor();
-            case FUNC, RETURN, CALL -> parseFunctions();
+            case FUNC, TAIL_FUNCTION, RETURN, CALL -> parseFunctions();
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
+        };
+    }
+
+    private Executor parseLiteral() {
+        BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
+        return switch (token) {
+            case PUSH_N -> parseValue(NumberExecutor::new);
+            case PUSH_S -> parseString();
+            case PUSH_T -> parseConstant(TrueExecutor::new);
+            case PUSH_F -> parseConstant(FalseExecutor::new);
+            case PUSH_NULL -> parseConstant(NullExecutor::new);
             default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }
@@ -145,7 +158,8 @@ public class BytecodeParserImpl implements BytecodeParser {
     private Executor parseFunctions() {
         BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
         return switch (token) {
-            case FUNC -> parseFunction();
+            case FUNC -> parseFunction(FunctionExecutor::new);
+            case TAIL_FUNCTION -> parseFunction(TailRecursionExecutor::new);
             case CALL -> parseFunctionCall();
             case RETURN -> parseExecutorWithOneValue(ReturnExecutor::new);
             default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
@@ -184,6 +198,35 @@ public class BytecodeParserImpl implements BytecodeParser {
         };
     }
 
+    private Executor parseClasses() {
+        BytecodeToken token = BytecodeToken.valueOf(peekTokens()[0]);
+        return switch (token) {
+            case CLASS -> parseClass();
+            case CLASS_CALL -> parseClassCall();
+            default -> throw new IllegalStateException(EXCEPTION_MESSAGE + token);
+        };
+    }
+
+    private ClassExecutor parseClass() {
+        String[] tokens = getTokens();
+        SourcePosition position = parsePosition(tokens);
+
+        BlockExecutor bode = parseBlock();
+
+        return new ClassExecutor(position, bode);
+    }
+
+    private ClassCallExecutor parseClassCall() {
+        String[] tokens = getTokens();
+        SourcePosition position = parsePosition(tokens);
+
+        Executor classExecutor = parseExecutor();
+        Executor attribute = parseExecutor();
+        String name = tokens[1];
+
+        return new ClassCallExecutor(position, classExecutor, attribute, name);
+    }
+
     private ForeachExecutor parseForeach() {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
@@ -219,7 +262,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         return new IfExecutor(position, testCondition, thenBlock, elseBlock);
     }
 
-    private <T> T parseExecutorWithOneValue(BiFunction<SourcePosition, Executor, T> constructor) {
+    private <T extends Executor> T parseExecutorWithOneValue(BiFunction<SourcePosition, Executor, T> constructor) {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
 
@@ -228,7 +271,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         return constructor.apply(position, expression);
     }
 
-    private <T> T parseExecutorWithTwoValues(TriFunction<SourcePosition, Executor, Executor, T> constructor) {
+    private <T extends Executor> T parseExecutorWithTwoValues(TriFunction<SourcePosition, Executor, Executor, T> constructor) {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
 
@@ -263,7 +306,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         return new FunctionCallExecutor(position, function, args);
     }
 
-    private FunctionExecutor parseFunction() {
+    private<T extends Executor> T parseFunction(TriFunction<SourcePosition, List<Executor>, Executor, T> constructor) {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
         var args = new ArrayList<Executor>();
@@ -276,7 +319,7 @@ public class BytecodeParserImpl implements BytecodeParser {
 
         Executor body = parseExecutor();
 
-        return new FunctionExecutor(position, args, body);
+        return constructor.apply(position, args, body);
     }
 
     private DictionaryExecutor parseDictionary() {
@@ -359,7 +402,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         sb.append(current);
     }
 
-    private Executor parseBoolConstant(Function<SourcePosition, Executor> constructor) {
+    private Executor parseConstant(Function<SourcePosition, Executor> constructor) {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylType;
-import org.bayl.runtime.object.BaylArray;
+import org.bayl.runtime.object.ref.BaylArray;
 import org.bayl.runtime.object.BaylRef;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

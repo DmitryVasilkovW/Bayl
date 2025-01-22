@@ -5,8 +5,8 @@ import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidOperatorException;
 import org.bayl.runtime.exception.TypeMismatchException;
-import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.vm.impl.VirtualMachineImpl;
+import org.bayl.runtime.object.value.BaylBoolean;
+import org.bayl.vm.Environment;
 
 @EqualsAndHashCode(callSuper = true)
 public abstract class RelationalOpExecutor extends BinaryOpExecutor {
@@ -21,7 +21,7 @@ public abstract class RelationalOpExecutor extends BinaryOpExecutor {
         }
     }
 
-    protected int compare(VirtualMachineImpl interpreter) {
+    protected int compare(Environment interpreter) {
         BaylObject left = getLeft().eval(interpreter);
         BaylObject right = getRight().eval(interpreter);
         checkTypes(left, right);
@@ -32,7 +32,7 @@ public abstract class RelationalOpExecutor extends BinaryOpExecutor {
         }
     }
 
-    protected BaylBoolean evalEquals(VirtualMachineImpl interpreter) {
+    protected BaylBoolean evalEquals(Environment interpreter) {
         BaylObject left = getLeft().eval(interpreter);
         BaylObject right = getRight().eval(interpreter);
         checkTypes(left, right);

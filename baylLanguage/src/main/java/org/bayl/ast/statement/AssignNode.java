@@ -1,15 +1,13 @@
 package org.bayl.ast.statement;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.BinaryOpNode;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.collection.LookupNode;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.exception.InvalidTypeException;
 import static org.bayl.model.BytecodeToken.SET;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
+import org.bayl.runtime.exception.InvalidTypeException;
 
 public class AssignNode extends BinaryOpNode {
 
@@ -17,21 +15,6 @@ public class AssignNode extends BinaryOpNode {
 
     public AssignNode(SourcePosition pos, Node varNode, Node expression) {
         super(pos, "set!", varNode, expression);
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        Node left = getLeft();
-        BaylObject value = getRight().eval(virtualMachine);
-        if (left instanceof VariableNode) {
-            String name = ((VariableNode) left).getName();
-            virtualMachine.setVariable(name, value);
-            return value;
-        } else if (left instanceof LookupNode) {
-            ((LookupNode) left).set(virtualMachine, value);
-            return value;
-        }
-        throw new InvalidTypeException(EXCEPTION_MESSAGE, left.getPosition());
     }
 
     @Override

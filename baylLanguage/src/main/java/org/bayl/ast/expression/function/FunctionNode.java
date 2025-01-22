@@ -1,19 +1,14 @@
 package org.bayl.ast.expression.function;
 
-import org.bayl.model.SourcePosition;
-import org.bayl.ast.Node;
-import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.ast.statement.AssignNode;
-import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Parameter;
-import org.bayl.runtime.function.UserFunction;
 import java.util.ArrayList;
 import java.util.List;
+import org.bayl.ast.Node;
+import org.bayl.ast.expression.variable.VariableNode;
+import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.ARG;
 import static org.bayl.model.BytecodeToken.BODY;
 import static org.bayl.model.BytecodeToken.FUNC;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class FunctionNode extends Node {
 
@@ -26,28 +21,6 @@ public class FunctionNode extends Node {
         super(pos);
         this.parameters = parameters;
         this.body = body;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        List<Parameter> params = new ArrayList<Parameter>(parameters.size());
-        for (Node node : parameters) {
-            // TODO clean up getting parameters
-            String parameterName;
-            BaylObject parameterValue;
-            if (node instanceof VariableNode) {
-                parameterName = ((VariableNode) node).getName();
-                parameterValue = null;
-            } else if (node instanceof AssignNode) {
-                parameterName = ((VariableNode) ((AssignNode) node).getLeft()).getName();
-                parameterValue = ((AssignNode) node).getRight().eval(virtualMachine);
-            } else {
-                throw new RuntimeException("Invalid function");
-            }
-            Parameter param = new Parameter(parameterName, parameterValue);
-            params.add(param);
-        }
-        return new UserFunction(params, body);
     }
 
     @Override

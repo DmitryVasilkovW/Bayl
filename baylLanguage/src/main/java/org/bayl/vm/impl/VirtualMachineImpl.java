@@ -6,64 +6,51 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bayl.ast.control.RootNode;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.bytecode.impl.BytecodeParserImpl;
-import org.bayl.syntax.Lexer;
-import org.bayl.syntax.Parser;
+import org.bayl.memory.BaylMemory;
 import org.bayl.model.SourcePosition;
-import org.bayl.ast.control.RootNode;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylType;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.exception.TooFewArgumentsException;
-import org.bayl.runtime.exception.UnsetVariableException;
-import org.bayl.runtime.function.ArrayLenFunction;
-import org.bayl.runtime.function.ArrayPushFunction;
-import org.bayl.runtime.function.PrintFunction;
-import org.bayl.runtime.function.PrintLineFunction;
-import org.bayl.runtime.function.StringLenFunction;
+import org.bayl.runtime.object.BaylRef;
+import org.bayl.syntax.Lexer;
+import org.bayl.syntax.Parser;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.control.RootExecutor;
 
 public class VirtualMachineImpl implements Environment {
 
-    private Map<String, BaylObject> symbolTable = new HashMap<>();
-
-    public VirtualMachineImpl() {
-        symbolTable.put("print", new PrintFunction());
-        symbolTable.put("println", new PrintLineFunction());
-        symbolTable.put("str_len", new StringLenFunction());
-        symbolTable.put("arr_len", new ArrayLenFunction());
-        symbolTable.put("array_push", new ArrayPushFunction());
-    }
+    private BaylMemory memory = new BaylMemory();
 
     @Override
     public BaylObject getVariable(String name, SourcePosition pos) {
-        if (!symbolTable.containsKey(name)) {
-            throw new UnsetVariableException(name, pos);
-        }
-        return symbolTable.get(name);
+        return memory.getVariable(name, pos);
     }
 
     @Override
     public void setVariable(String name, BaylObject value) {
-        symbolTable.put(name, value);
+        memory.setVariable(name, value);
     }
 
     public void checkFunctionExists(String functionName, SourcePosition pos) {
         BaylObject symbol = getVariable(functionName, pos);
-        if (!(symbol instanceof Function)) {
+        if (!(symbol instanceof BaylFunction)) {
             throw new InvalidTypeException(functionName + " is not a function", pos);
         }
     }
 
     @Override
-    public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
-        Map<String, BaylObject> savedSymbolTable =
-                new HashMap<String, BaylObject>(symbolTable);
+    public BaylObject callFunction(
+            BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName) {
+        Map<BaylRef, BaylObject> heap = memory.getHeap();
+        Map<String, BaylType> global = memory.getGlobalStorage();
+
         int noMissingArgs = 0;
         int noRequiredArgs = 0;
         for (int paramIndex = 0;
@@ -86,7 +73,7 @@ public class VirtualMachineImpl implements Environment {
                                                args.size(), pos);
         }
         BaylObject ret = function.eval(this, pos);
-        symbolTable = savedSymbolTable;
+        memory = new BaylMemory(heap, global);
 
         return ret;
     }

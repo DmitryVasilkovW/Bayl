@@ -4,12 +4,12 @@ import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.ref.BaylArray;
+import org.bayl.runtime.object.ref.Dictionary;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.collection.DictionaryEntryExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
@@ -28,7 +28,7 @@ public class ForeachExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylObject onVariable =
                 virtualMachine.getVariable(onVariableExecutor.getName(), onVariableExecutor.getPosition());
         BaylObject ret = null;

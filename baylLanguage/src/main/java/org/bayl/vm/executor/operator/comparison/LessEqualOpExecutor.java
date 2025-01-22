@@ -3,10 +3,10 @@ package org.bayl.vm.executor.operator.comparison;
 import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.object.value.BaylBoolean;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.RelationalOpExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class LessEqualOpExecutor extends RelationalOpExecutor {
@@ -16,7 +16,7 @@ public class LessEqualOpExecutor extends RelationalOpExecutor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return BaylBoolean.valueOf(compare(virtualMachine) <= 0);
     }
 }

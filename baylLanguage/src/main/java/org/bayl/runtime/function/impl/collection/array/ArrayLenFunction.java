@@ -1,15 +1,15 @@
-package org.bayl.runtime.function;
+package org.bayl.runtime.function.impl.collection.array;
 
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.BaylFunction;
+import org.bayl.runtime.object.ref.BaylArray;
+import org.bayl.runtime.object.value.BaylNumber;
 import org.bayl.vm.Environment;
 
-public class ArrayLenFunction extends Function {
+public class ArrayLenFunction extends BaylFunction {
 
-    private static final String NAME = "array";
+    private static final String NAME = "`array";
     private final String[] parameters = {NAME};
 
     @Override

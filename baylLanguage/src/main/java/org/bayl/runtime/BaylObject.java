@@ -2,9 +2,9 @@ package org.bayl.runtime;
 
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.runtime.object.BaylNumber;
-import org.bayl.runtime.object.BaylString;
+import org.bayl.runtime.object.value.BaylBoolean;
+import org.bayl.runtime.object.value.BaylNumber;
+import org.bayl.runtime.object.value.BaylString;
 
 public abstract class BaylObject implements BaylType, Comparable<BaylObject> {
 

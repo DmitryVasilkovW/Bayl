@@ -2,11 +2,11 @@ package org.bayl.vm.executor.algorithms;
 
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylNumber;
+import org.bayl.runtime.object.value.BaylNumber;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.BinaryOpExecutor;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.maker.ArithmeticOpExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +18,7 @@ public class DeadCodeEliminationExecutor extends BinaryOpExecutor implements Ari
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylNumber left = getLeft().eval(virtualMachine).toNumber(getLeft().getPosition());
         BaylNumber right = getRight().eval(virtualMachine).toNumber(getRight().getPosition());
 

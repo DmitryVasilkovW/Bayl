@@ -1,10 +1,12 @@
 package org.bayl.vm.executor;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.vm.impl.VirtualMachineImpl;
+import org.bayl.vm.Environment;
 
+@Getter
 @EqualsAndHashCode
 public abstract class Executor {
 
@@ -14,9 +16,5 @@ public abstract class Executor {
         this.position = position;
     }
 
-    public SourcePosition getPosition() {
-        return position;
-    }
-
-    public abstract BaylObject eval(VirtualMachineImpl virtualMachine);
+    public abstract BaylObject eval(Environment virtualMachine);
 }

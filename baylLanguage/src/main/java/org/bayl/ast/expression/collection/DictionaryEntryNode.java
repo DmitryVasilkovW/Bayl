@@ -1,11 +1,8 @@
 package org.bayl.ast.expression.collection;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.DictionaryEntry;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class DictionaryEntryNode extends Node {
 
@@ -24,11 +21,6 @@ public class DictionaryEntryNode extends Node {
 
     public Node getValue() {
         return value;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return new DictionaryEntry(key.eval(virtualMachine), value.eval(virtualMachine));
     }
 
     @Override

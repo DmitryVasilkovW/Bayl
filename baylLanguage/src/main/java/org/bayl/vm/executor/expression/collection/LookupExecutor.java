@@ -4,8 +4,9 @@ import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.object.Dictionary;
+import org.bayl.runtime.object.ref.BaylArray;
+import org.bayl.runtime.object.ref.Dictionary;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.impl.VirtualMachineImpl;
@@ -22,7 +23,7 @@ public class LookupExecutor extends Executor {
         this.keyExecutor = keyNode;
     }
 
-    public BaylObject get(VirtualMachineImpl interpreter) {
+    public BaylObject get(Environment interpreter) {
         BaylObject var = interpreter.getVariable(variableExecutor.getName(), variableExecutor.getPosition());
         BaylObject ret = null;
         if (var instanceof BaylArray) {
@@ -35,7 +36,7 @@ public class LookupExecutor extends Executor {
         throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());
     }
 
-    public void set(VirtualMachineImpl interpreter, BaylObject result) {
+    public void set(Environment interpreter, BaylObject result) {
         BaylObject var = interpreter.getVariable(variableExecutor.getName(), variableExecutor.getPosition());
         BaylObject ret = null;
         if (var instanceof BaylArray) {
@@ -51,7 +52,7 @@ public class LookupExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         return get(virtualMachine);
     }
 
