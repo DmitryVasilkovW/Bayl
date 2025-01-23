@@ -2,6 +2,7 @@ package org.bayl.ast.expression.collection;
 
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
+import static org.bayl.model.BytecodeToken.DICT_PAIR;
 import org.bayl.model.SourcePosition;
 
 public class DictionaryEntryNode extends Node {
@@ -30,6 +31,10 @@ public class DictionaryEntryNode extends Node {
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getBytecodeLineWithPosition(
+                DICT_PAIR.toString()
+        ));
+
         key.generateCode(bytecode);
         value.generateCode(bytecode);
     }

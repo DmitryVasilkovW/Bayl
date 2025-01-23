@@ -42,9 +42,6 @@ public class ForeachNode extends Node {
         );
 
         onVariableNode.generateCode(bytecode);
-        if (asNode instanceof DictionaryEntryNode) {
-            bytecode.add(DICT_PAIR + " " + asNode.getPositionForBytecode());
-        }
         asNode.generateCode(bytecode);
         loopBody.generateCode(bytecode);
     }

@@ -1,6 +1,6 @@
 insertion_sort = function(arr) {
     i = 1;
-    n = arr_len(arr);
+    n = len(arr);
 
     while (i < n) {
         key = arr[i];

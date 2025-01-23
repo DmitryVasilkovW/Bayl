@@ -109,7 +109,7 @@ public class BytecodeParserImpl implements BytecodeParser {
             case EQUALS, GREATER_THAN, LESS_THAN, NOT_EQUALS, AND, GREATER_EQUAL,
                  LESS_EQUAL, NOT, OR -> parseComparator();
             case BLOCK_START -> parseBlock();
-            case ARRAY_INIT, DICT_INIT -> parseCollection();
+            case ARRAY_INIT, DICT_INIT, DICT_PAIR -> parseCollection();
             case LOAD, LOOKUP -> parseVarExecutor();
             case FUNC, TAIL_FUNCTION, RETURN, CALL -> parseFunctions();
             default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
@@ -151,6 +151,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         return switch (token) {
             case ARRAY_INIT -> parseArray();
             case DICT_INIT -> parseDictionary();
+            case DICT_PAIR -> parseDictionaryEntry();
             default -> throw new IllegalStateException(EXCEPTION_MESSAGE + peekTokens()[0]);
         };
     }

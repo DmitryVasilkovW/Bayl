@@ -306,6 +306,8 @@ public class Parser {
             return dictionary();
         } else if (type == TokenType.CLASS) {
             return classNode();
+        } else if (lookAhead(2) == TokenType.COLON) {
+            return keyValue();
         } else {
             // An expression can result in a string, boolean or number
             return stringExpression();
@@ -405,7 +407,7 @@ public class Parser {
     }
 
     private List<Node> argumentList() {
-        List<Node> arguments = new LinkedList<Node>();
+        List<Node> arguments = new LinkedList<>();
         arguments.add(expression());
         while (lookAhead(1) == TokenType.COMMA) {
             match(TokenType.COMMA);
