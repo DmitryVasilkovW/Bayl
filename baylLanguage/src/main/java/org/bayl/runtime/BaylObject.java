@@ -6,7 +6,7 @@ import org.bayl.runtime.object.value.BaylBoolean;
 import org.bayl.runtime.object.value.BaylNumber;
 import org.bayl.runtime.object.value.BaylString;
 
-public abstract class BaylObject implements BaylType, Comparable<BaylObject> {
+public abstract class BaylObject implements BaylType, Comparable<BaylObject>, Cloneable {
 
     public BaylNumber toNumber(SourcePosition pos) {
         if (this instanceof BaylNumber) {
@@ -28,4 +28,7 @@ public abstract class BaylObject implements BaylType, Comparable<BaylObject> {
         }
         return new BaylString(this.toString());
     }
+
+    @Override
+    public abstract BaylObject clone();
 }

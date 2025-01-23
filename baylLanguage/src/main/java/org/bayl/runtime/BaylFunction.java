@@ -17,4 +17,9 @@ public abstract class BaylFunction extends BaylObject {
     public int compareTo(BaylObject o) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public BaylObject clone() {
+        return this;
+    }
 }

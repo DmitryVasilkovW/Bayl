@@ -81,12 +81,7 @@ public class Parser {
         while (lookAhead(1) != null) {
             script.add(statement());
         }
-        var a = new RootNode(new SourcePosition(1, 1), script);
-        var b = new Bytecode();
-        a.generateCode(b);
-
-        System.out.println(b);
-        return a;
+        return new RootNode(new SourcePosition(1, 1), script);
     }
 
     private BlockNode block() {

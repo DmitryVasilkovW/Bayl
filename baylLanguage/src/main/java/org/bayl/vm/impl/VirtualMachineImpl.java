@@ -48,8 +48,7 @@ public class VirtualMachineImpl implements Environment {
     @Override
     public BaylObject callFunction(
             BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName) {
-        Map<BaylRef, BaylObject> heap = memory.getHeap();
-        Map<String, BaylType> global = memory.getGlobalStorage();
+        var memoryClone = memory.clone();
 
         int noMissingArgs = 0;
         int noRequiredArgs = 0;
@@ -72,8 +71,9 @@ public class VirtualMachineImpl implements Environment {
             throw new TooFewArgumentsException(functionName, noRequiredArgs,
                                                args.size(), pos);
         }
+
         BaylObject ret = function.eval(this, pos);
-        memory = new BaylMemory(heap, global);
+        memory = memoryClone;
 
         return ret;
     }

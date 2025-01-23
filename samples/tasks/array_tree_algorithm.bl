@@ -1,0 +1,70 @@
+new = function (left, right, item) {
+    return [left, right, item];
+};
+
+itemCheck = function (node) {
+    if (!isNull(node)) {
+        if (isNull(node[0])) {
+            return node[2];
+        } else {
+            r = itemCheck(node[1]);
+            l = itemCheck(node[0]);
+
+            return node[2] + l - r;
+        }
+    } else {
+        return 0;
+    }
+};
+
+bottomUpTree = function (item,depth) {
+    if (depth > 0) {
+        return new (
+            bottomUpTree(2 * item - 1, depth - 1)
+                ,bottomUpTree(2 * item, depth - 1)
+                ,item
+        );
+    } else {
+        return new (null, null, item);
+    }
+};
+
+ret = 0;
+
+i = 4;
+while (i <= 7) {
+    minDepth = 4;
+    maxDepth = max(minDepth + 2, i);
+    stretchDepth = maxDepth + 1;
+
+    check = itemCheck(bottomUpTree(0, stretchDepth));
+
+    longLivedTree = bottomUpTree(0, maxDepth);
+
+    dep = maxDepth;
+    while (dep <= maxDepth) {
+        iterations = 2 ^ (maxDepth - dep + minDepth);
+
+        check = 0;
+
+        ti = 1;
+        while (ti <= iterations) {
+            check = check + itemCheck(bottomUpTree(i, dep));
+            check = check + itemCheck(bottomUpTree(-i, dep));
+
+            ti = ti + 1;
+        }
+
+        dep = dep + 2;
+    }
+
+    ret = ret + itemCheck(longLivedTree);
+    i = i + 1;
+}
+
+expected = -4;
+if (ret != expected) {
+    println("ERROR: bad result: expected " ~ expected ~ " but got " ~ ret);
+}
+
+println(ret);
