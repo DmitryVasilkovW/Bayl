@@ -5,7 +5,7 @@ import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.object.ref.BaylArray;
-import org.bayl.runtime.object.ref.Dictionary;
+import org.bayl.runtime.object.ref.BaylDictionary;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.collection.DictionaryEntryExecutor;
@@ -39,11 +39,11 @@ public class ForeachExecutor extends Executor {
                 ret = loopBody.eval(virtualMachine);
             }
             return ret;
-        } else if (onVariable instanceof Dictionary) {
+        } else if (onVariable instanceof BaylDictionary) {
             DictionaryEntryExecutor entryExecutor = (DictionaryEntryExecutor) asExecutor;
             String keyName = ((VariableExecutor) entryExecutor.getKey()).getName();
             String valueName = ((VariableExecutor) entryExecutor.getValue()).getName();
-            for (Map.Entry<BaylObject, BaylObject> entry : (Dictionary) onVariable) {
+            for (Map.Entry<BaylObject, BaylObject> entry : (BaylDictionary) onVariable) {
                 virtualMachine.setVariable(keyName, entry.getKey());
                 virtualMachine.setVariable(valueName, entry.getValue());
                 ret = loopBody.eval(virtualMachine);

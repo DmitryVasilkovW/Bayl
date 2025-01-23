@@ -1,8 +1,0 @@
-factorial_recursive = function(n) {
-    if (n <= 1) {
-        return 1;
-    }
-    return n * factorial_recursive(n - 1);
-};
-
-println(factorial_recursive(40));

@@ -11,4 +11,14 @@ public final class BaylNull extends BaylObject implements ValueType {
     public int compareTo(BaylObject o) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public String toString() {
+        return "null";
+    }
+
+    @Override
+    public BaylObject clone() {
+        return new BaylNull();
+    }
 }

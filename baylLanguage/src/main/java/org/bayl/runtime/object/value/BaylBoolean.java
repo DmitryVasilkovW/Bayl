@@ -40,6 +40,11 @@ final public class BaylBoolean extends BaylObject implements ValueType {
     }
 
     @Override
+    public BaylObject clone() {
+        return new BaylBoolean(value);
+    }
+
+    @Override
     public String toString() {
         return this == TRUE ? "true" : "false";
     }

@@ -1,5 +1,6 @@
 package org.bayl.runtime.object.ref;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.bayl.runtime.BaylObject;
@@ -41,5 +42,15 @@ public class BaylArray extends BaylObject implements Iterable<BaylObject> {
     @Override
     public String toString() {
         return elements.toString();
+    }
+
+    @Override
+    public BaylObject clone() {
+        var cloneElements = new ArrayList<BaylObject>();
+        elements.forEach((element) -> {
+            cloneElements.add(element.clone());
+        });
+
+        return new BaylArray(cloneElements);
     }
 }

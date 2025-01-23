@@ -4,8 +4,8 @@ import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.object.ref.BaylArray;
-import org.bayl.runtime.object.ref.Dictionary;
-import org.bayl.runtime.object.ref.DictionaryEntry;
+import org.bayl.runtime.object.ref.BaylDictionary;
+import org.bayl.runtime.object.ref.BaylDictionaryEntry;
 import org.bayl.vm.Environment;
 
 public class PushFunction extends BaylFunction {
@@ -21,8 +21,8 @@ public class PushFunction extends BaylFunction {
 
         if (collection instanceof BaylArray) {
             ((BaylArray) collection).push(value);
-        } else if (collection instanceof Dictionary) {
-            ((Dictionary) collection).push(((DictionaryEntry) value));
+        } else if (collection instanceof BaylDictionary) {
+            ((BaylDictionary) collection).push(((BaylDictionaryEntry) value));
         }
 
         return collection;
@@ -42,5 +42,4 @@ public class PushFunction extends BaylFunction {
     public String getParameterName(int index) {
         return parameters[index];
     }
-
 }

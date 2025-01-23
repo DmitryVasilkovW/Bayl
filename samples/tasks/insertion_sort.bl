@@ -1,4 +1,4 @@
-insertion_sort = function(arr) {
+insertionSort = function(arr) {
     i = 1;
     n = len(arr);
 
@@ -19,4 +19,4 @@ insertion_sort = function(arr) {
 };
 
 my_array = [5, 2, 9, 1, 5, 6];
-println(insertion_sort(my_array));
+println(insertionSort(my_array));

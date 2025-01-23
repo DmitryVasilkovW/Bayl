@@ -4,7 +4,7 @@ import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.object.ref.BaylArray;
-import org.bayl.runtime.object.ref.Dictionary;
+import org.bayl.runtime.object.ref.BaylDictionary;
 import org.bayl.runtime.object.value.BaylNumber;
 import org.bayl.runtime.object.value.BaylString;
 import org.bayl.vm.Environment;
@@ -41,7 +41,7 @@ public class LenFunction extends BaylFunction {
         } else if (obj instanceof BaylArray) {
             len = ((BaylArray) obj).size();
         } else {
-            len = ((Dictionary) obj).size();
+            len = ((BaylDictionary) obj).size();
         }
 
         return new BaylNumber(len);

@@ -5,11 +5,10 @@ import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.object.ref.BaylArray;
-import org.bayl.runtime.object.ref.Dictionary;
+import org.bayl.runtime.object.ref.BaylDictionary;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class LookupExecutor extends Executor {
@@ -29,9 +28,9 @@ public class LookupExecutor extends Executor {
         if (var instanceof BaylArray) {
             int index = keyExecutor.eval(interpreter).toNumber(keyExecutor.getPosition()).intValue();
             return ((BaylArray) var).get(index);
-        } else if (var instanceof Dictionary) {
+        } else if (var instanceof BaylDictionary) {
             BaylObject key = keyExecutor.eval(interpreter);
-            return ((Dictionary) var).get(key);
+            return ((BaylDictionary) var).get(key);
         }
         throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());
     }
@@ -43,9 +42,9 @@ public class LookupExecutor extends Executor {
             int index = keyExecutor.eval(interpreter).toNumber(keyExecutor.getPosition()).intValue();
             ((BaylArray) var).set(index, result);
             return;
-        } else if (var instanceof Dictionary) {
+        } else if (var instanceof BaylDictionary) {
             BaylObject key = keyExecutor.eval(interpreter);
-            ((Dictionary) var).set(key, result);
+            ((BaylDictionary) var).set(key, result);
             return;
         }
         throw new InvalidTypeException("lookup expects an array or dictionary.", getPosition());

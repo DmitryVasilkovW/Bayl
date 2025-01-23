@@ -35,4 +35,9 @@ final public class BaylString extends BaylObject implements ValueType {
     public boolean equals(Object object) {
         return compareTo((BaylObject) object) == 0;
     }
+
+    @Override
+    public BaylObject clone() {
+        return new BaylString(value);
+    }
 }

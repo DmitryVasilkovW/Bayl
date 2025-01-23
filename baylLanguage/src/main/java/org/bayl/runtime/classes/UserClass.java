@@ -3,6 +3,7 @@ package org.bayl.runtime.classes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import org.bayl.model.SourcePosition;
 import org.bayl.memory.BaylMemory;
 import org.bayl.runtime.BaylClass;
@@ -18,6 +19,7 @@ import org.bayl.vm.executor.expression.function.FunctionExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
 
+@AllArgsConstructor
 public class UserClass extends BaylClass implements Environment {
 
     private BaylMemory memory;
@@ -133,5 +135,15 @@ public class UserClass extends BaylClass implements Environment {
                     }
                 }
         );
+    }
+
+    @Override
+    public BaylObject clone() {
+        BaylObject callClone = null;
+        if (call != null) {
+            callClone = call.clone();
+        }
+
+        return new UserClass(memory.clone(), methods, body, callClone);
     }
 }

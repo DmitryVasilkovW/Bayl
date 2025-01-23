@@ -58,6 +58,14 @@ final public class BaylNumber extends BaylObject implements ValueType {
         return new BaylNumber(value.negate());
     }
 
+    public BaylNumber max(BaylNumber num) {
+        return new BaylNumber(value.max(num.value));
+    }
+
+    public BaylNumber min(BaylNumber num) {
+        return new BaylNumber(value.min(num.value));
+    }
+
     public int intValue() {
         return value.intValue();
     }
@@ -80,5 +88,10 @@ final public class BaylNumber extends BaylObject implements ValueType {
     @Override
     public boolean equals(Object object) {
         return compareTo((BaylObject) object) == 0;
+    }
+
+    @Override
+    public BaylObject clone() {
+        return new BaylNumber(value);
     }
 }

@@ -13,10 +13,12 @@ import org.bayl.runtime.function.impl.io.PrintFunction;
 import org.bayl.runtime.function.impl.io.PrintLineFunction;
 import org.bayl.runtime.function.impl.literal.IsNullFunction;
 import org.bayl.runtime.function.impl.LenFunction;
+import org.bayl.runtime.function.impl.math.MaxFunction;
+import org.bayl.runtime.function.impl.math.MinFunction;
 import org.bayl.runtime.object.BaylRef;
 
 @Getter
-public class BaylMemory {
+public class BaylMemory implements Cloneable {
 
     private final Map<String, BaylType> globalStorage;
     private final Map<BaylRef, BaylObject> heap;
@@ -38,7 +40,9 @@ public class BaylMemory {
         setVariable("println", new PrintLineFunction());
         setVariable("len", new LenFunction());
         setVariable("push", new PushFunction());
-        setVariable("is_null", new IsNullFunction());
+        setVariable("isNull", new IsNullFunction());
+        setVariable("max", new MaxFunction());
+        setVariable("min", new MinFunction());
     }
 
     public BaylObject getVariable(String name, SourcePosition pos) {
@@ -74,5 +78,26 @@ public class BaylMemory {
 
     private boolean isRef(Object o) {
         return o instanceof BaylRef;
+    }
+
+    @Override
+    public BaylMemory clone() {
+        var cloneGlobal = new HashMap<String, BaylType>();
+        globalStorage.forEach((name, obj) -> {
+            var cloneObj = obj;
+
+            if (isValueType(obj)) {
+                cloneObj = ((BaylObject) obj).clone();
+            }
+
+            cloneGlobal.put(name, cloneObj);
+        });
+
+        var cloneHeap = new HashMap<BaylRef, BaylObject>();
+        heap.forEach((ref, obj) -> {
+            cloneHeap.put(ref, obj.clone());
+        });
+
+        return new BaylMemory(cloneHeap, cloneGlobal);
     }
 }

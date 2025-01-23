@@ -1,0 +1,39 @@
+sieveOfEratosthenes = function(n) {
+    isPrime = [];
+
+    tmp = 0;
+    while (tmp <= n + 1) {
+        isPrime = push(isPrime, true);
+        tmp = tmp + 1;
+    }
+
+    isPrime[1] = false;
+    isPrime[0] = false;
+
+    tmp = 2;
+    while (tmp * tmp <= n) {
+        if (isPrime[tmp]) {
+            tmp_ = tmp * tmp;
+            while (tmp_ <= n) {
+                isPrime[tmp_] = false;
+                tmp_ = tmp_ + tmp;
+            }
+        }
+
+        tmp = tmp + 1;
+    }
+
+    primes = [];
+    tmp = 2;
+    while (tmp <= n) {
+        if (isPrime[tmp]) {
+            primes = push(primes, tmp);
+        }
+        tmp = tmp + 1;
+    }
+
+    return primes;
+};
+
+n = 10000;
+println(sieveOfEratosthenes(n));
