@@ -8,12 +8,11 @@ import org.bayl.runtime.ValueType;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylType;
 import org.bayl.runtime.exception.UnsetVariableException;
-import org.bayl.runtime.function.impl.collection.array.ArrayLenFunction;
-import org.bayl.runtime.function.impl.collection.array.ArrayPushFunction;
+import org.bayl.runtime.function.impl.collection.PushFunction;
 import org.bayl.runtime.function.impl.io.PrintFunction;
 import org.bayl.runtime.function.impl.io.PrintLineFunction;
 import org.bayl.runtime.function.impl.literal.IsNullFunction;
-import org.bayl.runtime.function.impl.literal.string.StringLenFunction;
+import org.bayl.runtime.function.impl.LenFunction;
 import org.bayl.runtime.object.BaylRef;
 
 @Getter
@@ -37,9 +36,8 @@ public class BaylMemory {
     private void initFunctions() {
         setVariable("print", new PrintFunction());
         setVariable("println", new PrintLineFunction());
-        setVariable("str_len", new StringLenFunction());
-        setVariable("arr_len", new ArrayLenFunction());
-        setVariable("array_push", new ArrayPushFunction());
+        setVariable("len", new LenFunction());
+        setVariable("push", new PushFunction());
         setVariable("is_null", new IsNullFunction());
     }
 

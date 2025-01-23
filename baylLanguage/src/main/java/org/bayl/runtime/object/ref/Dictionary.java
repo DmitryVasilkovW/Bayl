@@ -20,6 +20,14 @@ public class Dictionary extends BaylObject implements Iterable<Map.Entry<BaylObj
         dict.put(key, value);
     }
 
+    public int size() {
+        return dict.size();
+    }
+
+    public void push(DictionaryEntry entry) {
+        dict.put(entry.getKey(), entry.getValue());
+    }
+
     @Override
     public int compareTo(BaylObject o) {
         throw new UnsupportedOperationException();

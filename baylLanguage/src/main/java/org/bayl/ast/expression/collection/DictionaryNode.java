@@ -5,7 +5,6 @@ import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.DICT_END;
 import static org.bayl.model.BytecodeToken.DICT_INIT;
-import static org.bayl.model.BytecodeToken.DICT_PAIR;
 import org.bayl.model.SourcePosition;
 
 public class DictionaryNode extends Node {
@@ -36,12 +35,6 @@ public class DictionaryNode extends Node {
         ));
 
         for (DictionaryEntryNode entry : elements) {
-            String lineForEntry = getBytecodeLine(
-                    DICT_PAIR.toString(),
-                    entry.getPositionForBytecode()
-            );
-
-            bytecode.add(lineForEntry);
             entry.generateCode(bytecode);
         }
 
