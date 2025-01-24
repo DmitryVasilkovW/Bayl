@@ -72,4 +72,99 @@ public class OptimizerTest {
 
         assertEquals(expected, optimized);
     }
+
+    @Test
+    public void testTailRecursionOptimization_FunctionWithNoReturnStatement() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+        AssignExecutor assignment = new AssignExecutor(pos, paramX, new VariableExecutor(pos, "y"));
+
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX), new BlockExecutor(pos, List.of(assignment)));
+
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
+
+        assertEquals(function, optimized); // Functions with no return statements should remain unchanged
+    }
+
+    @Test
+    public void testTailRecursionOptimization_ComplexRecursiveFunction() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+        VariableExecutor paramY = new VariableExecutor(pos, "y");
+
+        AssignExecutor preTailAssignment = new AssignExecutor(pos, paramY, new VariableExecutor(pos, "z"));
+        ReturnExecutor tailCall = new ReturnExecutor(pos, new FunctionCallExecutor(pos, paramX, List.of(paramX, paramY)));
+
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX, paramY), new BlockExecutor(pos, List.of(
+                preTailAssignment, tailCall
+        )));
+
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
+
+        BlockExecutor expected = new BlockExecutor(pos, List.of(
+                preTailAssignment,
+                new AssignExecutor(pos, paramX, paramX),
+                new AssignExecutor(pos, paramY, paramY),
+                new BlockExecutor(pos, List.of())
+        ));
+
+        assertEquals(expected, optimized);
+    }
+
+    @Test
+    public void testTailRecursionOptimization_LargeRecursionDepth() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+
+        // Создаем рекурсивную функцию, которая вызывает себя много раз
+        ReturnExecutor tailCall = new ReturnExecutor(pos, new FunctionCallExecutor(pos, paramX, List.of(paramX)));
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX), new BlockExecutor(pos, List.of(tailCall)));
+
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
+
+        // Проверяем, что хвостовая рекурсия была оптимизирована и не создает глубокий стек
+        BlockExecutor expected = new BlockExecutor(pos, List.of(
+                new AssignExecutor(pos, paramX, paramX), // Необходимо, чтобы был выполнен перенос значения
+                new BlockExecutor(pos, List.of())
+        ));
+
+        assertEquals(expected, optimized);
+    }
+
+    @Test
+    public void testTailRecursionOptimization_MultiArgumentFunction() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+        VariableExecutor paramY = new VariableExecutor(pos, "y");
+
+        // Пример рекурсивной функции с несколькими параметрами
+        ReturnExecutor tailCall = new ReturnExecutor(pos, new FunctionCallExecutor(pos, paramX, List.of(paramX, paramY)));
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX, paramY), new BlockExecutor(pos, List.of(tailCall)));
+
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
+
+        BlockExecutor expected = new BlockExecutor(pos, List.of(
+                new AssignExecutor(pos, paramX, paramX), // Применение хвостовой оптимизации
+                new AssignExecutor(pos, paramY, paramY),
+                new BlockExecutor(pos, List.of())
+        ));
+
+        assertEquals(expected, optimized);
+    }
+
+    @Test
+    public void testTailRecursionOptimization_FunctionWithoutRecursion() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+        VariableExecutor paramY = new VariableExecutor(pos, "y");
+
+        // Простая функция без рекурсии
+        AssignExecutor assignment = new AssignExecutor(pos, paramY, paramX);
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX), new BlockExecutor(pos, List.of(assignment)));
+
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
+
+        // Убедитесь, что функция не изменилась
+        assertEquals(function, optimized);
+    }
 }
