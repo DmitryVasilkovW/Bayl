@@ -1,21 +1,18 @@
 package org.bayl.runtime.compile.jit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.List;
-
 import util.jit.JITExecutorsWrapperTestDataForMethodsWithOneArg;
 import util.jit.JITExecutorsWrapperTestDataForMethodsWithTwoArgs;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class JIEExecutorsWrapperTest {
-
-    private final JITExecutorsWrapper jitExecutorsWrapper = new JITExecutorsWrapper();
 
     @ParameterizedTest(name = "{index} => {arguments}")
     @DisplayName("Test double jit methods: {0}")
@@ -82,35 +79,35 @@ public class JIEExecutorsWrapperTest {
                         5.0,
                         3.0,
                         15.0,
-                        jitExecutorsWrapper::multiply
+                        JITExecutorsWrapper::multiply
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test add",
                         5.0,
                         3.0,
                         8.0,
-                        jitExecutorsWrapper::add
+                        JITExecutorsWrapper::add
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test divide with remainder",
                         10.5,
                         3.2,
                         0.899999999999999,
-                        jitExecutorsWrapper::divideWithRemainder
+                        JITExecutorsWrapper::divideWithRemainder
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test divide",
                         15.0,
                         3.0,
                         5.0,
-                        jitExecutorsWrapper::divide
+                        JITExecutorsWrapper::divide
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test subtract",
                         15.0,
                         3.0,
                         12.0,
-                        jitExecutorsWrapper::subtract
+                        JITExecutorsWrapper::subtract
                 )
         );
     }
@@ -121,13 +118,13 @@ public class JIEExecutorsWrapperTest {
                         "test increment",
                         6.0,
                         7.0,
-                        jitExecutorsWrapper::increment
+                        JITExecutorsWrapper::increment
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithOneArg<>(
                         "test decrement",
                         7.0,
                         6.0,
-                        jitExecutorsWrapper::decrement
+                        JITExecutorsWrapper::decrement
                 )
         );
     }
@@ -139,28 +136,28 @@ public class JIEExecutorsWrapperTest {
                         true,
                         false,
                         false,
-                        jitExecutorsWrapper::and
+                        JITExecutorsWrapper::and
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test or",
                         true,
                         false,
                         true,
-                        jitExecutorsWrapper::or
+                        JITExecutorsWrapper::or
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test equals for boolean",
                         true,
                         true,
                         true,
-                        jitExecutorsWrapper::equalsBoolean
+                        JITExecutorsWrapper::equalsBoolean
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test not equals for boolean",
                         true,
                         true,
                         false,
-                        jitExecutorsWrapper::notEqualsBoolean
+                        JITExecutorsWrapper::notEqualsBoolean
                 )
         );
     }
@@ -171,7 +168,7 @@ public class JIEExecutorsWrapperTest {
                         "test not",
                         true,
                         false,
-                        jitExecutorsWrapper::not
+                        JITExecutorsWrapper::not
                 )
         );
     }
@@ -183,42 +180,42 @@ public class JIEExecutorsWrapperTest {
                         33.0,
                         22.0,
                         true,
-                        jitExecutorsWrapper::greaterOrEqual
+                        JITExecutorsWrapper::greaterOrEqual
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test less or equal",
                         1.0,
                         12.0,
                         true,
-                        jitExecutorsWrapper::lessOrEqual
+                        JITExecutorsWrapper::lessOrEqual
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test greater",
                         7.0,
                         3.0,
                         true,
-                        jitExecutorsWrapper::greater
+                        JITExecutorsWrapper::greater
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test less",
                         7.0,
                         3.0,
                         false,
-                        jitExecutorsWrapper::less
+                        JITExecutorsWrapper::less
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test equal for double",
                         7.0,
                         7.0,
                         true,
-                        jitExecutorsWrapper::equalsDouble
+                        JITExecutorsWrapper::equalsDouble
                 ),
                 new JITExecutorsWrapperTestDataForMethodsWithTwoArgs<>(
                         "test not equal for double",
                         239.0,
                         241.0,
                         true,
-                        jitExecutorsWrapper::notEqualsDouble
+                        JITExecutorsWrapper::notEqualsDouble
                 )
         );
     }

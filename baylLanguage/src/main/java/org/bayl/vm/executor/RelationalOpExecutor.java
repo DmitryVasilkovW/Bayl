@@ -32,10 +32,7 @@ public abstract class RelationalOpExecutor extends BinaryOpExecutor {
         }
     }
 
-    protected BaylBoolean evalEquals(Environment interpreter) {
-        BaylObject left = getLeft().eval(interpreter);
-        BaylObject right = getRight().eval(interpreter);
-        checkTypes(left, right);
+    protected BaylBoolean evalEquals(BaylObject left,  BaylObject right) {
         return BaylBoolean.valueOf(left.equals(right));
     }
 }

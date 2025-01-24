@@ -3,6 +3,7 @@ package org.bayl.vm.executor.operator.arithmetic;
 import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.compile.jit.JITExecutorsWrapper;
 import org.bayl.runtime.object.value.BaylNumber;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.BinaryOpExecutor;
@@ -20,6 +21,14 @@ public class SubtractOpExecutor extends BinaryOpExecutor implements ArithmeticOp
     public BaylObject eval(Environment virtualMachine) {
         BaylNumber left = getLeft().eval(virtualMachine).toNumber(getLeft().getPosition());
         BaylNumber right = getRight().eval(virtualMachine).toNumber(getRight().getPosition());
+
+        var isCanRunNative = isCanRunNative(left, right);
+        if (isCanRunNative instanceof  DoublePairNativeParseResult(double left1, double right1)) {
+            var nativeResult = JITExecutorsWrapper.subtract(left1, right1);
+            return new BaylNumber(nativeResult);
+        }
+
+
         return left.subtract(right);
     }
 }
