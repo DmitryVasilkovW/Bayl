@@ -7,6 +7,9 @@ import org.bayl.vm.executor.expression.function.FunctionExecutor;
 import org.bayl.vm.executor.expression.function.ReturnExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
+import org.bayl.vm.executor.statement.ForeachExecutor;
+import org.bayl.vm.executor.statement.IfExecutor;
+import org.bayl.vm.executor.statement.WhileExecutor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,114 +17,131 @@ import java.util.List;
 import java.util.Set;
 
 public class Optimizer {
-
-    public static Executor optimizeDCE(Executor executor) {
-        if (executor instanceof BlockExecutor) {
-            List<Executor> statements = ((BlockExecutor) executor).getStatements();
-            List<Executor> optimizedStatements = new ArrayList<>();
-            Set<String> liveVariables = new HashSet<>();
-
-            // Проходим инструкции в обратном порядке (анализ мёртвых переменных)
-            for (int i = statements.size() - 1; i >= 0; i--) {
-                Executor statement = statements.get(i);
-
-                if (statement instanceof AssignExecutor) {
-                    AssignExecutor assign = (AssignExecutor) statement;
-                    Executor left = assign.getLeft();
-
-                    if (left instanceof VariableExecutor) {
-                        String assignedVariable = ((VariableExecutor) left).getName();
-
-                        // Если переменная не живая, пропускаем это присваивание
-                        if (!liveVariables.contains(assignedVariable)) {
-                            continue;
-                        }
-
-                        // Добавляем используемые переменные в live set
-                        liveVariables.addAll(getUsedVariables(assign.getRight()));
-                        optimizedStatements.add(0, assign); // Сохраняем это присваивание
-                    }
-                } else {
-                    // Для других типов инструкций обновляем liveVariables
-                    liveVariables.addAll(getUsedVariables(statement));
-                    optimizedStatements.add(0, statement);
-                }
-            }
-
-            // Если блок пустой, возвращаем пустой блок
-            if (optimizedStatements.isEmpty()) {
-                return new BlockExecutor(executor.getPosition(), List.of());
-            }
-
-            return new BlockExecutor(executor.getPosition(), optimizedStatements);
-        } else if (executor instanceof ReturnExecutor) {
-            // Для ReturnExecutor обновляем liveVariables и оптимизируем выражение
-            Executor expression = ((ReturnExecutor) executor).getExpression();
-            return new ReturnExecutor(executor.getPosition(), optimizeDCE(expression));
-        } else if (executor instanceof AssignExecutor) {
-            // Для AssignExecutor оптимизируем правую часть
-            AssignExecutor assign = (AssignExecutor) executor;
-            return new AssignExecutor(
-                    assign.getPosition(),
-                    assign.getLeft(),
-                    optimizeDCE(assign.getRight())
-            );
-        } else if (executor instanceof FunctionCallExecutor) {
-            // Для вызовов функций оптимизируем все аргументы
-            FunctionCallExecutor funcCall = (FunctionCallExecutor) executor;
-            List<Executor> optimizedArguments = new ArrayList<>();
-            for (Executor arg : funcCall.getArguments()) {
-                optimizedArguments.add(optimizeDCE(arg));
-            }
-            return new FunctionCallExecutor(funcCall.getPosition(), funcCall.getFunctionExecutor(), optimizedArguments);
+    public Executor optimizeLoopUnrolling(Executor executor, int unrollFactor) {
+        if (unrollFactor == 1) {
+            return executor;
         }
 
-        // По умолчанию возвращаем сам Executor
+        if (executor instanceof WhileExecutor) {
+            return unrollWhileLoop((WhileExecutor) executor, unrollFactor);
+        } else if (executor instanceof ForeachExecutor) {
+            return unrollForeachLoop((ForeachExecutor) executor, unrollFactor);
+        }
         return executor;
     }
 
-    public Executor optimizeLoopUnroll(Executor executor) {
-        if (executor instanceof BlockExecutor) {
-            List<Executor> statements = ((BlockExecutor) executor).getStatements();
-            List<Executor> optimizedStatements = new ArrayList<>();
-            for (Executor statement : statements) {
-                Executor optimizedStatement = optimizeLoopUnroll(statement);
-                if (optimizedStatement != null) {
-                    optimizedStatements.add(optimizedStatement);
-                }
-            }
-            return new BlockExecutor(executor.getPosition(), optimizedStatements);
-        } else if (executor instanceof FunctionCallExecutor) {
-            Executor functionExecutor = ((FunctionCallExecutor) executor).getFunctionExecutor();
-            List<Executor> arguments = ((FunctionCallExecutor) executor).getArguments();
-            List<Executor> optimizedArguments = new ArrayList<>();
-            for (Executor argument : arguments) {
-                Executor optimizedArgument = optimizeLoopUnroll(argument);
-                if (optimizedArgument != null) {
-                    optimizedArguments.add(optimizedArgument);
-                }
-            }
-            return new FunctionCallExecutor(executor.getPosition(), functionExecutor, optimizedArguments);
-        } else if (executor instanceof FunctionExecutor) {
-            List<Executor> parameters = ((FunctionExecutor) executor).getParameters();
-            List<Executor> optimizedParameters = new ArrayList<>();
-            for (Executor parameter : parameters) {
-                Executor optimizedParameter = optimizeLoopUnroll(parameter);
-                if (optimizedParameter != null) {
-                    optimizedParameters.add(optimizedParameter);
-                }
-            }
-            Executor body = ((FunctionExecutor) executor).getBody();
-            Executor optimizedBody = optimizeLoopUnroll(body);
-            return new FunctionExecutor(executor.getPosition(), optimizedParameters, optimizedBody);
-        } else if (executor instanceof ReturnExecutor) {
-            Executor expression = ((ReturnExecutor) executor).getExpression();
-            Executor optimizedExpression = optimizeLoopUnroll(expression);
-            return new ReturnExecutor(executor.getPosition(), optimizedExpression);
-        } else if (executor instanceof VariableExecutor) {
-            return executor;
+    private Executor unrollWhileLoop(WhileExecutor loop, int unrollFactor) {
+        Executor condition = loop.getTestCondition();
+        Executor body = loop.getLoopBody();
+
+        if (!(body instanceof BlockExecutor)) {
+            body = new BlockExecutor(loop.getPosition(), List.of(body));
         }
-        return executor;
+
+        List<Executor> originalStatements = ((BlockExecutor) body).getStatements();
+        List<Executor> unrolledStatements = new ArrayList<>();
+
+        // Разворачиваем тело цикла
+        for (int i = 0; i < unrollFactor; i++) {
+            unrolledStatements.addAll(originalStatements);
+        }
+
+        // Создаем новый цикл с оставшимися итерациями
+        WhileExecutor remainingLoop = new WhileExecutor(
+                loop.getPosition(),
+                condition,
+                new BlockExecutor(loop.getPosition(), originalStatements)
+        );
+
+        // Создаем блок с развёрнутым телом и оставшимся циклом
+        return new BlockExecutor(
+                loop.getPosition(),
+                List.of(
+                        new IfExecutor(
+                                loop.getPosition(),
+                                condition,
+                                new BlockExecutor(loop.getPosition(), unrolledStatements),
+                                remainingLoop
+                        )
+                )
+        );
+    }
+
+    public Executor unrollForeachLoop(ForeachExecutor loop, int unrollFactor) {
+        if (loop.getLoopBody() == null) {
+            return loop;
+        }
+
+        VariableExecutor onVariableExecutor = loop.getOnVariableExecutor();
+        Executor asExecutor = loop.getAsExecutor();
+        Executor loopBody = loop.getLoopBody();
+
+        if (!(loopBody instanceof BlockExecutor)) {
+            loopBody = new BlockExecutor(loop.getPosition(), List.of(loopBody));
+        }
+
+        // Поддержка BaylArray и Dictionary
+        if (loop.getOnVariableExecutor().toString().contains("BaylArray")) {
+            return optimizeArrayForeach(loop, unrollFactor, onVariableExecutor, asExecutor, (BlockExecutor) loopBody);
+        } else {
+            return optimizeDictionaryForeach(loop, unrollFactor, onVariableExecutor, asExecutor, (BlockExecutor) loopBody);
+        }
+    }
+
+    private Executor optimizeArrayForeach(
+            ForeachExecutor loop,
+            int unrollFactor,
+            VariableExecutor onVariableExecutor,
+            Executor asExecutor,
+            BlockExecutor loopBody) {
+
+        List<Executor> unrolledStatements = new ArrayList<>();
+        for (int i = 0; i < unrollFactor; i++) {
+            unrolledStatements.addAll(loopBody.getStatements());
+        }
+
+        ForeachExecutor remainingLoop = new ForeachExecutor(
+                loop.getPosition(),
+                onVariableExecutor,
+                asExecutor,
+                new BlockExecutor(loop.getPosition(), loopBody.getStatements())
+        );
+
+        return new BlockExecutor(
+                loop.getPosition(),
+                List.of(
+                        new BlockExecutor(loop.getPosition(), unrolledStatements),
+                        remainingLoop
+                )
+        );
+    }
+
+    private Executor optimizeDictionaryForeach(
+            ForeachExecutor loop,
+            int unrollFactor,
+            VariableExecutor onVariableExecutor,
+            Executor asExecutor,
+            BlockExecutor loopBody) {
+
+        List<Executor> unrolledStatements = new ArrayList<>();
+        for (int i = 0; i < unrollFactor; i++) {
+            unrolledStatements.addAll(loopBody.getStatements());
+        }
+
+        ForeachExecutor remainingLoop = new ForeachExecutor(
+                loop.getPosition(),
+                onVariableExecutor,
+                asExecutor,
+                new BlockExecutor(loop.getPosition(), loopBody.getStatements())
+        );
+
+        return new BlockExecutor(
+                loop.getPosition(),
+                List.of(
+                        new BlockExecutor(loop.getPosition(), unrolledStatements),
+                        remainingLoop
+                )
+        );
     }
 
     public Executor optimizeTailRecursion(Executor executor) {
@@ -188,25 +208,5 @@ public class Optimizer {
     private boolean isTailCall(FunctionExecutor function, FunctionCallExecutor call) {
         return call.getFunctionExecutor() instanceof VariableExecutor variable &&
                 function.getParameters().contains(variable);
-    }
-
-    private static Set<String> getUsedVariables(Executor executor) {
-        Set<String> usedVariables = new HashSet<>();
-        if (executor instanceof VariableExecutor) {
-            usedVariables.add(((VariableExecutor) executor).getName());
-        } else if (executor instanceof FunctionCallExecutor) {
-            for (Executor arg : ((FunctionCallExecutor) executor).getArguments()) {
-                usedVariables.addAll(getUsedVariables(arg));
-            }
-        } else if (executor instanceof AssignExecutor) {
-            usedVariables.addAll(getUsedVariables(((AssignExecutor) executor).getRight()));
-        } else if (executor instanceof BlockExecutor) {
-            for (Executor statement : ((BlockExecutor) executor).getStatements()) {
-                usedVariables.addAll(getUsedVariables(statement));
-            }
-        } else if (executor instanceof ReturnExecutor) {
-            usedVariables.addAll(getUsedVariables(((ReturnExecutor) executor).getExpression()));
-        }
-        return usedVariables;
     }
 }
