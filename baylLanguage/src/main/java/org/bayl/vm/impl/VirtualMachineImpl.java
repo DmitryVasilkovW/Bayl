@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
-import java.util.Map;
 import org.bayl.ast.control.RootNode;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.bytecode.impl.BytecodeParserImpl;
@@ -15,10 +14,8 @@ import org.bayl.memory.BaylMemory;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.BaylType;
 import org.bayl.runtime.exception.InvalidTypeException;
 import org.bayl.runtime.exception.TooFewArgumentsException;
-import org.bayl.runtime.object.BaylRef;
 import org.bayl.syntax.Lexer;
 import org.bayl.syntax.Parser;
 import org.bayl.vm.Environment;
@@ -47,7 +44,11 @@ public class VirtualMachineImpl implements Environment {
 
     @Override
     public BaylObject callFunction(
-            BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName) {
+            BaylFunction function,
+            List<BaylObject> args,
+            SourcePosition pos,
+            String functionName
+    ) {
         var memoryClone = memory.clone();
 
         int noMissingArgs = 0;

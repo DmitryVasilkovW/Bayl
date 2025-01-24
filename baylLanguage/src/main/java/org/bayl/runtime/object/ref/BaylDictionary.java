@@ -1,11 +1,14 @@
 package org.bayl.runtime.object.ref;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.ContainedTypes;
 
-public class BaylDictionary extends BaylObject implements Iterable<Map.Entry<BaylObject, BaylObject>> {
+public class BaylDictionary extends BaylObject implements Iterable<Map.Entry<BaylObject, BaylObject>>, ContainedTypes {
 
     private final Map<BaylObject, BaylObject> dict;
 
@@ -52,5 +55,15 @@ public class BaylDictionary extends BaylObject implements Iterable<Map.Entry<Bay
         });
 
         return new BaylDictionary(cloneDict);
+    }
+
+    @Override
+    public List<BaylObject> getAllTypes() {
+        var refs = new ArrayList<BaylObject>();
+
+        refs.addAll(dict.keySet());
+        refs.addAll(dict.values());
+
+        return refs;
     }
 }
