@@ -3,10 +3,11 @@ package org.bayl.vm.executor.algorithms;
 import org.bayl.model.SourcePosition;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.control.BlockExecutor;
-import org.bayl.vm.executor.expression.literale.NumberExecutor;
+import org.bayl.vm.executor.expression.function.FunctionCallExecutor;
+import org.bayl.vm.executor.expression.function.FunctionExecutor;
+import org.bayl.vm.executor.expression.function.ReturnExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,48 +15,61 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OptimizerTest {
-    private SourcePosition pos = new SourcePosition(0,0);
+
+    private final SourcePosition pos = new SourcePosition(0, 0);
 
     @Test
-    public void DCE_DoesRemoveUnusedExpressions() {
-        List<Executor> statements = List.of(
-                new AssignExecutor(pos, new VariableExecutor(pos, "x"), new NumberExecutor(pos, "3")),
-                new AssignExecutor(pos, new VariableExecutor(pos, "y"), new VariableExecutor(pos, "x")),
-                new AssignExecutor(pos, new VariableExecutor(pos, "z"), new VariableExecutor(pos, "0"))
-        );
+    public void testTailRecursionOptimization_SimpleRecursiveFunction() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+        ReturnExecutor tailCall = new ReturnExecutor(pos, new FunctionCallExecutor(pos, paramX, List.of(paramX)));
 
-        Executor executor = new BlockExecutor(
-                pos,
-                statements
-        );
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX), new BlockExecutor(pos, List.of(tailCall)));
 
-        Executor result = Optimizer.optimizeDCE(executor);
-        Executor expected = new BlockExecutor(pos, List.of(
-                new AssignExecutor(pos, new VariableExecutor(pos, "x"), new NumberExecutor(pos, "3")),
-                new AssignExecutor(pos, new VariableExecutor(pos, "y"), new VariableExecutor(pos, "x"))
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
+
+        BlockExecutor expected = new BlockExecutor(pos, List.of(
+                new AssignExecutor(pos, paramX, paramX),
+                new BlockExecutor(pos, List.of())
         ));
 
-        assertEquals(result, expected);
+        assertEquals(expected, optimized);
     }
 
     @Test
-    public void DCE_DoesNotRemoveUsedExpressions() {
-        List<Executor> statements = List.of(
-                new AssignExecutor(pos, new VariableExecutor(pos, "x"), new NumberExecutor(pos, "3")),
-                new AssignExecutor(pos, new VariableExecutor(pos, "y"), new VariableExecutor(pos, "x")),
-                new AssignExecutor(pos, new VariableExecutor(pos, "z"), new VariableExecutor(pos, "y"))
-        );
+    public void testTailRecursionOptimization_NonTailRecursiveFunction() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+        ReturnExecutor returnStatement = new ReturnExecutor(pos, paramX);
 
-        Executor executor = new BlockExecutor(
-                pos,
-                statements
-        );
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX), new BlockExecutor(pos, List.of(returnStatement)));
 
-        Executor result = Optimizer.optimizeDCE(executor);
-        Executor expected = new BlockExecutor(pos, statements);
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
 
-        assertEquals(result, expected);
+        assertEquals(function, optimized); // Non-tail-recursive functions should remain unchanged
     }
 
+    @Test
+    public void testTailRecursionOptimization_FunctionWithMultipleStatements() {
+        VariableExecutor paramX = new VariableExecutor(pos, "x");
+        VariableExecutor paramY = new VariableExecutor(pos, "y");
 
+        AssignExecutor assignment = new AssignExecutor(pos, paramY, paramX);
+        ReturnExecutor tailCall = new ReturnExecutor(pos, new FunctionCallExecutor(pos, paramX, List.of(paramY)));
+
+        FunctionExecutor function = new FunctionExecutor(pos, List.of(paramX, paramY), new BlockExecutor(pos, List.of(
+                assignment, tailCall
+        )));
+
+        Optimizer optimizer = new Optimizer();
+        Executor optimized = optimizer.optimizeTailRecursion(function);
+
+        BlockExecutor expected = new BlockExecutor(pos, List.of(
+                assignment,
+                new AssignExecutor(pos, paramX, paramY),
+                new BlockExecutor(pos, List.of())
+        ));
+
+        assertEquals(expected, optimized);
+    }
 }
