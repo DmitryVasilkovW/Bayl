@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.ContainedTypes;
 
-public class BaylArray extends BaylObject implements Iterable<BaylObject> {
+public class BaylArray extends BaylObject implements Iterable<BaylObject>, ContainedTypes {
 
     private final List<BaylObject> elements;
 
@@ -52,5 +53,10 @@ public class BaylArray extends BaylObject implements Iterable<BaylObject> {
         });
 
         return new BaylArray(cloneElements);
+    }
+
+    @Override
+    public List<BaylObject> getAllTypes() {
+        return new ArrayList<>(elements);
     }
 }

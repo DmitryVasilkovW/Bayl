@@ -1,8 +1,10 @@
 package org.bayl.runtime.object.ref;
 
+import java.util.List;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.ContainedTypes;
 
-public class BaylDictionaryEntry extends BaylObject {
+public class BaylDictionaryEntry extends BaylObject implements ContainedTypes {
 
     private final BaylObject key;
     private BaylObject value;
@@ -41,5 +43,10 @@ public class BaylDictionaryEntry extends BaylObject {
                 key.clone(),
                 value.clone()
         );
+    }
+
+    @Override
+    public List<BaylObject> getAllTypes() {
+        return List.of(key, value);
     }
 }
