@@ -1,10 +1,13 @@
 package org.bayl.runtime.object.value;
 
+import lombok.Getter;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.ValueType;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import org.bayl.runtime.ValueType;
-import org.bayl.runtime.BaylObject;
 
+@Getter
 final public class BaylNumber extends BaylObject implements ValueType {
 
     private final BigDecimal value;
@@ -20,6 +23,10 @@ final public class BaylNumber extends BaylObject implements ValueType {
             case "0x" -> this.value = new BigDecimal(new BigInteger(value.substring(2), 16));
             default -> this.value = new BigDecimal(value);
         }
+    }
+
+    public BaylNumber(double value) {
+        this.value = BigDecimal.valueOf(value);
     }
 
     BaylNumber(BigDecimal value) {

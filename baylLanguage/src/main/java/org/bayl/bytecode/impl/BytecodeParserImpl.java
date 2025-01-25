@@ -1,70 +1,54 @@
 package org.bayl.bytecode.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import static org.bayl.model.BytecodeToken.DICT_PAIR;
-import org.bayl.model.SourcePosition;
-import org.bayl.model.BytecodeToken;
 import org.bayl.bytecode.BytecodeParser;
+import org.bayl.bytecode.impl.profiler.Profiler;
+import org.bayl.model.BytecodeToken;
+import org.bayl.model.SourcePosition;
 import org.bayl.vm.TriFunction;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.classes.ClassCallExecutor;
 import org.bayl.vm.executor.classes.ClassExecutor;
 import org.bayl.vm.executor.control.BlockExecutor;
 import org.bayl.vm.executor.control.RootExecutor;
-import org.bayl.vm.executor.expression.function.TailRecursionExecutor;
-import org.bayl.vm.executor.expression.literale.FalseExecutor;
-import org.bayl.vm.executor.expression.literale.NullExecutor;
-import org.bayl.vm.executor.operator.arithmetic.ModOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.NegateOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.PowerOpExecutor;
-import org.bayl.vm.executor.expression.literale.TrueExecutor;
 import org.bayl.vm.executor.expression.collection.ArrayExecutor;
 import org.bayl.vm.executor.expression.collection.DictionaryEntryExecutor;
 import org.bayl.vm.executor.expression.collection.DictionaryExecutor;
 import org.bayl.vm.executor.expression.collection.LookupExecutor;
 import org.bayl.vm.executor.expression.function.FunctionCallExecutor;
 import org.bayl.vm.executor.expression.function.FunctionExecutor;
-import org.bayl.vm.executor.expression.literale.NumberExecutor;
-import org.bayl.vm.executor.expression.literale.StringExecutor;
+import org.bayl.vm.executor.expression.function.ReturnExecutor;
+import org.bayl.vm.executor.expression.function.TailRecursionExecutor;
+import org.bayl.vm.executor.expression.literale.*;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.executor.operator.string.ConcatOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.AddOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.DivideOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.MultiplyOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.SubtractOpExecutor;
-import org.bayl.vm.executor.operator.comparison.EqualsOpExecutor;
-import org.bayl.vm.executor.operator.comparison.GreaterThanOpExecutor;
-import org.bayl.vm.executor.operator.comparison.LessThanOpExecutor;
-import org.bayl.vm.executor.operator.comparison.NotEqualsOpExecutor;
+import org.bayl.vm.executor.operator.arithmetic.*;
+import org.bayl.vm.executor.operator.comparison.*;
 import org.bayl.vm.executor.operator.logical.AndOpExecutor;
-import org.bayl.vm.executor.operator.comparison.GreaterEqualOpExecutor;
-import org.bayl.vm.executor.operator.comparison.LessEqualOpExecutor;
 import org.bayl.vm.executor.operator.logical.NotOpExecutor;
 import org.bayl.vm.executor.operator.logical.OrOpExecutor;
+import org.bayl.vm.executor.operator.string.ConcatOpExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
 import org.bayl.vm.executor.statement.ForeachExecutor;
 import org.bayl.vm.executor.statement.IfExecutor;
-import org.bayl.vm.executor.expression.function.ReturnExecutor;
 import org.bayl.vm.executor.statement.WhileExecutor;
-import org.bayl.bytecode.impl.profiler.Profiler;
-import static org.bayl.model.BytecodeToken.ARRAY_END;
-import static org.bayl.model.BytecodeToken.BLOCK_END;
-import static org.bayl.model.BytecodeToken.BODY;
-import static org.bayl.model.BytecodeToken.CALL_END;
-import static org.bayl.model.BytecodeToken.DICT_END;
-import static org.bayl.model.BytecodeToken.ELSE;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import static org.bayl.model.BytecodeToken.*;
 
 public class BytecodeParserImpl implements BytecodeParser {
 
     private int iterator;
     private List<String> bytecode;
-    private Profiler profiler;
+    private final Profiler profiler;
     private static final String ARGS_DIVISION = " ";
     private static final String EXCEPTION_MESSAGE = "Unexpected value: ";
-    private static final int THRESHOLD = 5;
+
+    public BytecodeParserImpl(Profiler profiler) {
+        this.profiler = profiler;
+    }
 
     @Override
     public RootExecutor parse(List<String> bytecode) {
@@ -74,13 +58,8 @@ public class BytecodeParserImpl implements BytecodeParser {
         return new RootExecutor(program.getPosition(), program.getStatements());
     }
 
-    public List<BytecodeToken> getMostFrequentlyUsed() {
-        return profiler.getInstructions();
-    }
-
     private void init(List<String> bytecode) {
         this.bytecode = bytecode;
-        profiler = new Profiler(THRESHOLD);
         iterator = 0;
     }
 

@@ -1,15 +1,11 @@
 package org.bayl.vm.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import org.bayl.ast.control.RootNode;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.bytecode.impl.BytecodeParserImpl;
+import org.bayl.bytecode.impl.profiler.Profiler;
 import org.bayl.memory.BaylMemory;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylFunction;
@@ -21,9 +17,24 @@ import org.bayl.syntax.Parser;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.control.RootExecutor;
 
+import java.io.*;
+import java.util.List;
+
 public class VirtualMachineImpl implements Environment {
 
     private BaylMemory memory = new BaylMemory();
+
+    @Getter
+    @Setter
+    private static boolean jitEnabled = true;
+
+    public VirtualMachineImpl(boolean jitEnabled) {
+        VirtualMachineImpl.jitEnabled = jitEnabled;
+    }
+
+    public VirtualMachineImpl() {
+        this(true);
+    }
 
     @Override
     public BaylObject getVariable(String name, SourcePosition pos) {
@@ -92,8 +103,9 @@ public class VirtualMachineImpl implements Environment {
         Parser parser = new Parser(lexer);
         RootNode program = parser.program();
         List<String> bytecode = new Bytecode().getInstructions(program);
+        Profiler profiler = Profiler.getInstance();
 
-        RootExecutor exe = new BytecodeParserImpl().parse(bytecode);
+        RootExecutor exe = new BytecodeParserImpl(profiler).parse(bytecode);
 
         return exe.eval(this);
     }
