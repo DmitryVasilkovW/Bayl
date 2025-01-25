@@ -25,7 +25,7 @@ public class BlockExecutor extends Executor {
         return statements.get(index);
     }
 
-    public Stream<Executor> gerStreamOfStatements() {
+    public Stream<Executor> getStreamOfStatements() {
         return statements.stream();
     }
 

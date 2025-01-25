@@ -5,4 +5,4 @@ factorialRecursive = function(n) {
     return n * factorialRecursive(n - 1);
 };
 
-println(factorialRecursive(40));
+println(factorialRecursive(5));

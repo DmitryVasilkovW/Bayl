@@ -4,7 +4,7 @@ import org.bayl.bytecode.BytecodeParser;
 import org.bayl.bytecode.impl.profiler.Profiler;
 import org.bayl.model.BytecodeToken;
 import org.bayl.model.SourcePosition;
-import org.bayl.vm.TriFunction;
+import org.bayl.vm.TreeFunction;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.classes.ClassCallExecutor;
 import org.bayl.vm.executor.classes.ClassExecutor;
@@ -251,7 +251,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         return constructor.apply(position, expression);
     }
 
-    private <T extends Executor> T parseExecutorWithTwoValues(TriFunction<SourcePosition, Executor, Executor, T> constructor) {
+    private <T extends Executor> T parseExecutorWithTwoValues(TreeFunction<SourcePosition, Executor, Executor, T> constructor) {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
 
@@ -286,7 +286,7 @@ public class BytecodeParserImpl implements BytecodeParser {
         return new FunctionCallExecutor(position, function, args);
     }
 
-    private<T extends Executor> T parseFunction(TriFunction<SourcePosition, List<Executor>, Executor, T> constructor) {
+    private<T extends Executor> T parseFunction(TreeFunction<SourcePosition, List<Executor>, Executor, T> constructor) {
         String[] tokens = getTokens();
         SourcePosition position = parsePosition(tokens);
         var args = new ArrayList<Executor>();

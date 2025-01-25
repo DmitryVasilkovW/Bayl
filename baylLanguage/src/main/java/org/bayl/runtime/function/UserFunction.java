@@ -1,27 +1,25 @@
 package org.bayl.runtime.function;
 
-import java.util.List;
+import lombok.Getter;
 import org.bayl.model.SourcePosition;
-import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylFunction;
+import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.exception.ReturnException;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.impl.VirtualMachineImpl;
+
+import java.util.List;
 
 public class UserFunction extends BaylFunction {
 
     private final List<Parameter> parameters;
-    private final Executor body;
+    @Getter
+    protected final Executor body;
 
     public UserFunction(List<Parameter> parameters, Executor body) {
         this.parameters = parameters;
         this.body = body;
-    }
-
-    public Executor getBody() {
-        return body;
     }
 
     @Override
@@ -42,7 +40,7 @@ public class UserFunction extends BaylFunction {
     @Override
     public BaylObject eval(Environment interpreter, SourcePosition pos) {
         try {
-            return body.eval((interpreter));
+            return body.eval(interpreter);
         } catch (ReturnException e) {
             return e.getReturn();
         }

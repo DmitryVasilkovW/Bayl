@@ -1,14 +1,11 @@
 package org.bayl.runtime.classes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.AllArgsConstructor;
-import org.bayl.model.SourcePosition;
 import org.bayl.memory.BaylMemory;
+import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylClass;
-import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylFunction;
+import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.TooFewArgumentsException;
 import org.bayl.runtime.function.UserFunction;
 import org.bayl.vm.Environment;
@@ -18,6 +15,10 @@ import org.bayl.vm.executor.expression.function.FunctionCallExecutor;
 import org.bayl.vm.executor.expression.function.FunctionExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 public class UserClass extends BaylClass implements Environment {
@@ -121,7 +122,7 @@ public class UserClass extends BaylClass implements Environment {
         memory = new BaylMemory();
         methods = new HashMap<>();
 
-        body.gerStreamOfStatements().forEach(
+        body.getStreamOfStatements().forEach(
                 executor -> {
                     if (executor instanceof AssignExecutor) {
                         String name = ((VariableExecutor) ((AssignExecutor) executor).getLeft()).getName();

@@ -1,15 +1,16 @@
 package org.bayl.vm.executor.expression.function;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.Parameter;
-import org.bayl.runtime.function.UserFunction;
+import org.bayl.runtime.function.TailUserFunction;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
 import org.bayl.vm.executor.statement.AssignExecutor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TailRecursionExecutor extends Executor {
 
@@ -41,7 +42,7 @@ public class TailRecursionExecutor extends Executor {
             Parameter param = new Parameter(parameterName, parameterValue);
             params.add(param);
         }
-        return new UserFunction(params, body);
+        return new TailUserFunction(params, body);
     }
 
     @Override
