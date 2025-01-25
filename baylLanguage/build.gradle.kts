@@ -48,6 +48,7 @@ dependencies {
     implementation("org.jetbrains:annotations:26.0.2")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
     testImplementation("org.mockito:mockito-core:5.15.2")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
     testImplementation("org.projectlombok:lombok:1.18.30")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
