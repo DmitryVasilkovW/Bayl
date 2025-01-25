@@ -9,12 +9,16 @@ import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.BaylType;
 import org.bayl.runtime.exception.UnsetVariableException;
 import org.bayl.runtime.function.impl.collection.PushFunction;
-import org.bayl.runtime.function.impl.io.PrintFunction;
-import org.bayl.runtime.function.impl.io.PrintLineFunction;
+import org.bayl.runtime.function.impl.io.input.BooleanScannerFunction;
+import org.bayl.runtime.function.impl.io.input.NumberScannerFunction;
+import org.bayl.runtime.function.impl.io.input.StringScannerFunction;
+import org.bayl.runtime.function.impl.io.output.PrintFunction;
+import org.bayl.runtime.function.impl.io.output.PrintLineFunction;
 import org.bayl.runtime.function.impl.literal.IsNullFunction;
 import org.bayl.runtime.function.impl.LenFunction;
 import org.bayl.runtime.function.impl.math.MaxFunction;
 import org.bayl.runtime.function.impl.math.MinFunction;
+import org.bayl.runtime.function.impl.system.GcFunction;
 import org.bayl.runtime.object.BaylRef;
 
 @Getter
@@ -43,6 +47,17 @@ public class BaylMemory implements Cloneable {
         setVariable("isNull", new IsNullFunction());
         setVariable("max", new MaxFunction());
         setVariable("min", new MinFunction());
+        setVariable("gc", new GcFunction());
+        setVariable("scanNumber", new NumberScannerFunction());
+        setVariable("scanString", new StringScannerFunction());
+        setVariable("scanBoolean", new BooleanScannerFunction());
+    }
+
+    public int getHeapFillPercentage() {
+        double dif = Math.abs(heap.size() - globalStorage.size());
+        double percentage = (dif / globalStorage.size()) * 100;
+
+        return (int) Math.round(percentage);
     }
 
     public BaylObject getVariable(String name, SourcePosition pos) {

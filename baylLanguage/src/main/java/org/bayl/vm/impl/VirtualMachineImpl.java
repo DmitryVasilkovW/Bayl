@@ -7,6 +7,7 @@ import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.bytecode.impl.BytecodeParserImpl;
 import org.bayl.bytecode.impl.profiler.Profiler;
 import org.bayl.memory.BaylMemory;
+import org.bayl.memory.gc.GarbageCollector;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.BaylObject;
@@ -23,6 +24,7 @@ import java.util.List;
 public class VirtualMachineImpl implements Environment {
 
     private BaylMemory memory = new BaylMemory();
+    private final GarbageCollector gc = new GarbageCollector();
 
     @Getter
     @Setter
@@ -44,6 +46,17 @@ public class VirtualMachineImpl implements Environment {
     @Override
     public void setVariable(String name, BaylObject value) {
         memory.setVariable(name, value);
+        tryToFreeMemory();
+    }
+
+    private void tryToFreeMemory() {
+        if (memory.getHeapFillPercentage() >= 40) {
+            gc.freeMemory(memory);
+        }
+    }
+
+    public void gc() {
+        gc.freeMemory(memory);
     }
 
     public void checkFunctionExists(String functionName, SourcePosition pos) {
