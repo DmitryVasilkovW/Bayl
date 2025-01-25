@@ -1,4 +1,4 @@
-package org.bayl.runtime.function.impl.io;
+package org.bayl.runtime.function.impl.io.output;
 
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;

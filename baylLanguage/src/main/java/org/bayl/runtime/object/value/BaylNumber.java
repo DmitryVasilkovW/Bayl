@@ -29,7 +29,7 @@ final public class BaylNumber extends BaylObject implements ValueType {
         this.value = BigDecimal.valueOf(value);
     }
 
-    BaylNumber(BigDecimal value) {
+    public BaylNumber(BigDecimal value) {
         this.value = value;
     }
 
