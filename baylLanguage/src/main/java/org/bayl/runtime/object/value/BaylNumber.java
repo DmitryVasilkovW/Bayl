@@ -1,11 +1,14 @@
-package org.bayl.runtime.object;
+package org.bayl.runtime.object.value;
+
+import lombok.Getter;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.ValueType;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import org.bayl.runtime.BaylMeaningful;
-import org.bayl.runtime.BaylObject;
 
-final public class BaylNumber extends BaylObject implements BaylMeaningful {
+@Getter
+final public class BaylNumber extends BaylObject implements ValueType {
 
     private final BigDecimal value;
 
@@ -20,6 +23,10 @@ final public class BaylNumber extends BaylObject implements BaylMeaningful {
             case "0x" -> this.value = new BigDecimal(new BigInteger(value.substring(2), 16));
             default -> this.value = new BigDecimal(value);
         }
+    }
+
+    public BaylNumber(double value) {
+        this.value = BigDecimal.valueOf(value);
     }
 
     BaylNumber(BigDecimal value) {
@@ -58,6 +65,14 @@ final public class BaylNumber extends BaylObject implements BaylMeaningful {
         return new BaylNumber(value.negate());
     }
 
+    public BaylNumber max(BaylNumber num) {
+        return new BaylNumber(value.max(num.value));
+    }
+
+    public BaylNumber min(BaylNumber num) {
+        return new BaylNumber(value.min(num.value));
+    }
+
     public int intValue() {
         return value.intValue();
     }
@@ -80,5 +95,10 @@ final public class BaylNumber extends BaylObject implements BaylMeaningful {
     @Override
     public boolean equals(Object object) {
         return compareTo((BaylObject) object) == 0;
+    }
+
+    @Override
+    public BaylObject clone() {
+        return new BaylNumber(value);
     }
 }

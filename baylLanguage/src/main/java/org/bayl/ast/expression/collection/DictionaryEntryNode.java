@@ -1,11 +1,9 @@
 package org.bayl.ast.expression.collection;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.DictionaryEntry;
-import org.bayl.vm.Environment;
+import static org.bayl.model.BytecodeToken.DICT_PAIR;
+import org.bayl.model.SourcePosition;
 
 public class DictionaryEntryNode extends Node {
 
@@ -27,17 +25,16 @@ public class DictionaryEntryNode extends Node {
     }
 
     @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return new DictionaryEntry(key.eval(virtualMachine), value.eval(virtualMachine));
-    }
-
-    @Override
     public String toString() {
         return "(" + key.toString() + " " + value.toString() + ")";
     }
 
     @Override
     public void generateCode(Bytecode bytecode) {
+        bytecode.add(getBytecodeLineWithPosition(
+                DICT_PAIR.toString()
+        ));
+
         key.generateCode(bytecode);
         value.generateCode(bytecode);
     }

@@ -34,7 +34,5 @@ public abstract class Node {
         return getPosition().getLineNumber() + " " + getPosition().getColumnNumber();
     }
 
-    public abstract BaylObject eval(Environment virtualMachine);
-
     public abstract void generateCode(Bytecode bytecode);
 }

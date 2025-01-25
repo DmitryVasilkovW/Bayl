@@ -3,9 +3,9 @@ package org.bayl.vm.executor.expression.collection;
 import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.DictionaryEntry;
+import org.bayl.runtime.object.ref.BaylDictionaryEntry;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class DictionaryEntryExecutor extends Executor {
@@ -28,8 +28,8 @@ public class DictionaryEntryExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
-        return new DictionaryEntry(key.eval(virtualMachine), value.eval(virtualMachine));
+    public BaylObject eval(Environment virtualMachine) {
+        return new BaylDictionaryEntry(key.eval(virtualMachine), value.eval(virtualMachine));
     }
 
     @Override

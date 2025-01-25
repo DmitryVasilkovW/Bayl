@@ -4,11 +4,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.exception.InvalidTypeException;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +34,12 @@ public class FunctionCallExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylObject expression = functionExecutor.eval(virtualMachine);
-        if (!(expression instanceof Function)) {
+        if (!(expression instanceof BaylFunction)) {
             throw new InvalidTypeException("Call to invalid function", getPosition());
         }
-        Function function = (Function) expression;
+        BaylFunction function = (BaylFunction) expression;
         List<BaylObject> args = new ArrayList<BaylObject>(arguments.size());
         for (Executor Executor : arguments) {
             args.add(Executor.eval(virtualMachine));

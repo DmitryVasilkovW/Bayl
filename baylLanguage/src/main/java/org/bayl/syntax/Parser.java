@@ -2,6 +2,7 @@ package org.bayl.syntax;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.bayl.ast.expression.literale.NullNode;
 import org.bayl.model.SourcePosition;
 import org.bayl.model.Token;
 import org.bayl.syntax.token.util.TokenBuffer;
@@ -76,16 +77,11 @@ public class Parser {
     }
 
     public RootNode program() {
-        List<Node> script = new LinkedList<Node>();
+        List<Node> script = new LinkedList<>();
         while (lookAhead(1) != null) {
             script.add(statement());
         }
-        var a = new RootNode(new SourcePosition(1, 1), script);
-        var b = new Bytecode();
-        a.generateCode(b);
-
-        System.out.println(b.toString());
-        return a;
+        return new RootNode(new SourcePosition(1, 1), script);
     }
 
     private BlockNode block() {
@@ -100,14 +96,9 @@ public class Parser {
     }
 
     private Node statement() {
-        // | functionCall END_STATEMENT
-        // | VARIABLE! ASSIGN! expression END_STATEMENT
-        // | RETURN expression END_STATEMENT
-        // | IF | WHILE | FOR_EACH
         TokenType type = lookAhead(1);
-        if (type == TokenType.FUNCTION) {
-            // Call to anonymous function
-            Node functionCall = functionCall(function());
+        if (type == TokenType.FUNCTION || type == TokenType.TAIL_FUNCTION) {
+            Node functionCall = functionCall(function(type));
             match(TokenType.END_STATEMENT);
             return functionCall;
         } else if (type == TokenType.VARIABLE) {
@@ -138,8 +129,6 @@ public class Parser {
         } else if (type == TokenType.FOR_EACH) {
             return foreach();
         } else {
-            // We only get here if there is token from the lexer
-            // that is not handled by parser yet.
             throw new ParserException("Unknown token type " + type);
         }
     }
@@ -152,7 +141,6 @@ public class Parser {
     }
 
     private Node _if() {
-        // IF! condition block else?
         SourcePosition pos = match(TokenType.IF).getPosition();
         Node test = condition();
         BlockNode thenBlock = block();
@@ -164,7 +152,6 @@ public class Parser {
     }
 
     private Node _else() {
-        // ELSE! (if | block)!
         match(TokenType.ELSE);
         if (lookAhead(1) == TokenType.IF) {
             return _if();
@@ -260,10 +247,10 @@ public class Parser {
         return new ClassNode(pos, body);
     }
 
-    private FunctionNode function() {
+    private FunctionNode function(TokenType type) {
         // FUNCTION! LPAREN! parameterList? RPAREN!
         // LBRACE! block() RBRACE!
-        SourcePosition pos = match(TokenType.FUNCTION).getPosition();
+        SourcePosition pos = match(type).getPosition();
         match(TokenType.LPAREN);
         List<Node> paramList = FunctionNode.NO_PARAMETERS;
         if (lookAhead(1) != TokenType.RPAREN) {
@@ -299,8 +286,8 @@ public class Parser {
 
     private Node expression() {
         TokenType type = lookAhead(1);
-        if (type == TokenType.FUNCTION) {
-            Node functionNode = function();
+        if (type == TokenType.FUNCTION || type == TokenType.TAIL_FUNCTION) {
+            Node functionNode = function(type);
             if (lookAhead(1) == TokenType.LPAREN) {
                 return functionCall(functionNode);
             } else {
@@ -314,6 +301,8 @@ public class Parser {
             return dictionary();
         } else if (type == TokenType.CLASS) {
             return classNode();
+        } else if (lookAhead(2) == TokenType.COLON) {
+            return keyValue();
         } else {
             // An expression can result in a string, boolean or number
             return stringExpression();
@@ -393,14 +382,7 @@ public class Parser {
     }
 
     private Node functionCall(Node functionNode) {
-        // functionNode LPAREN! argumentList RPAREN! (LPAREN! argumentList RPAREN!)* )?
         FunctionCallNode functionCall = null;
-        /*
-         * Since functions can return functions we want to handle calling
-         * the returned function. For example, f()(). To support this we
-         * handle additional calls (ie. LPAREN! argumentList RPAREN!) as
-         * a call to the returned function.
-         */
         do {
             SourcePosition pos = match(TokenType.LPAREN).getPosition();
             List<Node> arguments = FunctionCallNode.NO_ARGUMENTS;
@@ -420,8 +402,7 @@ public class Parser {
     }
 
     private List<Node> argumentList() {
-        // (expression (COMMA! expression)* )?
-        List<Node> arguments = new LinkedList<Node>();
+        List<Node> arguments = new LinkedList<>();
         arguments.add(expression());
         while (lookAhead(1) == TokenType.COMMA) {
             match(TokenType.COMMA);
@@ -431,10 +412,6 @@ public class Parser {
     }
 
     private Node atom() {
-        // NUMBER
-        // | TRUE | FALSE
-        // | LPAREN^ sumExpr RPAREN!
-        // | variable
         TokenType type = lookAhead(1);
         if (type == TokenType.NUMBER) {
             Token t = match(TokenType.NUMBER);
@@ -443,6 +420,8 @@ public class Parser {
             return new TrueNode(match(TokenType.TRUE).getPosition());
         } else if (type == TokenType.FALSE) {
             return new FalseNode(match(TokenType.FALSE).getPosition());
+        } else if (type == TokenType.NULL) {
+            return new NullNode(match(TokenType.NULL).getPosition());
         } else if (type == TokenType.LPAREN) {
             match(TokenType.LPAREN);
             Node atom = expression();

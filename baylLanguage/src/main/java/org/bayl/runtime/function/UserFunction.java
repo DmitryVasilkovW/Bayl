@@ -1,25 +1,26 @@
 package org.bayl.runtime.function;
 
 import java.util.List;
-
 import org.bayl.model.SourcePosition;
-import org.bayl.ast.Node;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.Parameter;
 import org.bayl.runtime.exception.ReturnException;
-import org.bayl.runtime.BaylObject;
 import org.bayl.vm.Environment;
+import org.bayl.vm.executor.Executor;
+import org.bayl.vm.impl.VirtualMachineImpl;
 
-public class UserFunction extends Function {
+public class UserFunction extends BaylFunction {
+
     private final List<Parameter> parameters;
-    private final Node body;
+    private final Executor body;
 
-    public UserFunction(List<Parameter> parameters, Node body) {
+    public UserFunction(List<Parameter> parameters, Executor body) {
         this.parameters = parameters;
         this.body = body;
     }
 
-    public Node getBody() {
+    public Executor getBody() {
         return body;
     }
 
@@ -41,7 +42,7 @@ public class UserFunction extends Function {
     @Override
     public BaylObject eval(Environment interpreter, SourcePosition pos) {
         try {
-            return body.eval(interpreter);
+            return body.eval((interpreter));
         } catch (ReturnException e) {
             return e.getReturn();
         }

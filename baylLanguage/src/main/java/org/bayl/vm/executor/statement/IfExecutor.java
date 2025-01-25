@@ -3,9 +3,9 @@ package org.bayl.vm.executor.statement;
 import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylBoolean;
+import org.bayl.runtime.object.value.BaylBoolean;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class IfExecutor extends Executor {
@@ -34,7 +34,7 @@ public class IfExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         boolean test = testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue();
         if (test) {
             return thenBlock.eval(virtualMachine);

@@ -3,7 +3,7 @@ package org.bayl.vm;
 import java.util.List;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylFunction;
 
 public interface Environment {
 
@@ -11,5 +11,5 @@ public interface Environment {
 
     void setVariable(String name, BaylObject value);
 
-    BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName);
+    BaylObject callFunction(BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName);
 }

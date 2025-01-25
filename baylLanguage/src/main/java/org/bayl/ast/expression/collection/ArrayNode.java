@@ -1,16 +1,12 @@
 package org.bayl.ast.expression.collection;
 
-import java.util.ArrayList;
 import java.util.List;
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import static org.bayl.model.BytecodeToken.ARRAY_END;
 import static org.bayl.model.BytecodeToken.ARRAY_INIT;
 import static org.bayl.model.BytecodeToken.ARRAY_STORE;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class ArrayNode extends Node {
 
@@ -19,15 +15,6 @@ public class ArrayNode extends Node {
     public ArrayNode(SourcePosition pos, List<Node> elements) {
         super(pos);
         this.elements = elements;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        var items = new ArrayList<BaylObject>(elements.size());
-        for (Node node : elements) {
-            items.add(node.eval(virtualMachine));
-        }
-        return new BaylArray(items);
     }
 
     @Override

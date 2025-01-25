@@ -1,8 +1,7 @@
 package org.bayl.bytecode;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.bayl.bytecode.impl.BytecodeParserImpl;
+import org.bayl.bytecode.impl.profiler.Profiler;
 import org.bayl.model.SourcePosition;
 import org.bayl.vm.executor.Executor;
 import org.bayl.vm.executor.control.BlockExecutor;
@@ -19,19 +18,8 @@ import org.bayl.vm.executor.expression.literale.NumberExecutor;
 import org.bayl.vm.executor.expression.literale.StringExecutor;
 import org.bayl.vm.executor.expression.literale.TrueExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.executor.operator.arithmetic.AddOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.DivideOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.ModOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.MultiplyOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.NegateOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.PowerOpExecutor;
-import org.bayl.vm.executor.operator.arithmetic.SubtractOpExecutor;
-import org.bayl.vm.executor.operator.comparison.EqualsOpExecutor;
-import org.bayl.vm.executor.operator.comparison.GreaterEqualOpExecutor;
-import org.bayl.vm.executor.operator.comparison.GreaterThanOpExecutor;
-import org.bayl.vm.executor.operator.comparison.LessEqualOpExecutor;
-import org.bayl.vm.executor.operator.comparison.LessThanOpExecutor;
-import org.bayl.vm.executor.operator.comparison.NotEqualsOpExecutor;
+import org.bayl.vm.executor.operator.arithmetic.*;
+import org.bayl.vm.executor.operator.comparison.*;
 import org.bayl.vm.executor.operator.logical.AndOpExecutor;
 import org.bayl.vm.executor.operator.logical.NotOpExecutor;
 import org.bayl.vm.executor.operator.logical.OrOpExecutor;
@@ -44,15 +32,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import util.bytecode.BytecodeParserTestData;
 
 import java.util.List;
 
-import util.bytecode.BytecodeParserTestData;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BytecodeParserTest {
 
-    private final BytecodeParserImpl parser = new BytecodeParserImpl();
+    private final Profiler profiler = Profiler.getInstance();
+    private final BytecodeParserImpl parser = new BytecodeParserImpl(profiler);
 
     @ParameterizedTest(name = "{index} => {arguments}")
     @DisplayName("Test parsing bytecode: {0}")

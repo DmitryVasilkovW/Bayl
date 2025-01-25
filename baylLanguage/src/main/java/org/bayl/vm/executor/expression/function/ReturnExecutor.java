@@ -5,8 +5,8 @@ import lombok.Getter;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
 import org.bayl.runtime.exception.ReturnException;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class ReturnExecutor extends Executor {
@@ -20,7 +20,7 @@ public class ReturnExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         throw new ReturnException(expression.eval(virtualMachine));
     }
 

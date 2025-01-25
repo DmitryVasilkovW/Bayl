@@ -4,7 +4,7 @@ import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.BaylString;
+import org.bayl.runtime.object.value.BaylString;
 import static org.bayl.model.BytecodeToken.PUSH_S;
 import org.bayl.vm.Environment;
 
@@ -15,11 +15,6 @@ public class StringNode extends Node {
     public StringNode(SourcePosition pos, String literal) {
         super(pos);
         this.literal = new BaylString(literal);
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return literal;
     }
 
     @Override

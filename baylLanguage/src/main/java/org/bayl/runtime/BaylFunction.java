@@ -3,7 +3,7 @@ package org.bayl.runtime;
 import org.bayl.model.SourcePosition;
 import org.bayl.vm.Environment;
 
-public abstract class Function extends BaylObject {
+public abstract class BaylFunction extends BaylObject {
 
     abstract public int getParameterCount();
 
@@ -16,5 +16,10 @@ public abstract class Function extends BaylObject {
     @Override
     public int compareTo(BaylObject o) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public BaylObject clone() {
+        return this;
     }
 }

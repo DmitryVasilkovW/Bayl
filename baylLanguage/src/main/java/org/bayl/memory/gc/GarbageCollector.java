@@ -1,29 +1,35 @@
 package org.bayl.memory.gc;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
+import org.bayl.memory.BaylMemory;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.BaylType;
+import org.bayl.runtime.ContainedTypes;
+import org.bayl.runtime.ValueType;
 import org.bayl.runtime.object.BaylRef;
 
 public class GarbageCollector {
 
-    private Map<BaylRef, Boolean> visited;
-    private Map<String, BaylRef> memoryGraph;
+    private Map<BaylObject, Boolean> visited;
+    private Map<BaylObject, List<BaylObject>> memoryGraph;
 
-    public void freeMemory(Map<BaylRef, BaylObject> memory, Map<String, BaylType> roots) {
-        init(memory, roots);
-        Set<BaylRef> garbage = getGarbage();
-        memory.keySet().removeIf(garbage::contains);
+    public void freeMemory(BaylMemory memory) {
+        init(memory);
+        Set<BaylObject> garbage = getGarbage();
+
+        memory.getHeap().values()
+                .removeIf(garbage::contains);
     }
 
-    private Set<BaylRef> getGarbage() {
+    private Set<BaylObject> getGarbage() {
         mark();
-        var garbage = new HashSet<BaylRef>();
-        for (BaylRef node : visited.keySet()) {
+
+        var garbage = new HashSet<BaylObject>();
+        for (BaylObject node : visited.keySet()) {
             if (!visited.get(node)) {
                 garbage.add(node);
             }
@@ -32,40 +38,59 @@ public class GarbageCollector {
         return garbage;
     }
 
-    private void init(Map<BaylRef, BaylObject> memory, Map<String, BaylType> roots) {
-        initVisited(memory);
-        initGraph(roots);
+    private void init(BaylMemory memory) {
+        initVisited(memory.getHeap());
+        initGraph(memory);
     }
 
     private void initVisited(Map<BaylRef, BaylObject> memory) {
-        visited = new HashMap<>();
+        visited = new IdentityHashMap<>();
 
-        for (BaylRef ref : memory.keySet()) {
-            visited.put(ref, false);
-        }
+        memory.values().forEach(obj -> {
+            if (obj instanceof ContainedTypes) {
+                ((ContainedTypes) obj).getAllTypes().forEach(
+                        element -> visited.put(element, false)
+                );
+            }
+
+            visited.put(obj, false);
+        });
     }
 
-    private void initGraph(Map<String, BaylType> roots) {
-        memoryGraph = new HashMap<>();
+    private void initGraph(BaylMemory memory) {
+        memoryGraph = new IdentityHashMap<>();
 
-        for (String root : roots.keySet()) {
-            Optional<BaylRef> refO
-                    = tryToCastToRef(roots.get(root));
-            refO.ifPresent(baylRef -> memoryGraph.put(root, baylRef));
-        }
-    }
+        memory.getGlobalStorage().forEach((key, value) -> {
+            if (!(value instanceof ValueType)) {
+                BaylObject obj = memory.getVariable(key, null);
+                List<BaylObject> refs = new ArrayList<>();
 
-    private Optional<BaylRef> tryToCastToRef(BaylType ref) {
-        if (ref instanceof BaylRef) {
-            return Optional.of((BaylRef) ref);
-        }
-        return Optional.empty();
+                if (obj instanceof ContainedTypes) {
+                    refs = ((ContainedTypes) obj).getAllTypes();
+                }
+
+                memoryGraph.put(obj, refs);
+            }
+        });
     }
 
     private void mark() {
-        for (BaylRef node : memoryGraph.values()) {
-            if (!visited.get(node)) {
-                visited.put(node, true);
+        for (BaylObject root : memoryGraph.keySet()) {
+            dfsMark(root);
+        }
+    }
+
+    private void dfsMark(BaylObject node) {
+        if (node == null || visited.get(node)) {
+            return;
+        }
+
+        visited.put(node, true);
+        for (BaylObject
+                ref
+                : memoryGraph.getOrDefault(node, new ArrayList<>())) {
+            if (!visited.get(ref)) {
+                dfsMark(ref);
             }
         }
     }

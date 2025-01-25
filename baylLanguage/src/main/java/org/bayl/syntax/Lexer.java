@@ -14,7 +14,7 @@ public class Lexer {
 
     private int lineNo = 1;
     private int columnNo = 1;
-    private PeekReader in;
+    private final PeekReader in;
 
     public Lexer(Reader in) throws IOException {
         this.in = new PeekReader(in, 2);
@@ -338,12 +338,7 @@ public class Lexer {
         } else {
             matchDecimalNumber(sb);
         }
-        /*
-         * Check that another number does not immediately follow as this means
-         * we have an invalid number. For example, the input 12.34.5 after the
-         * above code finishes leaves us with 12.34 matched. Without this
-         * check .5 will then be matched separately as another valid number.
-         */
+
         int character = lookAhead(1);
         if (character == '.' || (character >= '0' && character <= '9')) {
             throw new LexerException("Unexpected '" + ((char) character) + "' character", lineNo, columnNo);
@@ -351,11 +346,6 @@ public class Lexer {
         return new Token(pos, TokenType.NUMBER, sb.toString());
     }
 
-    /**
-     * An identifier is either a keyword, function, or variable
-     *
-     * @return Token
-     */
     private Token matchIdentifier() {
         SourcePosition pos = new SourcePosition(lineNo, columnNo);
         StringBuilder sb = new StringBuilder();
@@ -371,12 +361,14 @@ public class Lexer {
         return switch (word) {
             case "true" -> new Token(pos, TokenType.TRUE, word);
             case "false" -> new Token(pos, TokenType.FALSE, word);
+            case "null" -> new Token(pos, TokenType.NULL, word);
             case "if" -> new Token(pos, TokenType.IF, word);
             case "else" -> new Token(pos, TokenType.ELSE, word);
             case "while" -> new Token(pos, TokenType.WHILE, word);
             case "foreach" -> new Token(pos, TokenType.FOR_EACH, word);
             case "as" -> new Token(pos, TokenType.AS, word);
             case "function" -> new Token(pos, TokenType.FUNCTION, word);
+            case "recursion" -> new Token(pos, TokenType.TAIL_FUNCTION, word);
             case "return" -> new Token(pos, TokenType.RETURN, word);
             case "class" -> new Token(pos, TokenType.CLASS, word);
             default -> new Token(pos, TokenType.VARIABLE, word);

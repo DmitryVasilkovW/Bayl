@@ -45,6 +45,7 @@ tasks.jar {
 
 dependencies {
     implementation("org.projectlombok:lombok:1.18.30")
+    implementation("org.jetbrains:annotations:26.0.2")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
 
     testImplementation("org.projectlombok:lombok:1.18.30")

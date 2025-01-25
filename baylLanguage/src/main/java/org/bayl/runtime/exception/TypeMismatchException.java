@@ -1,17 +1,17 @@
 package org.bayl.runtime.exception;
 
 import org.bayl.model.SourcePosition;
-import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.BaylArray;
-import org.bayl.runtime.object.BaylBoolean;
-import org.bayl.runtime.object.BaylNumber;
-import org.bayl.runtime.object.BaylString;
+import org.bayl.runtime.object.ref.BaylDictionary;
+import org.bayl.runtime.object.ref.BaylArray;
+import org.bayl.runtime.object.value.BaylBoolean;
+import org.bayl.runtime.object.value.BaylNumber;
+import org.bayl.runtime.object.value.BaylString;
 
 public class TypeMismatchException extends BaylException {
     private static final long serialVersionUID = 9115378805326306069L;
 
     static private String toString(Class type) {
-        if (type == Dictionary.class) {
+        if (type == BaylDictionary.class) {
             return "dictionary";
         } else if (type == BaylArray.class) {
             return "array";

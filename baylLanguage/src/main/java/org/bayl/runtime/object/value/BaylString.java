@@ -1,9 +1,9 @@
-package org.bayl.runtime.object;
+package org.bayl.runtime.object.value;
 
-import org.bayl.runtime.BaylMeaningful;
+import org.bayl.runtime.ValueType;
 import org.bayl.runtime.BaylObject;
 
-final public class BaylString extends BaylObject implements BaylMeaningful {
+final public class BaylString extends BaylObject implements ValueType {
 
     private final String value;
 
@@ -34,5 +34,10 @@ final public class BaylString extends BaylObject implements BaylMeaningful {
     @Override
     public boolean equals(Object object) {
         return compareTo((BaylObject) object) == 0;
+    }
+
+    @Override
+    public BaylObject clone() {
+        return new BaylString(value);
     }
 }

@@ -3,34 +3,31 @@ package org.bayl.runtime.classes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import org.bayl.model.SourcePosition;
-import org.bayl.ast.Node;
-import org.bayl.ast.expression.function.FunctionCallNode;
-import org.bayl.ast.expression.function.FunctionNode;
-import org.bayl.ast.expression.variable.VariableNode;
-import org.bayl.ast.statement.AssignNode;
-import org.bayl.ast.control.BlockNode;
 import org.bayl.memory.BaylMemory;
 import org.bayl.runtime.BaylClass;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
+import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.exception.TooFewArgumentsException;
-import org.bayl.runtime.function.ArrayLenFunction;
-import org.bayl.runtime.function.ArrayPushFunction;
-import org.bayl.runtime.function.PrintFunction;
-import org.bayl.runtime.function.PrintLineFunction;
-import org.bayl.runtime.function.StringLenFunction;
 import org.bayl.runtime.function.UserFunction;
 import org.bayl.vm.Environment;
+import org.bayl.vm.executor.Executor;
+import org.bayl.vm.executor.control.BlockExecutor;
+import org.bayl.vm.executor.expression.function.FunctionCallExecutor;
+import org.bayl.vm.executor.expression.function.FunctionExecutor;
+import org.bayl.vm.executor.expression.variable.VariableExecutor;
+import org.bayl.vm.executor.statement.AssignExecutor;
 
+@AllArgsConstructor
 public class UserClass extends BaylClass implements Environment {
 
     private BaylMemory memory;
-    private Map<String, Function> methods;
-    private final BlockNode body;
+    private Map<String, BaylFunction> methods;
+    private final BlockExecutor body;
     private BaylObject call;
 
-    public UserClass(BlockNode body) {
+    public UserClass(BlockExecutor body) {
         this.body = body;
     }
 
@@ -51,12 +48,12 @@ public class UserClass extends BaylClass implements Environment {
         call = memory.getVariable(name, pos);
     }
 
-    public void setCall(FunctionCallNode functionCallNode, Environment virtualMachine) {
+    public void setCall(FunctionCallExecutor functionCallExecutor, Environment virtualMachine) {
         if (memory == null || methods == null) {
             init(virtualMachine);
         }
 
-        call = functionCallNode.eval(this);
+        call = functionCallExecutor.eval(this);
     }
 
     @Override
@@ -74,7 +71,7 @@ public class UserClass extends BaylClass implements Environment {
     }
 
     @Override
-    public BaylObject callFunction(Function function, List<BaylObject> args, SourcePosition pos, String functionName) {
+    public BaylObject callFunction(BaylFunction function, List<BaylObject> args, SourcePosition pos, String functionName) {
         var heap = new HashMap<>(memory.getHeap());
         var global = new HashMap<>(memory.getGlobalStorage());
 
@@ -103,16 +100,16 @@ public class UserClass extends BaylClass implements Environment {
         var ret = function.eval(this, pos);
 
         var newHeap = memory.getHeap();
-        for (var node : newHeap.keySet()) {
-            if (heap.containsKey(node)) {
-                heap.put(node, newHeap.get(node));
+        for (var Executor : newHeap.keySet()) {
+            if (heap.containsKey(Executor)) {
+                heap.put(Executor, newHeap.get(Executor));
             }
         }
 
         memory.getGlobalStorage().keySet().forEach(
-                node -> {
-                    if (global.containsKey(node)) {
-                        global.put(node, memory.getGlobalStorage().get(node));
+                Executor -> {
+                    if (global.containsKey(Executor)) {
+                        global.put(Executor, memory.getGlobalStorage().get(Executor));
                     }
                 }
         );
@@ -125,12 +122,12 @@ public class UserClass extends BaylClass implements Environment {
         methods = new HashMap<>();
 
         body.gerStreamOfStatements().forEach(
-                node -> {
-                    if (node instanceof AssignNode) {
-                        String name = ((VariableNode) ((AssignNode) node).getLeft()).getName();
-                        Node value = ((AssignNode) node).getRight();
+                executor -> {
+                    if (executor instanceof AssignExecutor) {
+                        String name = ((VariableExecutor) ((AssignExecutor) executor).getLeft()).getName();
+                        Executor value = ((AssignExecutor) executor).getRight();
 
-                        if (value instanceof FunctionNode) {
+                        if (value instanceof FunctionExecutor) {
                             methods.put(name, ((UserFunction) (value).eval(virtualMachine)));
                         } else {
                             memory.setVariable(name, value.eval(virtualMachine));
@@ -138,11 +135,15 @@ public class UserClass extends BaylClass implements Environment {
                     }
                 }
         );
+    }
 
-        methods.put("print", new PrintFunction());
-        methods.put("println", new PrintLineFunction());
-        methods.put("str_len", new StringLenFunction());
-        methods.put("arr_len", new ArrayLenFunction());
-        methods.put("array_push", new ArrayPushFunction());
+    @Override
+    public BaylObject clone() {
+        BaylObject callClone = null;
+        if (call != null) {
+            callClone = call.clone();
+        }
+
+        return new UserClass(memory.clone(), methods, body, callClone);
     }
 }

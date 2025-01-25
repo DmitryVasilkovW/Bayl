@@ -3,8 +3,8 @@ package org.bayl.vm.executor.statement;
 import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 
 @EqualsAndHashCode(callSuper = true)
 public class WhileExecutor extends Executor {
@@ -27,7 +27,7 @@ public class WhileExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         BaylObject ret = null;
         while (testCondition.eval(virtualMachine).toBoolean(testCondition.getPosition()).booleanValue()) {
             ret = loopBody.eval(virtualMachine);

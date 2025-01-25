@@ -1,13 +1,15 @@
-package org.bayl.runtime.object;
+package org.bayl.runtime.object.ref;
 
+import java.util.List;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.ContainedTypes;
 
-public class DictionaryEntry extends BaylObject {
+public class BaylDictionaryEntry extends BaylObject implements ContainedTypes {
 
     private final BaylObject key;
     private BaylObject value;
 
-    public DictionaryEntry(BaylObject key, BaylObject value) {
+    public BaylDictionaryEntry(BaylObject key, BaylObject value) {
         this.key = key;
         this.value = value;
     }
@@ -26,12 +28,25 @@ public class DictionaryEntry extends BaylObject {
 
     @Override
     public int compareTo(BaylObject o) {
-        DictionaryEntry entry = (DictionaryEntry) o;
+        BaylDictionaryEntry entry = (BaylDictionaryEntry) o;
         return value.compareTo(entry.value);
     }
 
     @Override
     public String toString() {
         return key.toString() + "=" + value.toString();
+    }
+
+    @Override
+    public BaylObject clone() {
+        return new BaylDictionaryEntry(
+                key.clone(),
+                value.clone()
+        );
+    }
+
+    @Override
+    public List<BaylObject> getAllTypes() {
+        return List.of(key, value);
     }
 }

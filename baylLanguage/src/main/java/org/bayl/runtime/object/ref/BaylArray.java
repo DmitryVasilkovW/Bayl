@@ -1,10 +1,12 @@
-package org.bayl.runtime.object;
+package org.bayl.runtime.object.ref;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.ContainedTypes;
 
-public class BaylArray extends BaylObject implements Iterable<BaylObject> {
+public class BaylArray extends BaylObject implements Iterable<BaylObject>, ContainedTypes {
 
     private final List<BaylObject> elements;
 
@@ -41,5 +43,20 @@ public class BaylArray extends BaylObject implements Iterable<BaylObject> {
     @Override
     public String toString() {
         return elements.toString();
+    }
+
+    @Override
+    public BaylObject clone() {
+        var cloneElements = new ArrayList<BaylObject>();
+        elements.forEach((element) -> {
+            cloneElements.add(element.clone());
+        });
+
+        return new BaylArray(cloneElements);
+    }
+
+    @Override
+    public List<BaylObject> getAllTypes() {
+        return new ArrayList<>(elements);
     }
 }

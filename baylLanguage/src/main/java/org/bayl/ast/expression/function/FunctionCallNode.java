@@ -1,20 +1,14 @@
 package org.bayl.ast.expression.function;
 
-import org.bayl.model.SourcePosition;
+import java.util.ArrayList;
+import java.util.List;
 import org.bayl.ast.Node;
 import org.bayl.ast.expression.variable.VariableNode;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.Function;
-import org.bayl.runtime.exception.InvalidTypeException;
-import java.util.ArrayList;
-import java.util.List;
 import static org.bayl.model.BytecodeToken.ARG;
 import static org.bayl.model.BytecodeToken.CALL;
-import static org.bayl.model.BytecodeToken.CALL_DYNAMIC;
-import static org.bayl.model.BytecodeToken.CALL_DYNAMIC_END;
 import static org.bayl.model.BytecodeToken.CALL_END;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class FunctionCallNode extends Node {
 
@@ -33,20 +27,6 @@ public class FunctionCallNode extends Node {
             return ((VariableNode) functionNode).getName();
         }
         return null;
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        BaylObject expression = functionNode.eval(virtualMachine);
-        if (!(expression instanceof Function)) {
-            throw new InvalidTypeException("Call to invalid function", getPosition());
-        }
-        Function function = (Function) expression;
-        List<BaylObject> args = new ArrayList<BaylObject>(arguments.size());
-        for (Node node : arguments) {
-            args.add(node.eval(virtualMachine));
-        }
-        return virtualMachine.callFunction(function, args, getPosition(), getFunctionName());
     }
 
     @Override
@@ -80,22 +60,13 @@ public class FunctionCallNode extends Node {
     }
 
     private String getStartLine() {
-        if (functionNode instanceof VariableNode) {
-            return getBytecodeLineWithPosition(
-                    CALL.toString(),
-                    getFunctionName()
-            );
-        }
-
         return getBytecodeLineWithPosition(
-                CALL_DYNAMIC.toString()
+                CALL.toString(),
+                getFunctionName()
         );
     }
 
     private String getEndLine() {
-        if (functionNode instanceof VariableNode) {
-            return CALL_END.toString();
-        }
-        return CALL_DYNAMIC_END.toString();
+        return CALL_END.toString();
     }
 }

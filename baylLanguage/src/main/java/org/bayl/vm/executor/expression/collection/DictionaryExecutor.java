@@ -3,10 +3,10 @@ package org.bayl.vm.executor.expression.collection;
 import lombok.EqualsAndHashCode;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.Dictionary;
-import org.bayl.runtime.object.DictionaryEntry;
+import org.bayl.runtime.object.ref.BaylDictionary;
+import org.bayl.runtime.object.ref.BaylDictionaryEntry;
+import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
-import org.bayl.vm.impl.VirtualMachineImpl;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +22,13 @@ public class DictionaryExecutor extends Executor {
     }
 
     @Override
-    public BaylObject eval(VirtualMachineImpl virtualMachine) {
+    public BaylObject eval(Environment virtualMachine) {
         Map<BaylObject, BaylObject> entries = new LinkedHashMap<BaylObject, BaylObject>(elements.size());
         for (DictionaryEntryExecutor node : elements) {
-            DictionaryEntry entry = (DictionaryEntry) node.eval(virtualMachine);
+            BaylDictionaryEntry entry = (BaylDictionaryEntry) node.eval(virtualMachine);
             entries.put(entry.getKey(), entry.getValue());
         }
-        return new Dictionary(entries);
+        return new BaylDictionary(entries);
     }
 
     @Override

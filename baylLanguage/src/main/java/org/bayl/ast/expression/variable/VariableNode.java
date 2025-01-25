@@ -1,11 +1,9 @@
 package org.bayl.ast.expression.variable;
 
-import org.bayl.model.SourcePosition;
 import org.bayl.ast.Node;
 import org.bayl.bytecode.impl.Bytecode;
-import org.bayl.runtime.BaylObject;
 import static org.bayl.model.BytecodeToken.LOAD;
-import org.bayl.vm.Environment;
+import org.bayl.model.SourcePosition;
 
 public class VariableNode extends Node {
 
@@ -23,11 +21,6 @@ public class VariableNode extends Node {
     @Override
     public String toString() {
         return getName();
-    }
-
-    @Override
-    public BaylObject eval(Environment virtualMachine) {
-        return virtualMachine.getVariable(name, getPosition());
     }
 
     @Override
