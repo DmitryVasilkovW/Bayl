@@ -1,97 +1,61 @@
 package org.bayl.vm.executor.algorithms;
 
-import org.bayl.model.SourcePosition;
-import org.bayl.vm.executor.Executor;
-import org.bayl.vm.executor.control.BlockExecutor;
-import org.bayl.vm.executor.expression.variable.VariableExecutor;
-import org.bayl.vm.executor.statement.AssignExecutor;
-import org.bayl.vm.executor.statement.ForeachExecutor;
+import org.bayl.runtime.BaylObject;
+import org.bayl.runtime.object.ref.BaylArray;
+import org.bayl.runtime.object.ref.BaylDictionary;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-public class LoopUnrollTest {
-    private final SourcePosition pos = new SourcePosition(0, 0);
+class LoopUnrollTest {
 
     @Test
-    public void testForeachUnrolling_SimpleArray() {
-        VariableExecutor onVariable = new VariableExecutor(pos, "array");
-        VariableExecutor asExecutor = new VariableExecutor(pos, "item");
-        AssignExecutor loopBody = new AssignExecutor(pos, asExecutor, onVariable); // Simple assignment inside loop body
-        ForeachExecutor loop = new ForeachExecutor(pos, onVariable, asExecutor, loopBody);
+    void testUnrollArray() {
+        BaylArray mockArray = mock(BaylArray.class);
+        var mockBody = mock(LoopUnroll.LoopBody.class);
 
-        Executor optimized = new LoopUnroll().optimizeLoopUnrolling(loop, 2);
+        int size = 15;
+        when(mockArray.size()).thenReturn(size);
 
-        // Expected outcome: the loop should unroll twice, duplicating the body twice.
-        BlockExecutor expected = new BlockExecutor(pos, List.of(
-                new BlockExecutor(pos, List.of(loopBody, loopBody)),  // First unrolled body
-                new ForeachExecutor(pos, onVariable, asExecutor, new BlockExecutor(pos, List.of(loopBody)))  // Remaining loop
-        ));
+        BaylObject[] elements = new BaylObject[size];
+        for (int i = 0; i < size; i++) {
+            elements[i] = mock(BaylObject.class);
+            when(mockArray.get(i)).thenReturn(elements[i]);
+        }
 
-        assertEquals(expected, optimized);
+        LoopUnroll.unrollArray(mockArray, mockBody);
+
+        for (BaylObject element : elements) {
+            verify(mockBody, times(1)).execute(element);
+        }
+
+        verifyNoMoreInteractions(mockBody);
     }
 
     @Test
-    public void testForeachUnrolling_SimpleDictionary() {
-        VariableExecutor onVariable = new VariableExecutor(pos, "dict");
-        VariableExecutor asExecutor = new VariableExecutor(pos, "entry");
-        AssignExecutor loopBody = new AssignExecutor(pos, asExecutor, onVariable); // Simple assignment inside loop body
-        ForeachExecutor loop = new ForeachExecutor(pos, onVariable, asExecutor, loopBody);
+    void testUnrollDictionary() {
+        BaylDictionary mockDictionary = mock(BaylDictionary.class);
+        var mockBody = mock(BiConsumer.class);
 
-        Executor optimized = new LoopUnroll().optimizeLoopUnrolling(loop, 2);
+        Map<BaylObject, BaylObject> map = new HashMap<>();
+        for (int i = 0; i < 15; i++) {
+            BaylObject key = mock(BaylObject.class);
+            BaylObject value = mock(BaylObject.class);
+            map.put(key, value);
+        }
 
-        // Expected outcome: the loop should unroll twice, duplicating the body twice.
-        BlockExecutor expected = new BlockExecutor(pos, List.of(
-                new BlockExecutor(pos, List.of(loopBody, loopBody)),  // First unrolled body
-                new ForeachExecutor(pos, onVariable, asExecutor, new BlockExecutor(pos, List.of(loopBody)))  // Remaining loop
-        ));
+        when(mockDictionary.iterator()).thenReturn(map.entrySet().iterator());
 
-        assertEquals(expected, optimized);
-    }
+        LoopUnroll.unrollDictionary(mockDictionary, mockBody);
 
-    @Test
-    public void testForeachUnrolling_NoUnrollWhenFactorOne() {
-        VariableExecutor onVariable = new VariableExecutor(pos, "array");
-        VariableExecutor asExecutor = new VariableExecutor(pos, "item");
-        AssignExecutor loopBody = new AssignExecutor(pos, asExecutor, onVariable); // Simple assignment inside loop body
-        ForeachExecutor loop = new ForeachExecutor(pos, onVariable, asExecutor, loopBody);
+        for (Map.Entry<BaylObject, BaylObject> entry : map.entrySet()) {
+            verify(mockBody, times(1)).accept(entry.getKey(), entry.getValue());
+        }
 
-        Executor optimized = new LoopUnroll().optimizeLoopUnrolling(loop, 1);
-
-        // Expected outcome: no unrolling should occur when the unroll factor is 1.
-        assertEquals(loop, optimized);
-    }
-
-    @Test
-    public void testForeachUnrolling_ComplexLoopBody() {
-        VariableExecutor onVariable = new VariableExecutor(pos, "array");
-        VariableExecutor asExecutor = new VariableExecutor(pos, "item");
-        AssignExecutor firstAssignment = new AssignExecutor(pos, asExecutor, onVariable);
-        AssignExecutor secondAssignment = new AssignExecutor(pos, new VariableExecutor(pos, "temp"), asExecutor);
-        ForeachExecutor loop = new ForeachExecutor(pos, onVariable, asExecutor, new BlockExecutor(pos, List.of(firstAssignment, secondAssignment)));
-
-        Executor optimized = new LoopUnroll().optimizeLoopUnrolling(loop, 3);
-
-        // Expected outcome: the loop body should be unrolled three times.
-        BlockExecutor expected = new BlockExecutor(pos, List.of(
-                new BlockExecutor(pos, List.of(firstAssignment, secondAssignment, firstAssignment, secondAssignment, firstAssignment, secondAssignment)),  // Unrolled body 3 times
-                new ForeachExecutor(pos, onVariable, asExecutor, new BlockExecutor(pos, List.of(firstAssignment, secondAssignment)))  // Remaining loop
-        ));
-
-        assertEquals(expected, optimized);
-    }
-
-    @Test
-    public void testForeachUnrolling_ForeachWithNoBody() {
-        VariableExecutor onVariable = new VariableExecutor(pos, "array");
-        VariableExecutor asExecutor = new VariableExecutor(pos, "item");
-        ForeachExecutor loop = new ForeachExecutor(pos, onVariable, asExecutor, null); // Empty body
-
-        Executor optimized = new LoopUnroll().optimizeLoopUnrolling(loop, 2);
-
-        // Expected outcome: no change, as the loop has no body to unroll.
-        assertEquals(loop, optimized);
+        verifyNoMoreInteractions(mockBody);
     }
 }

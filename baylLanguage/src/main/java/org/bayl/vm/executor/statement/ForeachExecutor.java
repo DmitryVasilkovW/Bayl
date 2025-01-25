@@ -9,9 +9,13 @@ import org.bayl.runtime.object.ref.BaylArray;
 import org.bayl.runtime.object.ref.BaylDictionary;
 import org.bayl.vm.Environment;
 import org.bayl.vm.executor.Executor;
+import org.bayl.vm.executor.algorithms.LoopUnroll;
 import org.bayl.vm.executor.expression.collection.DictionaryEntryExecutor;
 import org.bayl.vm.executor.expression.variable.VariableExecutor;
+import org.bayl.vm.impl.VirtualMachineImpl;
+
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -33,6 +37,31 @@ public class ForeachExecutor extends Executor {
     public BaylObject eval(Environment virtualMachine) {
         BaylObject onVariable =
                 virtualMachine.getVariable(onVariableExecutor.getName(), onVariableExecutor.getPosition());
+
+        if (VirtualMachineImpl.isJitEnabled()) {
+            if (onVariable instanceof BaylArray) {
+                String asVariableName = asExecutor.toString();
+                final AtomicReference<BaylObject> retHolder = new AtomicReference<>();
+                LoopUnroll.unrollArray((BaylArray) onVariable, element -> {
+                    virtualMachine.setVariable(asVariableName, element);
+                    retHolder.set(loopBody.eval(virtualMachine));
+                });
+
+                return retHolder.get();
+            } else if (onVariable instanceof BaylDictionary) {
+                DictionaryEntryExecutor entryExecutor = (DictionaryEntryExecutor) asExecutor;
+                String keyName = ((VariableExecutor) entryExecutor.getKey()).getName();
+                String valueName = ((VariableExecutor) entryExecutor.getValue()).getName();
+                final AtomicReference<BaylObject> retHolder = new AtomicReference<>();
+                LoopUnroll.unrollDictionary((BaylDictionary) onVariable, (key, value) -> {
+                    virtualMachine.setVariable(keyName, key);
+                    virtualMachine.setVariable(valueName, value);
+                    retHolder.set(loopBody.eval(virtualMachine));
+                });
+                return retHolder.get();
+            }
+        }
+
         BaylObject ret = null;
         if (onVariable instanceof BaylArray) {
             String asVariableName = asExecutor.toString();
