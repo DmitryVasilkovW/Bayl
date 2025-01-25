@@ -20,11 +20,12 @@ public class AndOpExecutor extends BinaryOpExecutor {
     @Override
     public BaylObject eval(Environment virtualMachine) {
         BaylBoolean left = getLeft().eval(virtualMachine).toBoolean(getLeft().getPosition());
-        BaylBoolean right = getRight().eval(virtualMachine).toBoolean(getRight().getPosition());
 
         if (!left.booleanValue()) {
             return left;
         }
+
+        BaylBoolean right = getRight().eval(virtualMachine).toBoolean(getRight().getPosition());
 
         var isCanRunNative = isCanRunNative(left, right);
         if (isCanRunNative instanceof BooleanPairNativeParseResult(boolean left1, boolean right1)) {

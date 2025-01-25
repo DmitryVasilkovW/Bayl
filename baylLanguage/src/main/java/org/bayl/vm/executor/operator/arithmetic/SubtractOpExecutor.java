@@ -28,7 +28,6 @@ public class SubtractOpExecutor extends BinaryOpExecutor implements ArithmeticOp
             return new BaylNumber(nativeResult);
         }
 
-
         return left.subtract(right);
     }
 }
