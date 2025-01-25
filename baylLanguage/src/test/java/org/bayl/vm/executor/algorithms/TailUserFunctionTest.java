@@ -53,10 +53,8 @@ class TailUserFunctionTest {
         BaylObject returnObject = mock(BaylObject.class);
         doThrow(new ReturnException(returnObject)).when(bodyMock).eval(environmentMock);
 
-        // Act
         BaylObject result = tailUserFunction.eval(environmentMock, sourcePositionMock);
 
-        // Assert
         assertEquals(returnObject, result);
         verify(bodyMock, times(1)).eval(environmentMock);
     }
