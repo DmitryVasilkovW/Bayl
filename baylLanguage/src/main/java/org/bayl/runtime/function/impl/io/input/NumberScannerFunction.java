@@ -1,12 +1,17 @@
-package org.bayl.runtime.function.impl.io;
+package org.bayl.runtime.function.impl.io.input;
 
+import java.math.BigDecimal;
+import java.util.Scanner;
 import org.bayl.model.SourcePosition;
 import org.bayl.runtime.BaylFunction;
 import org.bayl.runtime.BaylObject;
-import org.bayl.runtime.object.value.BaylString;
+import org.bayl.runtime.object.value.BaylNumber;
 import org.bayl.vm.Environment;
 
-public class PrintFunction extends BaylFunction {
+public class NumberScannerFunction extends BaylFunction {
+
+    private final Scanner scanner = new Scanner(System.in);
+
     @Override
     public BaylObject getDefaultValue(int index) {
         return null;
@@ -14,18 +19,17 @@ public class PrintFunction extends BaylFunction {
 
     @Override
     public int getParameterCount() {
-        return 1;
+        return 0;
     }
 
     @Override
     public String getParameterName(int index) {
-        return "`string";
+        return null;
     }
 
     @Override
     public BaylObject eval(Environment interpreter, SourcePosition pos) {
-        BaylString str = interpreter.getVariable("`string", pos).toBaylString();
-        System.out.print(str.toString());
-        return str;
+        BigDecimal num = scanner.nextBigDecimal();
+        return new BaylNumber(num);
     }
 }
